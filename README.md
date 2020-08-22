@@ -5,16 +5,16 @@
 ## Overview
 * [Overview (PDF)](http://www.tamberg.org/mse/2020/hs/TSM_MobCom_Overview.pdf)
 
-## Android app development 1
+## Android App Development 1
 * TODO
 
-## Android app development 2
+## Android App Development 2
 * TODO
 
-## Android app development 3
+## Android App Development 3
 * TODO
 
-## Android app development 4
+## Android App Development 4
 * TODO
 
 ## Sensors and Connectivity 1
