@@ -3,7 +3,7 @@
 * [Module description (PDF)](https://moodle.msengineering.ch/mod/url/view.php?id=102520)
 
 ## Overview
-* [Overview](http://www.tamberg.org/mse/2020/hs/TSM_MobCom_Overview.pdf)
+* [Overview (PDF)](http://www.tamberg.org/mse/2020/hs/TSM_MobCom_Overview.pdf)
 
 ## Android app development 1
 * TODO
