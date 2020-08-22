@@ -1,6 +1,6 @@
-# MSE TSM MobCom - Sensors and Connectivity 2
+# MSE TSM MobCom - Sensors and Connectivity 4
 ## Slides
-* [Microcontrollers, Sensors & Actuators (PDF)](http://)
+* [Android Smartphone as Bluetooth LE Central (PDF)](http://)
 
 ## Examples
-* [TODO](Arduino/HelloWorld)
+* [TODO](Android/HelloWorld)
