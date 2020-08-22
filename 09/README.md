@@ -1,3 +1,3 @@
-# MSE TSM MobCom - Project
+# MSE TSM MobCom - Project Kick-off
 ## Slides
 * [TODO (PDF)](http://)
