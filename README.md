@@ -12,4 +12,4 @@
 6. [Sensors and Connectivity 2](06/README.md)
 7. [Sensors and Connectivity 3](07/README.md)
 8. [Sensors and Connectivity 4](08/README.md)
-9. [Project](09/README.md)
+9. [Project Kick-off](09/README.md)
