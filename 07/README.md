@@ -1,6 +1,6 @@
-# MSE TSM MobCom - Sensors and Connectivity 2
+# MSE TSM MobCom - Sensors and Connectivity 3
 ## Slides
-* [Microcontrollers, Sensors & Actuators (PDF)](http://)
+* [Microcontroller as Bluetooth LE Peripheral (PDF)](http://)
 
 ## Examples
 * [TODO](Arduino/HelloWorld)
