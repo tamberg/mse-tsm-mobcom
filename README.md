@@ -21,8 +21,6 @@ This course is based on the following hardware:
 * [Grove Sensors](./../../wiki/Grove-Sensors) & [Actuators](./../../wiki/Grove-Actuators)
 * [Grove Adapters](./../../wiki/Grove-Adapters)
 
-Why? See [IoT Hardware for CS bachelor students](http://www.tamberg.org/fhnw/2019/IoTHardwareForCSBachelorStudents.pdf).
-
 ## Wiki
 For resources, check the [MSE TSM MobCom Wiki](https://github.com/tamberg/mse-tsm-mobcom/wiki):
 
