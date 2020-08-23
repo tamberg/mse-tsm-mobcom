@@ -17,10 +17,7 @@
 ## Hardware
 This course is based on the following hardware:
 
-* [Raspberry Pi Zero W](./../../wiki/Raspberry-Pi-Zero-W)
-* [Feather Huzzah ESP8266](./../../wiki/Feather-Huzzah-ESP8266)
 * [Feather nRF52840 Express](./../../wiki/Feather-nRF52840-Express)
-* [FeatherWing RFM95W](./../../wiki/FeatherWing-RFM95W)
 * [Grove Sensors](./../../wiki/Grove-Sensors) & [Actuators](./../../wiki/Grove-Actuators)
 * [Grove Adapters](./../../wiki/Grove-Adapters)
 
