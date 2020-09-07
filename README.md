@@ -3,10 +3,10 @@
 * [Module description (PDF)](https://moodle.msengineering.ch/mod/url/view.php?id=102520)
 
 ## Slides and Examples
-* 0. [Overview](00/README.md)
+0. [Overview](00/README.md)
 
 ### Android App Development
-* 1. to 4. See [this private repository](TODO).
+1. to 4. See [this private repository](TODO).
 
 ### Sensors and Connectivity
 5. [Sensors and Connectivity 1](05/README.md)
