@@ -7,7 +7,7 @@
 0. [Overview](00/README.md) (Syllabus)
 
 ### Android App Development
-1. to 4. See [this private repository](TODO).
+1. to 4. see [this private repository](TODO).
 
 ### Sensors and Connectivity
 5. [Sensors and Connectivity 1](05/README.md)
