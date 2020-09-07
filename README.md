@@ -5,7 +5,7 @@
 
 ## Slides and Examples
 ### Android App Development
-See [this private repository](TODO).
+* See [this private repository](TODO).
 
 ### Sensors and Connectivity
 5. [Sensors and Connectivity 1](05/README.md)
