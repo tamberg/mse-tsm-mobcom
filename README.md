@@ -3,7 +3,8 @@
 * [Module description (PDF)](https://moodle.msengineering.ch/mod/url/view.php?id=102520)
 
 ## Slides and Examples
-0. [Overview](00/README.md)
+### Overview
+0. [Overview](00/README.md) (Syllabus)
 
 ### Android App Development
 1. to 4. See [this private repository](TODO).
