@@ -23,7 +23,7 @@ This course is based on the following hardware:
 * [Onboard sensors](./../../wiki/Feather-nRF52840-Sense-Onboard-Sensors)
 * [Onboard actuators](./../../wiki/Feather-nRF52840-Sense-Onboard-Actuators)
 
-Additional hardware is available on demand:
+Additional hardware is available on request:
 
 * [Grove Sensors](./../../wiki/Grove-Sensors)
 * [Grove Actuators](./../../wiki/Grove-Actuators)
