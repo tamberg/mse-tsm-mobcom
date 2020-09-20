@@ -19,9 +19,11 @@
 ## Hardware
 This course is based on the following hardware:
 
-* [Feather nRF52840 Express](./../../wiki/Feather-nRF52840-Express)
-* [Grove Sensors](./../../wiki/Grove-Sensors) & [Actuators](./../../wiki/Grove-Actuators)
-* [Grove Adapters](./../../wiki/Grove-Adapters)
+* [Feather nRF52840 Sense](./../../wiki/Feather-nRF52840-Sense)
+* [Onboard sensors](./../../wiki/Feather-nRF52840-Sense-Onboard-Sensors)
+* [Onboard actuators](./../../wiki/Feather-nRF52840-Sense-Onboard-Actuators)
+* [Grove Sensors](./../../wiki/Grove-Sensors) & [Actuators](./../../wiki/Grove-Actuators) (on demand)
+* [Grove Adapters](./../../wiki/Grove-Adapters) (on demand)
 
 ## Wiki
 For resources, check the [MSE TSM MobCom Wiki](https://github.com/tamberg/mse-tsm-mobcom/wiki):
