@@ -1,3 +1,3 @@
 # MSE TSM MobCom - Project Kick-off
 ## Slides
-* [TODO (PDF)](http://)
+* [Team Project (PDF)](http://www.tamberg.org/mse/2020/hs/TSM_MobCom_TeamProject.pdf)

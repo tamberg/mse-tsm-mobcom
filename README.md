@@ -1,9 +1,15 @@
-# MSE TSM MobCom - Sensors and Connectivity
+# MSE TSM MobCom
 * [MSE TSM MobCom on Moodle](https://moodle.msengineering.ch/course/view.php?id=1451)
 * [Module description (PDF)](https://moodle.msengineering.ch/mod/url/view.php?id=102520)
-* [Overview](00/README.md)
 
 ## Slides and Examples
+### Overview
+0. [Overview](00/README.md) (Syllabus)
+
+### Android App Development
+1. to 4. see [this separate repository](https://github.com/Fiedler01/TSM-MobCom-HS20).
+
+### Sensors and Connectivity
 5. [Sensors and Connectivity 1](05/README.md)
 6. [Sensors and Connectivity 2](06/README.md)
 7. [Sensors and Connectivity 3](07/README.md)
@@ -13,8 +19,14 @@
 ## Hardware
 This course is based on the following hardware:
 
-* [Feather nRF52840 Express](./../../wiki/Feather-nRF52840-Express)
-* [Grove Sensors](./../../wiki/Grove-Sensors) & [Actuators](./../../wiki/Grove-Actuators)
+* [Feather nRF52840 Sense](./../../wiki/Feather-nRF52840-Sense)
+* [Onboard sensors](./../../wiki/Feather-nRF52840-Sense-Onboard-Sensors)
+* [Onboard actuators](./../../wiki/Feather-nRF52840-Sense-Onboard-Actuators)
+
+Additional hardware is available on request:
+
+* [Grove Sensors](./../../wiki/Grove-Sensors)
+* [Grove Actuators](./../../wiki/Grove-Actuators)
 * [Grove Adapters](./../../wiki/Grove-Adapters)
 
 ## Wiki
