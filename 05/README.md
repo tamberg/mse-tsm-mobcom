@@ -6,10 +6,10 @@
 ## Examples
 * [nRF52840Sense_Blink](Arduino/nRF52840Sense_Blink/nRF52840Sense_Blink.ino)
 
-## Hands-on repo
+## Hands-on
 * https://github.com/mse-tsm-mobcom/mse-tsm-mobcom-work-05
 
-## Hands-on proposed solution
+## Solution
 * [nRF52840Sense_LightSwitch](Arduino/nRF52840Sense_LightSwitch/nRF52840Sense_LightSwitch.ino)
 * [nRF52840Sense_LightSwitchStateMachine](Arduino/nRF52840Sense_LightSwitchStateMachine/nRF52840Sense_LightSwitchStateMachine.ino)
 * [nRF52840Sense_LightSwitchStateMachineMillis](Arduino/nRF52840Sense_LightSwitchStateMachineMillis/nRF52840Sense_LightSwitchStateMachineMillis.ino)
