@@ -5,7 +5,7 @@ int s = 0; // state
 long t0;
 
 int pressed(int value) {
-  //return value == HIGH; // external, active high
+  //return value == HIGH; // standard, active high
   return value == LOW; // inverted, active low
 }
 
