@@ -4,7 +4,7 @@ int ledPin = 4; // onboard, blue LED
 int s = 0; // state
 
 int pressed(int value) {
-  //return value == HIGH; // external, active high
+  //return value == HIGH; // standard, active high
   return value == LOW; // inverted, active low
 }
 
