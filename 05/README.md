@@ -5,6 +5,7 @@
 
 ## Examples
 * [nRF52840Sense_Blink](Arduino/nRF52840Sense_Blink/nRF52840Sense_Blink.ino)
+* [nRF52840Sense_DigitalReadSerial](Arduino/nRF52840Sense_DigitalReadSerial/nRF52840Sense_DigitalReadSerial.ino)
 
 ## Hands-on
 * https://github.com/mse-tsm-mobcom/mse-tsm-mobcom-work-05
