@@ -10,3 +10,6 @@
 * [nRF52840Sense_ScannerBleCentral.ino](../../master/06/Arduino/nRF52840Sense_ScannerBleCentral/nRF52840Sense_ScannerBleCentral.ino)
 * [nRF52840Sense_UartBleCentral.ino](../../master/06/Arduino/nRF52840Sense_UartBleCentral/nRF52840Sense_UartBleCentral.ino)
 * [nRF52840Sense_UartBlePeripheral.ino](../../master/06/Arduino/nRF52840Sense_UartBlePeripheral/nRF52840Sense_UartBlePeripheral.ino)
+
+## Hands-on
+* Click https://classroom.github.com/a/TODO to create a private copy of [this](../../../../mse-tsm-mobcom-work-06/blob/master/README.md).
