@@ -6,6 +6,7 @@
 ## Examples
 * [nRF52840Sense_BeaconBleObservable.ino](../../master/06/Arduino/nRF52840Sense_BeaconBleObservable/nRF52840Sense_BeaconBleObservable.ino)
 * [nRF52840Sense_HrmBlePeripheral.ino](../../master/06/Arduino/nRF52840Sense_HrmBlePeripheral/nRF52840Sense_HrmBlePeripheral.ino)
+* [nRF52840Sense_HrmBleCentral.ino](../../master/06/Arduino/nRF52840Sense_HrmBleCentral/nRF52840Sense_HrmBleCentral.ino)
 * [nRF52840Sense_ScannerBleCentral.ino](../../master/06/Arduino/nRF52840Sense_ScannerBleCentral/nRF52840Sense_ScannerBleCentral.ino)
 * [nRF52840Sense_UartBleCentral.ino](../../master/06/Arduino/nRF52840Sense_UartBleCentral/nRF52840Sense_UartBleCentral.ino)
 * [nRF52840Sense_UartBlePeripheral.ino](../../master/06/Arduino/nRF52840Sense_UartBlePeripheral/nRF52840Sense_UartBlePeripheral.ino)
