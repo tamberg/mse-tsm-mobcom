@@ -1,6 +1,6 @@
 # MSE TSM MobCom - Lesson 8 - Sensors and Connectivity 4
 ## Slides
-* [Bluetooth Low Energy on Android Smartphones (PDF)](http://www.tamberg.org/mse/2020/hs/TSM_MobCom_BLEOnAndroidSmartphones.pdf)
+* [TODO (PDF)](http://www.tamberg.org/mse/2020/hs/TSM_MobCom_TODO.pdf)
 
 ## Examples
 * [TODO](Android/HelloWorld)
