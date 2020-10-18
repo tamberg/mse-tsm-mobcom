@@ -18,12 +18,12 @@ void scanCallback(ble_gap_evt_adv_report_t* report) {
   Bluefruit.Central.connect(report);
 }
 
-void connectCallback(uint16_t conn_handle) {
+void connectCallback(uint16_t connHandle) {
   Serial.println("Connected");
   Serial.print("HRM service ... ");
-  if (!heartRateMonitorService.discover(conn_handle)) {
+  if (!heartRateMonitorService.discover(connHandle)) {
     Serial.println("not found.");
-    Bluefruit.disconnect(conn_handle);
+    Bluefruit.disconnect(connHandle);
     return;
   }
   Serial.println("found.");
@@ -31,7 +31,7 @@ void connectCallback(uint16_t conn_handle) {
   Serial.print("Heart Rate Measurement characteristic ... ");
   if (!heartRateMeasurementCharacteristic.discover()) {
     Serial.println("not found.");
-    Bluefruit.disconnect(conn_handle);
+    Bluefruit.disconnect(connHandle);
     return;
   }
   Serial.println("found.");
@@ -39,9 +39,9 @@ void connectCallback(uint16_t conn_handle) {
   Serial.print("Body Sensor Location characteristic ... ");
   if (bodySensorLocationCharacteristic.discover()) { // optional
     Serial.print("found: ");
-    const char* body_str[] = { "Other", "Chest", "Wrist", "Finger", "Hand", "Ear Lobe", "Foot" };
-    uint8_t loc_value = bodySensorLocationCharacteristic.read8();   
-    Serial.println(body_str[loc_value]);
+    const char* locationNames[] = { "Other", "Chest", "Wrist", "Finger", "Hand", "Ear Lobe", "Foot" };
+    uint8_t location = bodySensorLocationCharacteristic.read8();   
+    Serial.println(locationNames[location]);
   } else {
     Serial.println("not found.");
   }
@@ -54,11 +54,9 @@ void connectCallback(uint16_t conn_handle) {
   }
 }
 
-void disconnectCallback(uint16_t conn_handle, uint8_t reason) {
-  (void) conn_handle;
-  (void) reason;
-  Serial.print("Disconnected, reason = 0x");
-  Serial.println(reason, HEX);
+void disconnectCallback(uint16_t connHandle, uint8_t reason) {
+  Serial.print("Disconnected, reason = ");
+  Serial.println(reason);
 }
 
 void hrmNotifyCallback(BLEClientCharacteristic* chr, uint8_t* data, uint16_t len) {
@@ -74,10 +72,11 @@ void hrmNotifyCallback(BLEClientCharacteristic* chr, uint8_t* data, uint16_t len
 
 void setup() {
   Serial.begin(115200);
-  while (!Serial) { delay(10); }
+  while (!Serial) { delay(10); } // only if usb connected
+  Serial.println("Setup");
 
-  Bluefruit.begin(0, 1); // max 1 connection as central, saves memory
-  Bluefruit.setName("nRF52840 Central");
+  Bluefruit.begin(0, 1); // 0 peripheral, max 1 central connection, save SoftDevice SRAM
+  Bluefruit.setName("nRF52840");
   Bluefruit.setConnLedInterval(250);
 
   heartRateMonitorService.begin(); // sequence matters
