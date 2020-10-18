@@ -9,9 +9,10 @@
 
 #include <bluefruit.h>
 
-BLEClientService clientHeartRateMonitorService(UUID16_SVC_HEART_RATE);
-BLEClientCharacteristic clientHeartRateMeasurementCharacteristic(UUID16_CHR_HEART_RATE_MEASUREMENT);
-BLEClientCharacteristic clientBodySensorLocationCharacteristic(UUID16_CHR_BODY_SENSOR_LOCATION);
+// Central takes client role, use BLEClient... types:
+BLEClientService heartRateMonitorService(UUID16_SVC_HEART_RATE);
+BLEClientCharacteristic heartRateMeasurementCharacteristic(UUID16_CHR_HEART_RATE_MEASUREMENT);
+BLEClientCharacteristic bodySensorLocationCharacteristic(UUID16_CHR_BODY_SENSOR_LOCATION);
 
 void scanCallback(ble_gap_evt_adv_report_t* report) {
   Bluefruit.Central.connect(report);
@@ -20,7 +21,7 @@ void scanCallback(ble_gap_evt_adv_report_t* report) {
 void connectCallback(uint16_t conn_handle) {
   Serial.println("Connected");
   Serial.print("HRM service ... ");
-  if (!clientHeartRateMonitorService.discover(conn_handle)) {
+  if (!heartRateMonitorService.discover(conn_handle)) {
     Serial.println("not found.");
     Bluefruit.disconnect(conn_handle);
     return;
@@ -28,7 +29,7 @@ void connectCallback(uint16_t conn_handle) {
   Serial.println("found.");
   
   Serial.print("Heart Rate Measurement characteristic ... ");
-  if (!clientHeartRateMeasurementCharacteristic.discover()) {
+  if (!heartRateMeasurementCharacteristic.discover()) {
     Serial.println("not found.");
     Bluefruit.disconnect(conn_handle);
     return;
@@ -36,17 +37,17 @@ void connectCallback(uint16_t conn_handle) {
   Serial.println("found.");
 
   Serial.print("Body Sensor Location characteristic ... ");
-  if (clientBodySensorLocationCharacteristic.discover()) { // optional
+  if (bodySensorLocationCharacteristic.discover()) { // optional
     Serial.print("found: ");
     const char* body_str[] = { "Other", "Chest", "Wrist", "Finger", "Hand", "Ear Lobe", "Foot" };
-    uint8_t loc_value = clientBodySensorLocationCharacteristic.read8();   
+    uint8_t loc_value = bodySensorLocationCharacteristic.read8();   
     Serial.println(body_str[loc_value]);
   } else {
     Serial.println("not found.");
   }
 
   Serial.print("Heart Rate Measurement characteristic notifications ... ");
-  if (clientHeartRateMeasurementCharacteristic.enableNotify()) {
+  if (heartRateMeasurementCharacteristic.enableNotify()) {
     Serial.println("enabled.");
   } else {
     Serial.println("failed.");
@@ -79,10 +80,10 @@ void setup() {
   Bluefruit.setName("nRF52840 Central");
   Bluefruit.setConnLedInterval(250);
 
-  clientHeartRateMonitorService.begin(); // sequence matters
-  clientBodySensorLocationCharacteristic.begin(); // added to clientHeartRateMonitorService
-  clientHeartRateMeasurementCharacteristic.setNotifyCallback(hrmNotifyCallback);
-  clientHeartRateMeasurementCharacteristic.begin(); // added to clientHeartRateMonitorService
+  heartRateMonitorService.begin(); // sequence matters
+  bodySensorLocationCharacteristic.begin(); // added to heartRateMonitorService
+  heartRateMeasurementCharacteristic.setNotifyCallback(hrmNotifyCallback);
+  heartRateMeasurementCharacteristic.begin(); // added to heartRateMonitorService
 
   Bluefruit.Central.setConnectCallback(connectCallback);
   Bluefruit.Central.setDisconnectCallback(disconnectCallback);
@@ -90,7 +91,7 @@ void setup() {
   Bluefruit.Scanner.setRxCallback(scanCallback);
   Bluefruit.Scanner.restartOnDisconnect(true);
   Bluefruit.Scanner.setInterval(160, 80); // in unit of 0.625 ms
-  Bluefruit.Scanner.filterUuid(clientHeartRateMonitorService.uuid);
+  Bluefruit.Scanner.filterUuid(heartRateMonitorService.uuid);
   Bluefruit.Scanner.useActiveScan(false);
   Bluefruit.Scanner.start(0); // non-stop
 }
