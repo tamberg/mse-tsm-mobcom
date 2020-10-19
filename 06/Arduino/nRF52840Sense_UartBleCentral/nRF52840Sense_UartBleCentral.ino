@@ -47,7 +47,7 @@ void connectCallback(uint16_t connHandle) {
     Serial.println("Not found.");
   }
 
-  Serial.println("Dicovering battery service... ");
+  Serial.println("Discovering battery service... ");
   if (batteryServiceClient.discover(connHandle)) {
     Serial.print("Battery level: ");
     Serial.print(batteryServiceClient.read());
