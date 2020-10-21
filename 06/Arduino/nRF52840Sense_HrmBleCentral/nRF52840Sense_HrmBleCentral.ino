@@ -9,7 +9,10 @@
 
 #include <bluefruit.h>
 
-// Central takes client role, use BLEClient... types:
+// Central takes client role, use BLEClient... types.
+// See https://www.bluetooth.com/wp-content/uploads/Sitecore-Media-Library/Gatt/Xml/Services/org.bluetooth.service.heart_rate.xml
+// and https://www.bluetooth.com/wp-content/uploads/Sitecore-Media-Library/Gatt/Xml/Characteristics/org.bluetooth.characteristic.heart_rate_measurement.xml
+// and https://www.bluetooth.com/wp-content/uploads/Sitecore-Media-Library/Gatt/Xml/Characteristics/org.bluetooth.characteristic.body_sensor_location.xml
 BLEClientService heartRateMonitorService(UUID16_SVC_HEART_RATE);
 BLEClientCharacteristic heartRateMeasurementCharacteristic(UUID16_CHR_HEART_RATE_MEASUREMENT);
 BLEClientCharacteristic bodySensorLocationCharacteristic(UUID16_CHR_BODY_SENSOR_LOCATION);
