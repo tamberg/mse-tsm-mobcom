@@ -3,7 +3,10 @@
 * [Bluetooth Low Energy on Android Smartphones (PDF)](http://www.tamberg.org/mse/2020/hs/TSM_MobCom_BLEOnAndroidSmartphones.pdf)
 
 ## Examples
-* TODO
+* [MyBleScannerApp](../../master/07/Android/MyBleScannerApp)
+    * [manifest.xml](../../master/07/Android/MyBleScannerApp)
+    * [MainActivity.java](../../master/07/Android/MyBleScannerApp/app/src/main/java/org/tamberg/myblescannerapp/MainActivity.java)
+* [MyBleCentralApp](../../master/07/Android/MyBleCentralApp)
 
 ## Hands-on
 * Click https://classroom.github.com/a/TODO to create a private copy of [this](../../../../mse-tsm-mobcom-work-07/blob/master/README.md).
