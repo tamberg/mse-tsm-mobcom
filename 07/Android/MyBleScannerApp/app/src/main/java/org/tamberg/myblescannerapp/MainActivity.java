@@ -61,13 +61,13 @@ public class MainActivity extends AppCompatActivity {
         if (hasBle) {
             Log.d(TAG, "BLE available");
             BluetoothManager bluetoothManager =
-                    (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+                (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
             BluetoothAdapter bluetoothAdapter = bluetoothManager.getAdapter();
             if (bluetoothAdapter != null && bluetoothAdapter.isEnabled()) {
                 Log.d(TAG, "BLE enabled");
                 scanner = bluetoothAdapter.getBluetoothLeScanner();
                 String[] permissions = new String[]{
-                        Manifest.permission.ACCESS_FINE_LOCATION
+                    Manifest.permission.ACCESS_FINE_LOCATION
                 };
                 int requestCode = 0;
                 ActivityCompat.requestPermissions(MainActivity.this, permissions, requestCode);
