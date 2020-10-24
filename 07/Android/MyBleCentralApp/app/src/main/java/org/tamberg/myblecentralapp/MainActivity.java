@@ -275,7 +275,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void connect() {
-        Log.d(TAG, "connect, mIsConnected = " + mIsConnected);
+        Log.d(TAG, "connect");
         Assert.check(mBluetoothDevice != null);
         Assert.check(mIsConnected == false);
         // call from main thread required to make connectGatt work
