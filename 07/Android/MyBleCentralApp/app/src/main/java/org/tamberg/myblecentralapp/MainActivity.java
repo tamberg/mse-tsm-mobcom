@@ -121,12 +121,12 @@ public class MainActivity extends AppCompatActivity {
         private void init (final BluetoothGatt gatt) {
             // TODO: implement a queue or use a 3rd party BLE library
             readCharacteristic(gatt, HRM_SERVICE_UUID,
-                BODY_SENSOR_LOCATION_CHARACTERISTIC_UUID, 500);
+                BODY_SENSOR_LOCATION_CHARACTERISTIC_UUID, 100);
             writeCharacteristic(gatt, HRM_SERVICE_UUID,
                 HEART_RATE_CONTROL_POINT_CHARACTERISTIC_UUID,
-                0, BluetoothGattCharacteristic.FORMAT_UINT16, 1000);
+                0, BluetoothGattCharacteristic.FORMAT_UINT16, 500);
             setCharacteristicNotification(gatt, HRM_SERVICE_UUID,
-                HEART_RATE_MEASUREMENT_CHARACTERISTIC_UUID, 100);
+                HEART_RATE_MEASUREMENT_CHARACTERISTIC_UUID, 1000);
         }
 
         @Override
