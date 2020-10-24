@@ -11,7 +11,6 @@ import android.bluetooth.le.ScanSettings;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.ParcelUuid;
@@ -20,6 +19,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+
+import org.tamberg.util.Assert;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -63,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void scan() {
+        Assert.check(handler != null);
+        Assert.check(scanner != null);
         List<ScanFilter> filters = new ArrayList<>();
         //filters.add(new ScanFilter.Builder().setDeviceAddress("C9:1E:3F:18:61:9D").build());
         filters.add(new ScanFilter.Builder().setServiceUuid(
