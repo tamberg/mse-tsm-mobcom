@@ -8,7 +8,7 @@
     * [MainActivity.java](../../master/07/Android/MyBleScannerApp/app/src/main/java/org/tamberg/myblescannerapp/MainActivity.java)
 * [MyBleCentralApp](../../master/07/Android/MyBleCentralApp) TODO
     * [AndroidManifest.xml](../../master/07/Android/MyBleCentralApp/app/src/main/AndroidManifest.xml)
-    * [MainActivity.java](../../master/07/Android/MyBleCentralApp/app/src/main/java/org/tamberg/myblescannerapp/MainActivity.java)
+    * [MainActivity.java](../../master/07/Android/MyBleCentralApp/app/src/main/java/org/tamberg/myblecentralapp/MainActivity.java)
 * [MyBleCentralHttpClientApp](../../master/07/Android/MyBleCentralHttpClientApp) TODO
     * [AndroidManifest.xml](../../master/07/Android/MyBleCentralHttpClientApp/app/src/main/AndroidManifest.xml)
     * [MainActivity.java](../../master/07/Android/MyBleCentralHttpClientApp/app/src/main/java/org/tamberg/myblescannerapp/MainActivity.java)
