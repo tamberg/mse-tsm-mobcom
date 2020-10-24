@@ -90,8 +90,10 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, "onCharacteristicChanged, UUID = " +  characteristic.getUuid());
             UUID uuid = characteristic.getUuid();
             if (uuid.equals(HEART_RATE_MEASUREMENT_CHARACTERISTIC_UUID)) {
-                byte[] value = characteristic.getValue();
-                Log.d(TAG, value.toString());
+                //byte[] value = characteristic.getValue();
+                int formatType = BluetoothGattCharacteristic.FORMAT_UINT8;
+                int value = characteristic.getIntValue(formatType, 1);
+                Log.d(TAG, "value = " + value);
             }
         }
 
