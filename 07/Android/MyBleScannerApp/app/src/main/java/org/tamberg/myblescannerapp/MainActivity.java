@@ -1,3 +1,5 @@
+// https://tamberg.mit-license.org/
+
 package org.tamberg.myblescannerapp;
 
 import android.Manifest;
