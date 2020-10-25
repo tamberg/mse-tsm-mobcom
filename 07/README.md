@@ -11,4 +11,4 @@
     * [MainActivity.java](../../master/07/Android/MyBleCentralApp/app/src/main/java/org/tamberg/myblecentralapp/MainActivity.java)
 
 ## Hands-on
-* Click https://classroom.github.com/a/TODO to create a private copy of [this](../../../../mse-tsm-mobcom-work-07/blob/master/README.md).
+* Click https://classroom.github.com/a/daKqa8-Y to create a private copy of [this](../../../../mse-tsm-mobcom-work-07/blob/master/README.md).
