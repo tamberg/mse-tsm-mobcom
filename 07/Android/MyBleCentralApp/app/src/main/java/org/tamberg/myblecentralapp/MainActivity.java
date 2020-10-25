@@ -1,3 +1,5 @@
+// https://tamberg.mit-license.org/
+
 package org.tamberg.myblecentralapp;
 
 import android.Manifest;
