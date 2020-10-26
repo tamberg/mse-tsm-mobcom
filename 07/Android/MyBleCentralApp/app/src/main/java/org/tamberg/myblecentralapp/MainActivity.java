@@ -295,8 +295,8 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         mBluetoothGatt = mBluetoothDevice.connectGatt(
                             MainActivity.this, autoConnect, mGattCallback);
-                        Log.d(TAG, "mBluetoothGatt = " + mBluetoothGatt != null ?
-                            mBluetoothGatt.toString() : "null");
+                        Log.d(TAG, "mBluetoothGatt = " + (mBluetoothGatt != null ?
+                            mBluetoothGatt.toString() : "null"));
                     } catch (Exception e) {
                         Log.d(TAG, e.toString());
                     }
