@@ -14,4 +14,4 @@
 * [nRF52840Sense_LightSwitch](Arduino/nRF52840Sense_LightSwitch/nRF52840Sense_LightSwitch.ino)
 * [nRF52840Sense_LightSwitchStateMachine](Arduino/nRF52840Sense_LightSwitchStateMachine/nRF52840Sense_LightSwitchStateMachine.ino)
 * [nRF52840Sense_LightSwitchStateMachineMillis](Arduino/nRF52840Sense_LightSwitchStateMachineMillis/nRF52840Sense_LightSwitchStateMachineMillis.ino)
-* [nRF52840Sense_HumidityAlert](Arduino/nRF52840Sense_HumidityAlert/nRF52840Sense_HumidityAlert.ino) (w/ [State Machine](Arduino/nRF52840Sense_HumidityAlert/HumidityAlertStateMachine.txt))
+* [nRF52840Sense_HumidityAlert](Arduino/nRF52840Sense_HumidityAlert/nRF52840Sense_HumidityAlert.ino) (with [State Machine](Arduino/nRF52840Sense_HumidityAlert/HumidityAlertStateMachine.txt))
