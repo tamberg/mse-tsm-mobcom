@@ -112,7 +112,7 @@ void setup() {
   Bluefruit.Periph.setDisconnectCallback(disconnectedCallback);
 
   deviceInfoService.setManufacturer("Adafruit Industries");
-  deviceInfoService.setModel("Feather nRF52840 Express");
+  deviceInfoService.setModel("Feather nRF52840 Sense");
   deviceInfoService.begin();
 
   batteryService.begin();
