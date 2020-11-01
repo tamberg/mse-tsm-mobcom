@@ -14,5 +14,5 @@ t0: time
 millis()-t0>1000|rl=off                          |   
    |                                             v   
 +--+-+                                         +-+--+
-| S3 |---pressed(b)|rl=on;bl=off;t0=millis()---+ S2 |
+| S3 |<--pressed(b)|rl=on;bl=off;t0=millis()---+ S2 |
 +----+                                         +----+
