@@ -1,4 +1,4 @@
-// Humidity BLE peripheral. Copyright (c) Thomas Amberg, FHNW
+// Custom Humidity BLE peripheral. Copyright (c) Thomas Amberg, FHNW
 
 // Based on https://github.com/adafruit/Adafruit_nRF52_Arduino
 // /tree/master/libraries/Bluefruit52Lib/examples/Peripheral
@@ -10,11 +10,12 @@
 #include <bluefruit.h>
 #include "Adafruit_SHT31.h"
 
-// 6b75fded-006c-4f1b-8e32-a20d9d19aa13 (GUID) =>
-// 6b75xxxx-006c-4f1b-8e32-a20d9d19aa13 (Base UUID) =>
-// 6b750001-006c-4f1b-8e32-a20d9d19aa13 (Humidity Service)
-// 6b750002-006c-4f1b-8e32-a20d9d19aa13 (Humidity Measurement Chr.)
-// 6b750003-006c-4f1b-8e32-a20d9d19aa13 (Heater State Chr.)
+// Custom peripheral, use 128-bit UUIDs
+// 6b75fded-006c-4f1b-8e32-a20d9d19aa13 GUID =>
+// 6b75xxxx-006c-4f1b-8e32-a20d9d19aa13 Base UUID =>
+// 6b750001-006c-4f1b-8e32-a20d9d19aa13 Humidity Service
+// 6b750002-006c-4f1b-8e32-a20d9d19aa13   Humidity Measurement Chr. [R, N]
+// 6b750003-006c-4f1b-8e32-a20d9d19aa13   Heater State Chr. [W]
 
 // The arrays below are ordered "least significant byte first":
 uint8_t const humidityServiceUuid[] = { 0x13, 0xaa, 0x19, 0x9d, 0x0d, 0xa2, 0x32, 0x8e, 0x1b, 0x4f, 0x6c, 0x00, 0x01, 0x00, 0x75, 0x6b };
@@ -58,7 +59,9 @@ void cccdCallback(uint16_t connectionHandle, BLECharacteristic* characteristic, 
 void writeCallback(uint16_t connectionHandle, BLECharacteristic* characteristic, uint8_t* data, uint16_t len) {
   if (characteristic->uuid == heaterStateCharacteristic.uuid) {
     Serial.println("Heater State 'Write'");
-    //Serial.println((char) data[0]);
+    Serial.println((char) data[0]);
+    bool enabled = data[0] != 0x00;
+    sht31.heater(enabled);
   }
 }
 
@@ -116,8 +119,10 @@ void setup() {
 void loop() {
   if (Bluefruit.connected()) {
     float h = sht31.readHumidity();
-    int h2 = h * 100.0;
-    uint8_t humidityData[2] = { (uint8_t) (h2 << 8), (uint8_t) h2 };
+    int h2 = h * 100.0; // fixed precision
+    uint8_t h2HiByte = (uint8_t) (h2 >> 8);
+    uint8_t h2LoByte = (uint8_t) h2;
+    uint8_t humidityData[2] = { h2HiByte, h2LoByte };
     //humidityMeasurementCharacteristic.write8(0);
     if (humidityMeasurementCharacteristic.notify(humidityData, sizeof(humidityData))) {
       Serial.print("Notified, humidity = ");
