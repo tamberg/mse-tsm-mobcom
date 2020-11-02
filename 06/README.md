@@ -13,3 +13,6 @@
 
 ## Hands-on
 * Click https://classroom.github.com/a/sK9OuMqt to create a private copy of [this](../../../../mse-tsm-mobcom-work-06/blob/master/README.md).
+
+## Solution
+* [nRF52840Sense_HumidityBlePeripheral.ino](Arduino/nRF52840Sense_HumidityBlePeripheral/nRF52840Sense_HumidityBlePeripheral.ino)
