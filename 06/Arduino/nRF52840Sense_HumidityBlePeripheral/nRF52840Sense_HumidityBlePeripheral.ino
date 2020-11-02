@@ -58,10 +58,10 @@ void cccdCallback(uint16_t connectionHandle, BLECharacteristic* characteristic, 
 
 void writeCallback(uint16_t connectionHandle, BLECharacteristic* characteristic, uint8_t* data, uint16_t len) {
   if (characteristic->uuid == heaterStateCharacteristic.uuid) {
-    Serial.println("Heater State 'Write'");
-    Serial.println((char) data[0]);
+    Serial.print("Heater State 'Write', heater ");
     bool enabled = data[0] != 0x00;
     sht31.heater(enabled);
+    Serial.println(enabled ? "enabled" : "disabled");
   }
 }
 
@@ -74,10 +74,10 @@ void setupHumidityService() {
   humidityMeasurementCharacteristic.setCccdWriteCallback(cccdCallback);  // Optionally capture CCCD updates
   humidityMeasurementCharacteristic.begin();
 
-  heaterStateCharacteristic.setProperties(CHR_PROPS_WRITE);
-  heaterStateCharacteristic.setPermission(SECMODE_OPEN, SECMODE_NO_ACCESS);
+  heaterStateCharacteristic.setProperties(CHR_PROPS_WRITE | CHR_PROPS_WRITE_WO_RESP);
+  heaterStateCharacteristic.setPermission(SECMODE_NO_ACCESS, SECMODE_OPEN);
   heaterStateCharacteristic.setFixedLen(1);
-  heaterStateCharacteristic.setWriteCallback(writeCallback);
+  heaterStateCharacteristic.setWriteCallback(writeCallback, true);
   heaterStateCharacteristic.begin();
 }
 
@@ -130,6 +130,11 @@ void loop() {
     } else {
       Serial.println("Notify not set, or not connected");
     }
+    //if (heaterStateCharacteristic.read8()) {
+    //  Serial.println("Heater enabled");
+    //} else {
+    //  Serial.println("Heater disabled");
+    //}
   }
   delay(1000); // ms
 }
