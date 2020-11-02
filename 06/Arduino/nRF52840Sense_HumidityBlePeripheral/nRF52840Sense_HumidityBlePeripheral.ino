@@ -1,4 +1,4 @@
-// Heart Rate Monitor BLE peripheral. Copyright (c) Thomas Amberg, FHNW
+// Humidity BLE peripheral. Copyright (c) Thomas Amberg, FHNW
 
 // Based on https://github.com/adafruit/Adafruit_nRF52_Arduino
 // /tree/master/libraries/Bluefruit52Lib/examples/Peripheral
@@ -8,6 +8,7 @@
 // https://choosealicense.com/licenses/mit/
 
 #include <bluefruit.h>
+#include "Adafruit_SHT31.h"
 
 // 6b75fded-006c-4f1b-8e32-a20d9d19aa13 (GUID) =>
 // 6b75xxxx-006c-4f1b-8e32-a20d9d19aa13 (Base UUID) =>
@@ -20,6 +21,7 @@ uint8_t const humidityServiceUuid[] = { 0x13, 0xaa, 0x19, 0x9d, 0x0d, 0xa2, 0x32
 uint8_t const humidityMeasurementCharacteristicUuid[] = { 0x13, 0xaa, 0x19, 0x9d, 0x0d, 0xa2, 0x32, 0x8e, 0x1b, 0x4f, 0x6c, 0x00, 0x02, 0x00, 0x75, 0x6b };
 uint8_t const heaterStateCharacteristicUuid[] = { 0x13, 0xaa, 0x19, 0x9d, 0x0d, 0xa2, 0x32, 0x8e, 0x1b, 0x4f, 0x6c, 0x00, 0x03, 0x00, 0x75, 0x6b };
 
+Adafruit_SHT31 sht31 = Adafruit_SHT31();
 BLEService humidityService = BLEService(humidityServiceUuid);
 BLECharacteristic humidityMeasurementCharacteristic = BLECharacteristic(humidityMeasurementCharacteristicUuid);
 BLECharacteristic heaterStateCharacteristic = BLECharacteristic(heaterStateCharacteristicUuid);
@@ -44,7 +46,7 @@ void disconnectedCallback(uint16_t connectionHandle, uint8_t reason) {
 
 void cccdCallback(uint16_t connectionHandle, BLECharacteristic* characteristic, uint16_t cccdValue) {
   if (characteristic->uuid == humidityMeasurementCharacteristic.uuid) {
-    Serial.print("Heart Rate Measurement 'Notify', ");
+    Serial.print("Humidity Rate Measurement 'Notify', ");
     if (characteristic->notifyEnabled()) {
       Serial.println("enabled");
     } else {
@@ -53,21 +55,27 @@ void cccdCallback(uint16_t connectionHandle, BLECharacteristic* characteristic, 
   }
 }
 
+void writeCallback(uint16_t connectionHandle, BLECharacteristic* characteristic, uint8_t* data, uint16_t len) {
+  if (characteristic->uuid == heaterStateCharacteristic.uuid) {
+    Serial.println("Heater State 'Write'");
+    //Serial.println((char) data[0]);
+  }
+}
+
 void setupHumidityService() {
   humidityService.begin(); // Must be called before calling .begin() on its characteristics
 
-  //humidityMeasurementCharacteristic.setProperties(CHR_PROPS_READ);
-  humidityMeasurementCharacteristic.setProperties(CHR_PROPS_NOTIFY);
+  humidityMeasurementCharacteristic.setProperties(CHR_PROPS_READ | CHR_PROPS_NOTIFY);
   humidityMeasurementCharacteristic.setPermission(SECMODE_OPEN, SECMODE_NO_ACCESS);
-  humidityMeasurementCharacteristic.setFixedLen(1);
+  humidityMeasurementCharacteristic.setFixedLen(2);
   humidityMeasurementCharacteristic.setCccdWriteCallback(cccdCallback);  // Optionally capture CCCD updates
   humidityMeasurementCharacteristic.begin();
 
   heaterStateCharacteristic.setProperties(CHR_PROPS_WRITE);
   heaterStateCharacteristic.setPermission(SECMODE_OPEN, SECMODE_NO_ACCESS);
   heaterStateCharacteristic.setFixedLen(1);
+  heaterStateCharacteristic.setWriteCallback(writeCallback);
   heaterStateCharacteristic.begin();
-  heaterStateCharacteristic.write8(0); // Sensor location 'Other'
 }
 
 void startAdvertising() {
@@ -93,6 +101,9 @@ void setup() {
   while (!Serial) { delay(10); } // only if usb connected
   Serial.println("Setup");
 
+  sht31.begin(0x44);
+  sht31.heater(true);
+
   Bluefruit.begin();
   Bluefruit.setName("nRF52840");
   Bluefruit.Periph.setConnectCallback(connectedCallback);
@@ -104,12 +115,13 @@ void setup() {
 
 void loop() {
   if (Bluefruit.connected()) {
-    int value = analogRead(A0);
-    uint8_t humidityData[1] = { value };
+    float h = sht31.readHumidity();
+    int h2 = h * 100.0;
+    uint8_t humidityData[2] = { (uint8_t) (h2 << 8), (uint8_t) h2 };
     //humidityMeasurementCharacteristic.write8(0);
     if (humidityMeasurementCharacteristic.notify(humidityData, sizeof(humidityData))) {
       Serial.print("Notified, humidity = ");
-      Serial.println(value);
+      Serial.println(h);
     } else {
       Serial.println("Notify not set, or not connected");
     }
