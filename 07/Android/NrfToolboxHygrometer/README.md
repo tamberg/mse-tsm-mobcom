@@ -1,7 +1,7 @@
 # Android nRF Toolbox Hygrometer
 
 ## Prerequisites
-[nRF52840Sense_HygrometerBlePeripheral.ino](../../../06/Arduino/nRF52840Sense_HygrometerBlePeripheral/nRF52840Sense_HygrometerBlePeripheral.ino) installed,
+Feather nRF52840 Sense with [nRF52840Sense_HygrometerBlePeripheral.ino](../../../06/Arduino/nRF52840Sense_HygrometerBlePeripheral/nRF52840Sense_HygrometerBlePeripheral.ino) running.
 
 ## Get the repository
 Get the https://github.com/NordicSemiconductor/Android-nRF-Toolbox project<sup>*</sup>.
