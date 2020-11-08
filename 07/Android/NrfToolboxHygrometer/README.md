@@ -10,3 +10,9 @@ Apply the *0001-Added-hygrometer* patch
 
     $ cd Android-nRF-Toolbox
     $ git am --3way 0001-Added-hygrometer.patch
+
+## Build the project
+*Android Studio > Build > Make Project*
+
+## Run the project
+*Android Studio > Run > Run 'app'*
