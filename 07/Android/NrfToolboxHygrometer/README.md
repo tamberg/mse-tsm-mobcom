@@ -17,4 +17,5 @@ Apply the [0001-Added-hygrometer.patch](0001-Added-hygrometer.patch) patch.
 *Android Studio > Build > Make Project*
 
 ## Run the project
-*Android Studio > Run > Run 'app'*
+* *Android Studio > Run > Run 'app'*
+* Test with the 
