@@ -8,4 +8,5 @@ Get the https://github.com/NordicSemiconductor/Android-nRF-Toolbox project
 ## Apply the patch
 Apply the *0001-Added-hygrometer* patch
 
+    $ cd Android-nRF-Toolbox
     $ git am --3way 0001-Added-hygrometer.patch
