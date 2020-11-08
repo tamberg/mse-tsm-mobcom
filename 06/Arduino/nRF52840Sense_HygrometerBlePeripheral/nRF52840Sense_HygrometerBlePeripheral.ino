@@ -1,4 +1,4 @@
-// Custom Humidity BLE peripheral. Copyright (c) Thomas Amberg, FHNW
+// Custom Hygrometer BLE peripheral. Copyright (c) Thomas Amberg, FHNW
 
 // Based on https://github.com/adafruit/Adafruit_nRF52_Arduino
 // /tree/master/libraries/Bluefruit52Lib/examples/Peripheral
@@ -123,18 +123,12 @@ void loop() {
     uint8_t h2HiByte = (uint8_t) (h2 >> 8);
     uint8_t h2LoByte = (uint8_t) h2;
     uint8_t humidityData[2] = { h2HiByte, h2LoByte };
-    //humidityMeasurementCharacteristic.write8(0);
     if (humidityMeasurementCharacteristic.notify(humidityData, sizeof(humidityData))) {
       Serial.print("Notified, humidity = ");
       Serial.println(h);
     } else {
       Serial.println("Notify not set, or not connected");
     }
-    //if (heaterStateCharacteristic.read8()) {
-    //  Serial.println("Heater enabled");
-    //} else {
-    //  Serial.println("Heater disabled");
-    //}
   }
   delay(1000); // ms
 }
