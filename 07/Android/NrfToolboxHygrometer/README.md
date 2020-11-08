@@ -1,9 +1,11 @@
 # Android nRF Toolbox Hygrometer
 
 ## Get the repository
-Get the https://github.com/NordicSemiconductor/Android-nRF-Toolbox project
+Get the https://github.com/NordicSemiconductor/Android-nRF-Toolbox project<sup>*</sup>.
 
     $ git clone https://github.com/NordicSemiconductor/Android-nRF-Toolbox
+
+<sup>*</sup>Ideally side-by-side with this repository, not inside.
 
 ## Apply the patch
 Apply the [0001-Added-hygrometer.patch](0001-Added-hygrometer.patch) patch.
