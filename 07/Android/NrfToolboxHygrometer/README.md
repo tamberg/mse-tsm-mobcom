@@ -1,5 +1,8 @@
 # Android nRF Toolbox Hygrometer
 
+## Prerequisites
+[nRF52840Sense_HygrometerBlePeripheral.ino](../../../06/Arduino/nRF52840Sense_HygrometerBlePeripheral/nRF52840Sense_HygrometerBlePeripheral.ino) installed,
+
 ## Get the repository
 Get the https://github.com/NordicSemiconductor/Android-nRF-Toolbox project<sup>*</sup>.
 
@@ -18,4 +21,3 @@ Apply the [0001-Added-hygrometer.patch](0001-Added-hygrometer.patch) patch.
 
 ## Run the project
 * *Android Studio > Run > Run 'app'*
-* Test with the 
