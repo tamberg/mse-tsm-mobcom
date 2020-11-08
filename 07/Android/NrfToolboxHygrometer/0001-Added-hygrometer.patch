@@ -1,0 +1,1456 @@
+From 7d47ced74bfb0770f26a3fdd164226c4c2f91557 Mon Sep 17 00:00:00 2001
+From: tamberg <tamberg@yaler.net>
+Date: Sun, 8 Nov 2020 23:58:32 +0100
+Subject: [PATCH] Added hygrometer.
+
+---
+ app/src/main/AndroidManifest.xml              |  17 ++
+ .../hygrometer/HygrometerActivity.java        | 170 ++++++++++++++
+ .../hygrometer/HygrometerManager.java         | 152 ++++++++++++
+ .../HygrometerManagerCallbacks.java           |  31 +++
+ .../hygrometer/HygrometerService.java         | 219 ++++++++++++++++++
+ .../HeaterStateCharacteristicCallback.java    |   8 +
+ .../callback/HeaterStateDataCallback.java     |  22 ++
+ ...dityMeasurementCharacteristicCallback.java |   8 +
+ .../HumidityMeasurementDataCallback.java      |  24 ++
+ .../hygrometer/settings/SettingsActivity.java |  56 +++++
+ .../hygrometer/settings/SettingsFragment.java |  41 ++++
+ .../ic_stat_notify_hygrometer.png             | Bin 0 -> 546 bytes
+ .../ic_stat_notify_hygrometer.png             | Bin 0 -> 658 bytes
+ .../ic_hygrometer_feature.png                 | Bin 0 -> 13870 bytes
+ .../layout/activity_feature_hygrometer.xml    | 188 +++++++++++++++
+ .../main/res/values/strings_hygrometer.xml    |  55 +++++
+ app/src/main/res/xml/settings_hygrometer.xml  |  34 +++
+ 17 files changed, 1025 insertions(+)
+ create mode 100644 app/src/main/java/no/nordicsemi/android/nrftoolbox/hygrometer/HygrometerActivity.java
+ create mode 100644 app/src/main/java/no/nordicsemi/android/nrftoolbox/hygrometer/HygrometerManager.java
+ create mode 100644 app/src/main/java/no/nordicsemi/android/nrftoolbox/hygrometer/HygrometerManagerCallbacks.java
+ create mode 100644 app/src/main/java/no/nordicsemi/android/nrftoolbox/hygrometer/HygrometerService.java
+ create mode 100644 app/src/main/java/no/nordicsemi/android/nrftoolbox/hygrometer/callback/HeaterStateCharacteristicCallback.java
+ create mode 100644 app/src/main/java/no/nordicsemi/android/nrftoolbox/hygrometer/callback/HeaterStateDataCallback.java
+ create mode 100644 app/src/main/java/no/nordicsemi/android/nrftoolbox/hygrometer/callback/HumidityMeasurementCharacteristicCallback.java
+ create mode 100644 app/src/main/java/no/nordicsemi/android/nrftoolbox/hygrometer/callback/HumidityMeasurementDataCallback.java
+ create mode 100644 app/src/main/java/no/nordicsemi/android/nrftoolbox/hygrometer/settings/SettingsActivity.java
+ create mode 100644 app/src/main/java/no/nordicsemi/android/nrftoolbox/hygrometer/settings/SettingsFragment.java
+ create mode 100644 app/src/main/res/drawable-hdpi/ic_stat_notify_hygrometer.png
+ create mode 100644 app/src/main/res/drawable-xhdpi/ic_stat_notify_hygrometer.png
+ create mode 100644 app/src/main/res/drawable-xxxhdpi/ic_hygrometer_feature.png
+ create mode 100644 app/src/main/res/layout/activity_feature_hygrometer.xml
+ create mode 100644 app/src/main/res/values/strings_hygrometer.xml
+ create mode 100644 app/src/main/res/xml/settings_hygrometer.xml
+
+diff --git a/app/src/main/AndroidManifest.xml b/app/src/main/AndroidManifest.xml
+index 74fba93..0de4e40 100644
+--- a/app/src/main/AndroidManifest.xml
++++ b/app/src/main/AndroidManifest.xml
+@@ -83,6 +83,23 @@
+ 
+ 		<!-- Template plugin activities -->
+ 		<!-- Remember to add your plug-in Activities to the Android Manifest file. -->
++		<activity
++			android:name="no.nordicsemi.android.nrftoolbox.hygrometer.HygrometerActivity"
++			android:icon="@drawable/ic_hygrometer_feature"
++			android:label="@string/hygrometer_feature_title" >
++			<intent-filter>
++				<action android:name="android.intent.action.MAIN" />
++
++				<category android:name="no.nordicsemi.android.nrftoolbox.LAUNCHER" />
++			</intent-filter>
++		</activity>
++		<activity
++			android:name="no.nordicsemi.android.nrftoolbox.hygrometer.settings.SettingsActivity"
++			android:label="@string/hygrometer_settings_title" />
++		<service
++			android:name="no.nordicsemi.android.nrftoolbox.hygrometer.HygrometerService"
++			android:label="@string/hygrometer_feature_title" />
++
+ 		<activity
+ 			android:name="no.nordicsemi.android.nrftoolbox.template.TemplateActivity"
+ 			android:icon="@drawable/ic_template_feature"
+diff --git a/app/src/main/java/no/nordicsemi/android/nrftoolbox/hygrometer/HygrometerActivity.java b/app/src/main/java/no/nordicsemi/android/nrftoolbox/hygrometer/HygrometerActivity.java
+new file mode 100644
+index 0000000..effada9
+--- /dev/null
++++ b/app/src/main/java/no/nordicsemi/android/nrftoolbox/hygrometer/HygrometerActivity.java
+@@ -0,0 +1,170 @@
++/*
++ * Copyright (c) 2015, Nordic Semiconductor
++ * All rights reserved.
++ *
++ * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
++ *
++ * 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
++ *
++ * 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the
++ * documentation and/or other materials provided with the distribution.
++ *
++ * 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this
++ * software without specific prior written permission.
++ *
++ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
++ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
++ * HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
++ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
++ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
++ * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++ */
++
++package no.nordicsemi.android.nrftoolbox.hygrometer;
++
++import android.bluetooth.BluetoothDevice;
++import android.content.BroadcastReceiver;
++import android.content.Context;
++import android.content.Intent;
++import android.content.IntentFilter;
++import android.os.Bundle;
++import androidx.annotation.NonNull;
++import androidx.localbroadcastmanager.content.LocalBroadcastManager;
++import android.view.Menu;
++import android.widget.TextView;
++
++import java.util.UUID;
++
++import no.nordicsemi.android.nrftoolbox.R;
++import no.nordicsemi.android.nrftoolbox.profile.BleProfileService;
++import no.nordicsemi.android.nrftoolbox.profile.BleProfileServiceReadyActivity;
++import no.nordicsemi.android.nrftoolbox.hygrometer.settings.SettingsActivity;
++
++public class HygrometerActivity extends BleProfileServiceReadyActivity<HygrometerService. HygrometerBinder> {
++	@SuppressWarnings("unused")
++	private final String TAG = "HygrometerActivity";
++
++	private TextView humidityMeasurementView;
++	private TextView heaterStateView;
++	private TextView batteryLevelView;
++
++	@Override
++	protected void onCreateView(final Bundle savedInstanceState) {
++		setContentView(R.layout.activity_feature_hygrometer);
++		humidityMeasurementView = findViewById(R.id.hygrometer_humidity_measurement);
++		heaterStateView = findViewById(R.id.hygrometer_heater_state);
++		batteryLevelView = findViewById(R.id.battery);
++		findViewById(R.id.action_set_name).setOnClickListener(v -> {
++			if (isDeviceConnected()) {
++				getService().setHeaterState("true");
++			}
++		});
++	}
++
++	@Override
++	protected void onInitialize(final Bundle savedInstanceState) {
++		LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, makeIntentFilter());
++	}
++
++	@Override
++	protected void onDestroy() {
++		super.onDestroy();
++		LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver);
++	}
++
++	@Override
++	protected void setDefaultUI() {
++		humidityMeasurementView.setText(R.string.not_available_value);
++		heaterStateView.setText(R.string.not_available_value);
++		batteryLevelView.setText(R.string.not_available);
++	}
++
++	@Override
++	protected int getLoggerProfileTitle() {
++		return R.string.hygrometer_feature_title;
++	}
++
++	@Override
++	protected int getAboutTextId() {
++		return R.string.hygrometer_about_text;
++	}
++
++	@Override
++	public boolean onCreateOptionsMenu(final Menu menu) {
++		getMenuInflater().inflate(R.menu.settings_and_about, menu);
++		return true;
++	}
++
++	@Override
++	protected boolean onOptionsItemSelected(final int itemId) {
++		switch (itemId) {
++			case R.id.action_settings:
++				final Intent intent = new Intent(this, SettingsActivity.class);
++				startActivity(intent);
++				break;
++		}
++		return true;
++	}
++
++	@Override
++	protected int getDefaultDeviceName() {
++		return R.string.template_default_name;
++	}
++
++	@Override
++	protected UUID getFilterUUID() {
++		return HygrometerManager.HUMIDITY_SERVICE_UUID;
++	}
++
++	@Override
++	protected Class<? extends BleProfileService> getServiceClass() {
++		return HygrometerService.class;
++	}
++
++	@Override
++	protected void onServiceBound(final HygrometerService.HygrometerBinder binder) {
++		// not used
++	}
++
++	@Override
++	protected void onServiceUnbound() {
++		// not used
++	}
++
++	@Override
++	public void onServicesDiscovered(@NonNull final BluetoothDevice device, final boolean optionalServicesFound) {
++		// this may notify user or show some views
++	}
++
++	@Override
++	public void onDeviceDisconnected(@NonNull final BluetoothDevice device) {
++		super.onDeviceDisconnected(device);
++		setDefaultUI();
++	}
++
++	private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
++		@Override
++		public void onReceive(final Context context, final Intent intent) {
++			final String action = intent.getAction();
++			final BluetoothDevice device = intent.getParcelableExtra(HygrometerService.EXTRA_DEVICE);
++			if (HygrometerService.BROADCAST_HUMIDITY_MEASUREMENT.equals(action)) {
++				final double value = intent.getDoubleExtra(HygrometerService.EXTRA_HUMIDITY_MEASUREMENT, 0.0);
++				humidityMeasurementView.setText(String.valueOf(value));
++			} else if (HygrometerService.BROADCAST_HEATER_STATE.equals(action)) {
++				final boolean value = intent.getBooleanExtra(HygrometerService.EXTRA_HEATER_STATE, false);
++				heaterStateView.setText(String.valueOf(value));
++			} else if (HygrometerService.BROADCAST_BATTERY_LEVEL.equals(action)) {
++				final int batteryLevel = intent.getIntExtra(HygrometerService.EXTRA_BATTERY_LEVEL, 0);
++				batteryLevelView.setText(getString(R.string.battery, batteryLevel));
++			}
++		}
++	};
++
++	private static IntentFilter makeIntentFilter() {
++		final IntentFilter intentFilter = new IntentFilter();
++		intentFilter.addAction(HygrometerService.BROADCAST_HUMIDITY_MEASUREMENT);
++		intentFilter.addAction(HygrometerService.BROADCAST_HEATER_STATE);
++		intentFilter.addAction(HygrometerService.BROADCAST_BATTERY_LEVEL);
++		return intentFilter;
++	}
++}
+diff --git a/app/src/main/java/no/nordicsemi/android/nrftoolbox/hygrometer/HygrometerManager.java b/app/src/main/java/no/nordicsemi/android/nrftoolbox/hygrometer/HygrometerManager.java
+new file mode 100644
+index 0000000..7c5c7d7
+--- /dev/null
++++ b/app/src/main/java/no/nordicsemi/android/nrftoolbox/hygrometer/HygrometerManager.java
+@@ -0,0 +1,152 @@
++/*
++ * Copyright (c) 2015, Nordic Semiconductor
++ * All rights reserved.
++ *
++ * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
++ *
++ * 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
++ *
++ * 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the
++ * documentation and/or other materials provided with the distribution.
++ *
++ * 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this
++ * software without specific prior written permission.
++ *
++ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
++ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
++ * HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
++ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
++ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
++ * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++ */
++
++package no.nordicsemi.android.nrftoolbox.hygrometer;
++
++import android.bluetooth.BluetoothDevice;
++import android.bluetooth.BluetoothGatt;
++import android.bluetooth.BluetoothGattCharacteristic;
++import android.bluetooth.BluetoothGattService;
++import android.content.Context;
++import androidx.annotation.NonNull;
++import android.util.Log;
++
++import java.util.UUID;
++
++import no.nordicsemi.android.ble.BleManager;
++import no.nordicsemi.android.ble.data.Data;
++import no.nordicsemi.android.log.LogContract;
++import no.nordicsemi.android.nrftoolbox.battery.BatteryManager;
++//import no.nordicsemi.android.nrftoolbox.parser.TemplateParser;
++import no.nordicsemi.android.nrftoolbox.hygrometer.callback.HumidityMeasurementDataCallback;
++import no.nordicsemi.android.nrftoolbox.hygrometer.callback.HeaterStateDataCallback;
++
++public class HygrometerManager extends BatteryManager<HygrometerManagerCallbacks> {
++	static final UUID HUMIDITY_SERVICE_UUID = 
++	    UUID.fromString("6b750001-006c-4f1b-8e32-a20d9d19aa13");
++	private static final UUID HUMIDITY_MEASUREMENT_CHARACTERISTIC_UUID = 
++	    UUID.fromString("6b750002-006c-4f1b-8e32-a20d9d19aa13");
++	private static final UUID HEATER_STATE_CHARACTERISTIC_UUID = 
++	    UUID.fromString("6b750003-006c-4f1b-8e32-a20d9d19aa13");
++
++    private BluetoothGattCharacteristic mHumidityMeasurementCharacteristic;
++    private BluetoothGattCharacteristic mHeaterStateCharacteristic;
++
++	public HygrometerManager(final Context context) {
++		super(context);
++	}
++
++	@NonNull
++	@Override
++	protected BatteryManagerGattCallback getGattCallback() {
++		return new HygrometerManagerGattCallback();
++	}
++
++	private class HygrometerManagerGattCallback extends BatteryManagerGattCallback {
++
++		@Override
++		protected void initialize() {
++			super.initialize();
++			HygrometerManager.this.requestMtu(43)
++				.with((device, mtu) -> log(LogContract.Log.Level.APPLICATION, "MTU changed to " + mtu))
++				.done(device -> { /* skip */ })
++				.fail((device, status) -> log(Log.WARN, "MTU change not supported"))
++				.enqueue();
++
++			HygrometerManager.this.setNotificationCallback(mHumidityMeasurementCharacteristic)
++				.with(new HumidityMeasurementDataCallback() {
++					@Override
++					public void onDataReceived(@NonNull final BluetoothDevice device, @NonNull final Data data) {
++						log(LogContract.Log.Level.APPLICATION, data.toString()); //TemplateParser.parse(data));
++						super.onDataReceived(device, data);
++					}
++
++					@Override
++					public void onHumidityMeasurementValueReceived(@NonNull final BluetoothDevice device, final double value) {
++						mCallbacks.onHumidityMeasurementValueReceived(device, value);
++					}
++
++					@Override
++					public void onInvalidDataReceived(@NonNull final BluetoothDevice device, @NonNull final Data data) {
++						log(Log.WARN, "Invalid data received: " + data);
++					}
++				});
++
++			HygrometerManager.this.enableNotifications(mHumidityMeasurementCharacteristic)
++				.with((device, data) -> log(Log.DEBUG, "Data sent: " + data))
++				.done(device -> log(LogContract.Log.Level.APPLICATION, "Notifications enabled successfully"))
++				.fail((device, status) -> log(Log.WARN, "Failed to enable notifications"))
++				.enqueue();
++		}
++
++		@Override
++		protected boolean isRequiredServiceSupported(@NonNull final BluetoothGatt gatt) {
++			final BluetoothGattService service = gatt.getService(HUMIDITY_SERVICE_UUID);
++			if (service != null) {
++				mHumidityMeasurementCharacteristic = 
++				    service.getCharacteristic(HUMIDITY_MEASUREMENT_CHARACTERISTIC_UUID);
++			    mHeaterStateCharacteristic = 
++				    service.getCharacteristic(HEATER_STATE_CHARACTERISTIC_UUID);
++			}
++			return
++				(mHumidityMeasurementCharacteristic != null) && 
++				(mHeaterStateCharacteristic != null);
++		}
++
++		@Override
++		protected boolean isOptionalServiceSupported(@NonNull final BluetoothGatt gatt) {
++			return super.isOptionalServiceSupported(gatt);
++		}
++
++		@Override
++		protected void onDeviceDisconnected() {
++			super.onDeviceDisconnected();
++			mHumidityMeasurementCharacteristic = null;
++			mHeaterStateCharacteristic = null;
++		}
++
++		@Override
++		protected void onDeviceReady() {
++			super.onDeviceReady();
++			HygrometerManager.this.readCharacteristic(mHeaterStateCharacteristic)
++				.with((device, data) -> {
++					if (data.size() > 0) {
++						final Integer value = data.getIntValue(Data.FORMAT_UINT8, 0);
++						log(LogContract.Log.Level.APPLICATION, "Heater state value '" + value + "' has been read!");
++					} else {
++						log(Log.WARN, "Value is empty!");
++					}
++				})
++				.enqueue();
++		}
++	}
++
++	void setHeaterState(final String value) {
++		log(Log.VERBOSE, "Setting heater state to \"" + value + "\"");
++		this.writeCharacteristic(mHeaterStateCharacteristic, Data.from(value)) // TODO
++			.split() // if data > MTU
++			.with((device, data) -> log(Log.DEBUG, data.size() + " bytes were sent"))
++			.done(device -> log(LogContract.Log.Level.APPLICATION, "Heater state set to \"" + value + "\""))
++			.fail((device, status) -> log(Log.WARN, "Failed to set heater state"))
++			.enqueue();
++	}
++}
+diff --git a/app/src/main/java/no/nordicsemi/android/nrftoolbox/hygrometer/HygrometerManagerCallbacks.java b/app/src/main/java/no/nordicsemi/android/nrftoolbox/hygrometer/HygrometerManagerCallbacks.java
+new file mode 100644
+index 0000000..970f915
+--- /dev/null
++++ b/app/src/main/java/no/nordicsemi/android/nrftoolbox/hygrometer/HygrometerManagerCallbacks.java
+@@ -0,0 +1,31 @@
++/*
++ * Copyright (c) 2015, Nordic Semiconductor
++ * All rights reserved.
++ *
++ * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
++ *
++ * 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
++ *
++ * 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the
++ * documentation and/or other materials provided with the distribution.
++ *
++ * 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this
++ * software without specific prior written permission.
++ *
++ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
++ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
++ * HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
++ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
++ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
++ * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++ */
++
++package no.nordicsemi.android.nrftoolbox.hygrometer;
++
++import no.nordicsemi.android.nrftoolbox.battery.BatteryManagerCallbacks;
++import no.nordicsemi.android.nrftoolbox.hygrometer.callback.HumidityMeasurementCharacteristicCallback;
++import no.nordicsemi.android.nrftoolbox.hygrometer.callback.HeaterStateCharacteristicCallback;
++
++interface HygrometerManagerCallbacks extends BatteryManagerCallbacks, 
++	HumidityMeasurementCharacteristicCallback,
++	HeaterStateCharacteristicCallback {}
+diff --git a/app/src/main/java/no/nordicsemi/android/nrftoolbox/hygrometer/HygrometerService.java b/app/src/main/java/no/nordicsemi/android/nrftoolbox/hygrometer/HygrometerService.java
+new file mode 100644
+index 0000000..daae953
+--- /dev/null
++++ b/app/src/main/java/no/nordicsemi/android/nrftoolbox/hygrometer/HygrometerService.java
+@@ -0,0 +1,219 @@
++/*
++ * Copyright (c) 2015, Nordic Semiconductor
++ * All rights reserved.
++ *
++ * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
++ *
++ * 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
++ *
++ * 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the
++ * documentation and/or other materials provided with the distribution.
++ *
++ * 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this
++ * software without specific prior written permission.
++ *
++ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
++ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
++ * HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
++ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
++ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
++ * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++ */
++
++package no.nordicsemi.android.nrftoolbox.hygrometer;
++
++import android.app.Notification;
++import android.app.NotificationManager;
++import android.app.PendingIntent;
++import android.bluetooth.BluetoothDevice;
++import android.content.BroadcastReceiver;
++import android.content.Context;
++import android.content.Intent;
++import android.content.IntentFilter;
++import android.os.Build;
++
++import androidx.annotation.NonNull;
++import androidx.core.app.NotificationCompat;
++import androidx.localbroadcastmanager.content.LocalBroadcastManager;
++import no.nordicsemi.android.log.Logger;
++import no.nordicsemi.android.nrftoolbox.FeaturesActivity;
++import no.nordicsemi.android.nrftoolbox.R;
++import no.nordicsemi.android.nrftoolbox.ToolboxApplication;
++import no.nordicsemi.android.nrftoolbox.profile.BleProfileService;
++import no.nordicsemi.android.nrftoolbox.profile.LoggableBleManager;
++
++public class HygrometerService extends BleProfileService implements HygrometerManagerCallbacks {
++    public static final String BROADCAST_HUMIDITY_MEASUREMENT = "no.nordicsemi.android.nrftoolbox.hygrometer.BROADCAST_HUMIDITY_MEASUREMENT";
++    public static final String BROADCAST_HEATER_STATE = "no.nordicsemi.android.nrftoolbox.hygrometer.BROADCAST_HEATER_STATE";
++    public static final String EXTRA_HUMIDITY_MEASUREMENT = "no.nordicsemi.android.nrftoolbox.hygrometer.EXTRA_HUMIDITY_MEASUREMENT";
++    public static final String EXTRA_HEATER_STATE = "no.nordicsemi.android.nrftoolbox.hygrometer.EXTRA_HEATER_STATE";
++
++    public static final String BROADCAST_BATTERY_LEVEL = "no.nordicsemi.android.nrftoolbox.BROADCAST_BATTERY_LEVEL";
++    public static final String EXTRA_BATTERY_LEVEL = "no.nordicsemi.android.nrftoolbox.EXTRA_BATTERY_LEVEL";
++
++    private final static String ACTION_DISCONNECT = "no.nordicsemi.android.nrftoolbox.hygrometer.ACTION_DISCONNECT";
++
++    private final static int NOTIFICATION_ID = 864;
++    private final static int OPEN_ACTIVITY_REQ = 0;
++    private final static int DISCONNECT_REQ = 1;
++
++    private HygrometerManager manager;
++
++    private final LocalBinder binder = new HygrometerBinder();
++
++    /**
++     * This local binder is an interface for the bound activity to operate with the sensor.
++     */
++    class HygrometerBinder extends LocalBinder {
++        void setHeaterState(final String value) {
++            manager.setHeaterState(value);
++        }
++    }
++
++    @Override
++    protected LocalBinder getBinder() {
++        return binder;
++    }
++
++    @Override
++    protected LoggableBleManager<HygrometerManagerCallbacks> initializeManager() {
++        return manager = new HygrometerManager(this);
++    }
++
++    @Override
++    public void onCreate() {
++        super.onCreate();
++
++        final IntentFilter filter = new IntentFilter();
++        filter.addAction(ACTION_DISCONNECT);
++        registerReceiver(disconnectActionBroadcastReceiver, filter);
++    }
++
++    @Override
++    public void onDestroy() {
++        // when user has disconnected from the sensor, we have to cancel the notification that we've created some milliseconds before using unbindService
++        stopForegroundService();
++        unregisterReceiver(disconnectActionBroadcastReceiver);
++
++        super.onDestroy();
++    }
++
++    @Override
++    protected void onRebind() {
++        stopForegroundService();
++    }
++
++    @Override
++    protected void onUnbind() {
++        startForegroundService();
++    }
++
++    @Override
++    public void onHumidityMeasurementValueReceived(@NonNull final BluetoothDevice device, final double value) {
++        final Intent broadcast = new Intent(BROADCAST_HUMIDITY_MEASUREMENT);
++        broadcast.putExtra(EXTRA_DEVICE, getBluetoothDevice());
++        broadcast.putExtra(EXTRA_HUMIDITY_MEASUREMENT, value);
++        LocalBroadcastManager.getInstance(this).sendBroadcast(broadcast);
++
++        if (!bound) {
++            // Here we may update the notification to display the current value.
++            // TODO modify the notification here
++        }
++    }
++
++    @Override
++    public void onHeaterStateValueReceived(@NonNull final BluetoothDevice device, final boolean value) {
++        final Intent broadcast = new Intent(BROADCAST_HEATER_STATE);
++        broadcast.putExtra(EXTRA_DEVICE, getBluetoothDevice());
++        broadcast.putExtra(EXTRA_HEATER_STATE, value);
++        LocalBroadcastManager.getInstance(this).sendBroadcast(broadcast);
++
++        if (!bound) {
++            // Here we may update the notification to display the current value.
++            // TODO modify the notification here
++        }
++    }
++
++    @Override
++    public void onBatteryLevelChanged(@NonNull final BluetoothDevice device, final int batteryLevel) {
++
++    }
++
++    /**
++     * Sets the service as a foreground service
++     */
++    private void startForegroundService(){
++        // when the activity closes we need to show the notification that user is connected to the peripheral sensor
++        // We start the service as a foreground service as Android 8.0 (Oreo) onwards kills any running background services
++        final Notification notification = createNotification(R.string.hygrometer_notification_connected_message, 0);
++        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
++            startForeground(NOTIFICATION_ID, notification);
++        } else {
++            final NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
++            nm.notify(NOTIFICATION_ID, notification);
++        }
++    }
++
++    /**
++     * Stops the service as a foreground service
++     */
++    private void stopForegroundService(){
++        // when the activity rebinds to the service, remove the notification and stop the foreground service
++        // on devices running Android 8.0 (Oreo) or above
++        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
++            stopForeground(true);
++        } else {
++            cancelNotification();
++        }
++    }
++
++    /**
++     * Creates the notification.
++     *
++     * @param messageResId message resource id. The message must have one String parameter,<br />
++     *                     f.e. <code>&lt;string name="name"&gt;%s is connected&lt;/string&gt;</code>
++     * @param defaults     signals that will be used to notify the user
++     */
++    @SuppressWarnings("SameParameterValue")
++    private Notification createNotification(final int messageResId, final int defaults) {
++        final Intent parentIntent = new Intent(this, FeaturesActivity.class);
++        parentIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
++        final Intent targetIntent = new Intent(this, HygrometerActivity.class);
++
++        final Intent disconnect = new Intent(ACTION_DISCONNECT);
++        final PendingIntent disconnectAction = PendingIntent.getBroadcast(this, DISCONNECT_REQ, disconnect, PendingIntent.FLAG_UPDATE_CURRENT);
++
++        // both activities above have launchMode="singleTask" in the AndroidManifest.xml file, so if the task is already running, it will be resumed
++        final PendingIntent pendingIntent = PendingIntent.getActivities(this, OPEN_ACTIVITY_REQ, new Intent[]{parentIntent, targetIntent}, PendingIntent.FLAG_UPDATE_CURRENT);
++        final NotificationCompat.Builder builder = new NotificationCompat.Builder(this, ToolboxApplication.CONNECTED_DEVICE_CHANNEL);
++        builder.setContentIntent(pendingIntent);
++        builder.setContentTitle(getString(R.string.app_name)).setContentText(getString(messageResId, getDeviceName()));
++        builder.setSmallIcon(R.drawable.ic_stat_notify_hygrometer);
++        builder.setShowWhen(defaults != 0).setDefaults(defaults).setAutoCancel(true).setOngoing(true);
++        builder.addAction(new NotificationCompat.Action(R.drawable.ic_action_bluetooth, getString(R.string.hygrometer_notification_action_disconnect), disconnectAction));
++
++        return builder.build();
++    }
++
++    /**
++     * Cancels the existing notification. If there is no active notification this method does nothing
++     */
++    private void cancelNotification() {
++        final NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
++        nm.cancel(NOTIFICATION_ID);
++    }
++
++    /**
++     * This broadcast receiver listens for {@link #ACTION_DISCONNECT} that may be fired by pressing Disconnect action button on the notification.
++     */
++    private final BroadcastReceiver disconnectActionBroadcastReceiver = new BroadcastReceiver() {
++        @Override
++        public void onReceive(final Context context, final Intent intent) {
++            Logger.i(getLogSession(), "[Notification] Disconnect action pressed");
++            if (isConnected())
++                getBinder().disconnect();
++            else
++                stopSelf();
++        }
++    };
++}
+diff --git a/app/src/main/java/no/nordicsemi/android/nrftoolbox/hygrometer/callback/HeaterStateCharacteristicCallback.java b/app/src/main/java/no/nordicsemi/android/nrftoolbox/hygrometer/callback/HeaterStateCharacteristicCallback.java
+new file mode 100644
+index 0000000..12b213c
+--- /dev/null
++++ b/app/src/main/java/no/nordicsemi/android/nrftoolbox/hygrometer/callback/HeaterStateCharacteristicCallback.java
+@@ -0,0 +1,8 @@
++package no.nordicsemi.android.nrftoolbox.hygrometer.callback;
++
++import android.bluetooth.BluetoothDevice;
++import androidx.annotation.NonNull;
++
++public interface HeaterStateCharacteristicCallback {
++	void onHeaterStateValueReceived(@NonNull final BluetoothDevice device, boolean value);
++}
+diff --git a/app/src/main/java/no/nordicsemi/android/nrftoolbox/hygrometer/callback/HeaterStateDataCallback.java b/app/src/main/java/no/nordicsemi/android/nrftoolbox/hygrometer/callback/HeaterStateDataCallback.java
+new file mode 100644
+index 0000000..33c2167
+--- /dev/null
++++ b/app/src/main/java/no/nordicsemi/android/nrftoolbox/hygrometer/callback/HeaterStateDataCallback.java
+@@ -0,0 +1,22 @@
++package no.nordicsemi.android.nrftoolbox.hygrometer.callback;
++
++import android.bluetooth.BluetoothDevice;
++import androidx.annotation.NonNull;
++
++import no.nordicsemi.android.ble.callback.profile.ProfileDataCallback;
++import no.nordicsemi.android.ble.data.Data;
++
++@SuppressWarnings("ConstantConditions")
++public abstract class HeaterStateDataCallback implements ProfileDataCallback,
++	HeaterStateCharacteristicCallback {
++
++	@Override
++	public void onDataReceived(@NonNull final BluetoothDevice device, @NonNull final Data data) {
++		if (data.size() == 1) {
++			boolean value = data.getIntValue(Data.FORMAT_UINT8, 0) != 0;
++			onHeaterStateValueReceived(device, value);
++		} else {
++			onInvalidDataReceived(device, data);
++		}
++	}
++}
+diff --git a/app/src/main/java/no/nordicsemi/android/nrftoolbox/hygrometer/callback/HumidityMeasurementCharacteristicCallback.java b/app/src/main/java/no/nordicsemi/android/nrftoolbox/hygrometer/callback/HumidityMeasurementCharacteristicCallback.java
+new file mode 100644
+index 0000000..7d75b60
+--- /dev/null
++++ b/app/src/main/java/no/nordicsemi/android/nrftoolbox/hygrometer/callback/HumidityMeasurementCharacteristicCallback.java
+@@ -0,0 +1,8 @@
++package no.nordicsemi.android.nrftoolbox.hygrometer.callback;
++
++import android.bluetooth.BluetoothDevice;
++import androidx.annotation.NonNull;
++
++public interface HumidityMeasurementCharacteristicCallback {
++	void onHumidityMeasurementValueReceived(@NonNull final BluetoothDevice device, double value);
++}
+diff --git a/app/src/main/java/no/nordicsemi/android/nrftoolbox/hygrometer/callback/HumidityMeasurementDataCallback.java b/app/src/main/java/no/nordicsemi/android/nrftoolbox/hygrometer/callback/HumidityMeasurementDataCallback.java
+new file mode 100644
+index 0000000..fd1de1b
+--- /dev/null
++++ b/app/src/main/java/no/nordicsemi/android/nrftoolbox/hygrometer/callback/HumidityMeasurementDataCallback.java
+@@ -0,0 +1,24 @@
++package no.nordicsemi.android.nrftoolbox.hygrometer.callback;
++
++import android.bluetooth.BluetoothDevice;
++import androidx.annotation.NonNull;
++
++import no.nordicsemi.android.ble.callback.profile.ProfileDataCallback;
++import no.nordicsemi.android.ble.data.Data;
++
++@SuppressWarnings("ConstantConditions")
++public abstract class HumidityMeasurementDataCallback implements ProfileDataCallback,
++	HumidityMeasurementCharacteristicCallback {
++
++	@Override
++	public void onDataReceived(@NonNull final BluetoothDevice device, @NonNull final Data data) {
++		if (data.size() == 2) {
++			int h2HiByte = data.getIntValue(Data.FORMAT_UINT8, 0);
++			int h2LoByte = data.getIntValue(Data.FORMAT_UINT8, 1);
++			double value = ((h2HiByte << 8) + h2LoByte) / 100.0;
++			onHumidityMeasurementValueReceived(device, value);
++		} else {
++			onInvalidDataReceived(device, data);
++		}
++	}
++}
+diff --git a/app/src/main/java/no/nordicsemi/android/nrftoolbox/hygrometer/settings/SettingsActivity.java b/app/src/main/java/no/nordicsemi/android/nrftoolbox/hygrometer/settings/SettingsActivity.java
+new file mode 100644
+index 0000000..69cb37f
+--- /dev/null
++++ b/app/src/main/java/no/nordicsemi/android/nrftoolbox/hygrometer/settings/SettingsActivity.java
+@@ -0,0 +1,56 @@
++/*
++ * Copyright (c) 2015, Nordic Semiconductor
++ * All rights reserved.
++ *
++ * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
++ *
++ * 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
++ *
++ * 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the
++ * documentation and/or other materials provided with the distribution.
++ *
++ * 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this
++ * software without specific prior written permission.
++ *
++ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
++ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
++ * HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
++ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
++ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
++ * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++ */
++
++package no.nordicsemi.android.nrftoolbox.hygrometer.settings;
++
++import android.os.Bundle;
++import androidx.appcompat.app.AppCompatActivity;
++import androidx.appcompat.widget.Toolbar;
++import android.view.MenuItem;
++
++import no.nordicsemi.android.nrftoolbox.R;
++
++public class SettingsActivity extends AppCompatActivity {
++
++	@Override
++	protected void onCreate(final Bundle savedInstanceState) {
++		super.onCreate(savedInstanceState);
++        setContentView(R.layout.activity_settings);
++
++        final Toolbar toolbar  = findViewById(R.id.toolbar_actionbar);
++        setSupportActionBar(toolbar);
++        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
++
++		// Display the fragment as the main content.
++		getSupportFragmentManager().beginTransaction().replace(R.id.content, new SettingsFragment()).commit();
++	}
++
++	@Override
++	public boolean onOptionsItemSelected(final MenuItem item) {
++		switch (item.getItemId()) {
++		case android.R.id.home:
++			onBackPressed();
++			return true;
++		}
++		return super.onOptionsItemSelected(item);
++	}
++}
+diff --git a/app/src/main/java/no/nordicsemi/android/nrftoolbox/hygrometer/settings/SettingsFragment.java b/app/src/main/java/no/nordicsemi/android/nrftoolbox/hygrometer/settings/SettingsFragment.java
+new file mode 100644
+index 0000000..8aaad97
+--- /dev/null
++++ b/app/src/main/java/no/nordicsemi/android/nrftoolbox/hygrometer/settings/SettingsFragment.java
+@@ -0,0 +1,41 @@
++/*
++ * Copyright (c) 2015, Nordic Semiconductor
++ * All rights reserved.
++ *
++ * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
++ *
++ * 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
++ *
++ * 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the
++ * documentation and/or other materials provided with the distribution.
++ *
++ * 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this
++ * software without specific prior written permission.
++ *
++ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
++ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
++ * HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
++ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
++ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
++ * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++ */
++
++package no.nordicsemi.android.nrftoolbox.hygrometer.settings;
++
++import android.os.Bundle;
++import android.preference.PreferenceFragment;
++
++import androidx.preference.PreferenceFragmentCompat;
++import no.nordicsemi.android.nrftoolbox.R;
++
++public class SettingsFragment extends PreferenceFragmentCompat {
++	public static final String SETTINGS_DATA = "settings_hygrometer_data"; // TODO values matching those in settings_hygrometer.xml file in /res/xml
++	public static final int SETTINGS_VARIANT_A = 0;
++	public static final int SETTINGS_VARIANT_B = 1;
++	public static final int SETTINGS_VARIANT_DEFAULT = SETTINGS_VARIANT_A;
++
++	@Override
++	public void onCreatePreferences(final Bundle savedInstanceState, final String rootKey) {
++		addPreferencesFromResource(R.xml.settings_hygrometer);
++	}
++}
+diff --git a/app/src/main/res/drawable-hdpi/ic_stat_notify_hygrometer.png b/app/src/main/res/drawable-hdpi/ic_stat_notify_hygrometer.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..fc09568bc888db13f79c8e5c2cbb433a32f4cfae
+GIT binary patch
+literal 546
+zcmV+-0^R+IP)<h;3K|Lk000e1NJLTq001Na001Ni1^@s6;Q*MJ0005$Nkl<ZSi|j?
+zF>4e-6vzK>cgR6dLr9Y}sYQfTA}Ov4L=fu`ORos|0Qmw*<tIq3kW_+&g%F6vRbmsY
+z1Us9<E<~54SoZd3Gl#>v?%m~f<4Nuh1H1F)&HFL?X7-IV(@Zn{2Lk4RxoLq}2j2O%
+z{x3mVzz5)p-@5XBt(yc{26h;(9bma>m;<2a1LhSl16vO`XaZy#xEKOa1$O~#PYMwM
+zkAYL_)2W{`8W&~_IH5V60BdEjtpMUAeU@}zQrz(V=u7%4>7ki1=qxVXBT3&RWjC;4
+zV@VGrz3~h2Cy<$aG_z-to=AGzAWT=%xqnVVgDd@xW?f0$EX(f3as0E^@6_+#i{p4v
+z(x<YtsmylgTw-P>X;0GG1RQ6Q_RP$jb4d~6y2ro*&;gP$c2nYg77BB%0^j|ZS78nf
+zRi5WAP1C3_;qeGC$DvP}rcs{fZek!{1IU2qz*5k^0vwfq904oAxFzqK0ULDywS!<^
+zfKG}1wQuc$t>b+LYS#@k&?T@4Sjl+vw#yQ~p+M0!b9~;PBZt6d0JACS(A(xK{7q7;
+z?C5bLo~VD*uA~>hd;k742vjxK4@oa2-SNMweB3R+RYUo))kIyi9~5Y#s0Zxdo)UH{
+ki~Om*22Jfnai&|ZU($6IP{#gyO#lD@07*qoM6N<$f-8voc>n+a
+
+literal 0
+HcmV?d00001
+
+diff --git a/app/src/main/res/drawable-xhdpi/ic_stat_notify_hygrometer.png b/app/src/main/res/drawable-xhdpi/ic_stat_notify_hygrometer.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..8b4925d3f68b5ec865dd08fea28ae01ec1bdc031
+GIT binary patch
+literal 658
+zcmV;D0&V??P)<h;3K|Lk000e1NJLTq001xm001xu1^@s6R|5Hm00076Nkl<ZXx{Ca
+zze^io7{|ZQT{J?~R0y~^*ul++6r@lJqH71C#nPcJT?<_VaccMe4KCu=Y~3TJb+ArO
+zF1Dj!Cl9QU!29WPfi%q}mmhat;6CHs^S;mboA>VC=Y1mO<mBY!<m7Y)m;*imbK@qw
+z2<-7Mdq8m<#P86ZovaGq1RBJn0c>VPcm=p(Fs^{geF<Lxju{Qdz(QKWXMrP<;Ru*b
+zO86A8Pde-aQzH@Xob!Nf?uTvXoYzgC_4w7FO8VL>F6pOM(layr7TW;uNYa_4hZ*`(
+z-$+_Dv!AUOqn78rq?wFuH6=-xz~i0<%<P?+6(oHLmoQ7XI4jUJ@?6rir1N_cdoJm1
+zw*ar#3}*Jn%qq^gc}YP^!UN~ryqQ%b-3?`+iSPT@W>%84CaIB-@VcZmGb{PNe;sFl
+z*KY<hJ2kUONiRn%{)L$p&Fr+FLEfO*%<MDZN%}aX@DGwaGpnXi2Ni-K@H$+d0IGfN
+zvQ=Q>zlT2vJfP4r_v^NCtHT&5g_9ga+@A){dI<jkJct;75XO{}Hqbnj>_)_uf!nsk
+zw?H`}ez)x~l!}2S0k9QO2(AEk&bgI{`L@FG?WAg;$!}mW<~)mGd=#+_cq4qr%VDi@
+z5p^gD4?`D{F2net@e=r0ElIioPTItugcaq|D3cWisLkW@1ZYUANm}nSS8JZ{l3s;H
+zoG<CuuzSG_aG1~u><~z&j1RjKwGj!grPh_`U}Sm7zR+@38eAJdJ*MzFu#wdk<D0SU
+sjkcMXjOb2JYMdC`{|9n%a&ltx7ispocajW$X8-^I07*qoM6N<$f)|53h5!Hn
+
+literal 0
+HcmV?d00001
+
+diff --git a/app/src/main/res/drawable-xxxhdpi/ic_hygrometer_feature.png b/app/src/main/res/drawable-xxxhdpi/ic_hygrometer_feature.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..8231ffb6fb5a0cb7e695b29098c901192ac93bdc
+GIT binary patch
+literal 13870
+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
+abV;taFYF>l3BURyl(xEoTD6Kz<o^OJzaA$5
+
+literal 0
+HcmV?d00001
+
+diff --git a/app/src/main/res/layout/activity_feature_hygrometer.xml b/app/src/main/res/layout/activity_feature_hygrometer.xml
+new file mode 100644
+index 0000000..5a78e61
+--- /dev/null
++++ b/app/src/main/res/layout/activity_feature_hygrometer.xml
+@@ -0,0 +1,188 @@
++<!--
++  ~ Copyright (c) 2015, Nordic Semiconductor
++  ~ All rights reserved.
++  ~
++  ~ Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
++  ~
++  ~ 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
++  ~
++  ~ 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the
++  ~ documentation and/or other materials provided with the distribution.
++  ~
++  ~ 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this
++  ~ software without specific prior written permission.
++  ~
++  ~ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
++  ~ LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
++  ~ HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
++  ~ LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
++  ~ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
++  ~ USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++  -->
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
++	xmlns:tools="http://schemas.android.com/tools"
++	android:layout_width="match_parent"
++	android:layout_height="match_parent"
++	xmlns:app="http://schemas.android.com/apk/res-auto"
++	android:orientation="vertical"
++	tools:context=".hygrometer.HygrometerActivity">
++
++	<include
++		android:id="@+id/toolbar_actionbar"
++		layout="@layout/toolbar"/>
++
++	<no.nordicsemi.android.nrftoolbox.widget.ForegroundRelativeLayout
++		style="@style/HeaderShadow"
++		android:layout_width="match_parent"
++		android:layout_height="match_parent">
++
++		<!-- The size of text below must be fixed, therefore dp are used instead of sp -->
++
++		<androidx.appcompat.widget.AppCompatTextView
++			android:layout_width="wrap_content"
++			android:layout_height="wrap_content"
++			android:layout_centerVertical="true"
++			android:layout_marginLeft="@dimen/hygrometer_feature_title_long_margin"
++			android:rotation="270"
++			android:text="@string/hygrometer_feature_title_long"
++			android:textColor="@color/verticalTitleColor"
++			android:textSize="32dp"
++			android:textStyle="bold"/>
++
++		<TextView
++			android:id="@+id/battery"
++			android:layout_width="wrap_content"
++			android:layout_height="wrap_content"
++			android:layout_alignParentLeft="true"
++			android:layout_marginLeft="@dimen/feature_horizontal_margin"
++			android:layout_marginTop="@dimen/feature_device_name_margin_top"
++			android:background="@drawable/battery"
++			android:freezesText="true"
++			android:gravity="center"
++			android:text="@string/not_available"
++			android:textColor="#FFFFFF"
++			android:textSize="12sp"/>
++
++		<androidx.appcompat.widget.AppCompatTextView
++			android:id="@+id/device_name"
++			android:layout_width="wrap_content"
++			android:layout_height="wrap_content"
++			android:layout_marginLeft="10dp"
++			android:layout_marginTop="@dimen/feature_device_name_margin_top"
++			android:layout_toRightOf="@+id/battery"
++			android:ellipsize="end"
++			android:freezesText="true"
++			android:maxLines="1"
++			android:text="@string/hygrometer_default_name"
++			android:textAllCaps="true"
++			android:textAppearance="?android:attr/textAppearanceLarge"/>
++
++		<!-- Application section -->
++
++		<LinearLayout
++			android:id="@+id/container"
++			style="@style/Widget.List"
++			android:layout_width="match_parent"
++			android:layout_height="wrap_content"
++			android:layout_marginBottom="@dimen/activity_vertical_margin_bottom"
++			android:layout_marginLeft="@dimen/feature_horizontal_margin"
++			android:layout_marginRight="@dimen/feature_horizontal_margin"
++			android:layout_marginTop="@dimen/feature_vertical_margin_top"
++			android:orientation="vertical">
++
++			<androidx.appcompat.widget.AppCompatTextView
++				style="@style/Widget.ListTitle"
++				android:layout_width="match_parent"
++				android:layout_height="wrap_content"
++				android:text="@string/hygrometer_section_header"/>
++
++			<TableLayout
++				android:layout_width="match_parent"
++				android:layout_height="wrap_content"
++				android:padding="@dimen/feature_section_padding">
++
++				<TableRow
++					android:layout_width="match_parent"
++					android:layout_height="wrap_content">
++
++					<androidx.appcompat.widget.AppCompatTextView
++						android:layout_width="0dp"
++						android:layout_height="match_parent"
++						android:layout_weight="1"
++						android:gravity="center_vertical"
++						android:text="@string/hygrometer_humidity_measurement_title"/>
++
++					<androidx.appcompat.widget.AppCompatTextView
++						android:id="@+id/hygrometer_humidity_measurement"
++						android:layout_width="wrap_content"
++						android:layout_height="match_parent"
++						android:freezesText="true"
++						android:gravity="right"
++						android:text="@string/not_available_value"
++						android:textSize="36sp"/>
++
++					<androidx.appcompat.widget.AppCompatTextView
++						android:id="@+id/hygrometer_humidity_measurement_unit"
++						android:layout_width="45dp"
++						android:layout_height="match_parent"
++						android:freezesText="true"
++						android:gravity="bottom"
++						android:text="@string/hygrometer_unit_percent"/>
++				</TableRow>
++
++				<TableRow
++					android:layout_width="match_parent"
++					android:layout_height="wrap_content">
++
++					<androidx.appcompat.widget.AppCompatTextView
++						android:layout_width="0dp"
++						android:layout_height="match_parent"
++						android:layout_weight="1"
++						android:gravity="center_vertical"
++						android:text="@string/hygrometer_heater_state_title"/>
++
++					<androidx.appcompat.widget.AppCompatTextView
++						android:id="@+id/hygrometer_heater_state"
++						android:layout_width="wrap_content"
++						android:layout_height="match_parent"
++						android:freezesText="true"
++						android:gravity="right"
++						android:text="@string/not_available_value"
++						android:textSize="36sp"/>
++
++					<androidx.appcompat.widget.AppCompatTextView
++						android:id="@+id/hygrometer_heater_state_unit"
++						android:layout_width="45dp"
++						android:layout_height="match_parent"
++						android:freezesText="true"
++						android:gravity="bottom"
++						android:text="@string/hygrometer_unit_none"/>
++				</TableRow>
++
++			</TableLayout>
++		</LinearLayout>
++
++		<com.google.android.material.button.MaterialButton
++			android:id="@+id/action_set_name"
++			style="@style/Widget.MaterialComponents.Button"
++			android:layout_width="wrap_content"
++			android:layout_height="wrap_content"
++			android:layout_centerHorizontal="true"
++			android:layout_below="@+id/container"
++			app:backgroundTint="@color/nordicLake"
++			android:text="@string/hygrometer_action"/>
++
++		<com.google.android.material.button.MaterialButton
++			android:id="@+id/action_connect"
++			style="@style/Widget.Connect"
++			android:layout_width="wrap_content"
++			android:layout_height="wrap_content"
++			android:layout_alignParentBottom="true"
++			android:layout_centerHorizontal="true"
++			android:layout_marginBottom="@dimen/activity_vertical_margin_bottom"
++			android:onClick="onConnectClicked"
++			android:text="@string/action_connect"/>
++
++	</no.nordicsemi.android.nrftoolbox.widget.ForegroundRelativeLayout>
++</LinearLayout>
++
+diff --git a/app/src/main/res/values/strings_hygrometer.xml b/app/src/main/res/values/strings_hygrometer.xml
+new file mode 100644
+index 0000000..0e49899
+--- /dev/null
++++ b/app/src/main/res/values/strings_hygrometer.xml
+@@ -0,0 +1,55 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!--
++  ~ Copyright (c) 2015, Nordic Semiconductor
++  ~ All rights reserved.
++  ~
++  ~ Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
++  ~
++  ~ 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
++  ~
++  ~ 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the
++  ~ documentation and/or other materials provided with the distribution.
++  ~
++  ~ 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this
++  ~ software without specific prior written permission.
++  ~
++  ~ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
++  ~ LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
++  ~ HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
++  ~ LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
++  ~ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
++  ~ USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++  -->
++<resources>
++    <string name="hygrometer_feature_title">Hygrometer</string>
++	<string name="hygrometer_settings_title">Hygrometer Settings</string>
++
++	<string name="hygrometer_feature_title_long">Hygrometer</string>
++	<dimen name="hygrometer_feature_title_long_margin">-62dp</dimen>
++
++	<string name="hygrometer_default_name">DEFAULT DEVICE</string>
++	<string name="hygrometer_section_header">Values</string>
++	<string name="hygrometer_humidity_measurement_title">Humidity</string>
++	<string name="hygrometer_heater_state_title">Heater Enabled</string>
++	<string name="hygrometer_unit_percent">%</string>
++	<string name="hygrometer_unit_none"></string>
++	<string name="hygrometer_action">Toggle Heater</string>
++
++	<string name="hygrometer_notification_action_disconnect">Disconnect</string>
++	<string name="hygrometer_notification_connected_message">%s is connected.</string>
++
++	<string name="hygrometer_settings_units_title">Some data</string>
++	<string name="hygrometer_settings_units_summary">%s</string>
++	<string-array name="hygrometer_settings_units">
++		<item>Variant A</item>
++		<item>Variant B</item>
++	</string-array>
++	<string-array name="hygrometer_settings_units_values">
++		<item>0</item>
++		<item>1</item>
++	</string-array>
++    
++    <string name="hygrometer_about_text">This hygrometer profile.
++		The Bluetooth Low Energy connection is handled by the manager in hygrometer service.
++		\n\nBy default this profile displays the humidity value.</string>
++</resources>
+\ No newline at end of file
+diff --git a/app/src/main/res/xml/settings_hygrometer.xml b/app/src/main/res/xml/settings_hygrometer.xml
+new file mode 100644
+index 0000000..742104d
+--- /dev/null
++++ b/app/src/main/res/xml/settings_hygrometer.xml
+@@ -0,0 +1,34 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!--
++  ~ Copyright (c) 2015, Nordic Semiconductor
++  ~ All rights reserved.
++  ~
++  ~ Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
++  ~
++  ~ 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
++  ~
++  ~ 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the
++  ~ documentation and/or other materials provided with the distribution.
++  ~
++  ~ 3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this
++  ~ software without specific prior written permission.
++  ~
++  ~ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
++  ~ LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
++  ~ HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
++  ~ LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
++  ~ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
++  ~ USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++  -->
++
++<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
++
++	<ListPreference
++		android:title="@string/template_settings_units_title"
++		android:summary="@string/template_settings_units_summary"
++		android:defaultValue="0"
++		android:entries="@array/hygrometer_settings_units"
++		android:entryValues="@array/hygrometer_settings_units_values"
++		android:key="settings_hygrometer_data" />
++
++</PreferenceScreen>
+\ No newline at end of file
+-- 
+2.24.3 (Apple Git-128)
+

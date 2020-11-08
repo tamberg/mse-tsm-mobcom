@@ -15,7 +15,7 @@
 // 6b75xxxx-006c-4f1b-8e32-a20d9d19aa13 Base UUID =>
 // 6b750001-006c-4f1b-8e32-a20d9d19aa13 Humidity Service
 // 6b750002-006c-4f1b-8e32-a20d9d19aa13   Humidity Measurement Chr. [R, N]
-// 6b750003-006c-4f1b-8e32-a20d9d19aa13   Heater State Chr. [W]
+// 6b750003-006c-4f1b-8e32-a20d9d19aa13   Heater State Chr. [R, W]
 
 // The arrays below are ordered "least significant byte first":
 uint8_t const humidityServiceUuid[] = { 0x13, 0xaa, 0x19, 0x9d, 0x0d, 0xa2, 0x32, 0x8e, 0x1b, 0x4f, 0x6c, 0x00, 0x01, 0x00, 0x75, 0x6b };
@@ -74,7 +74,7 @@ void setupHumidityService() {
   humidityMeasurementCharacteristic.setCccdWriteCallback(cccdCallback);  // Optionally capture CCCD updates
   humidityMeasurementCharacteristic.begin();
 
-  heaterStateCharacteristic.setProperties(CHR_PROPS_WRITE | CHR_PROPS_WRITE_WO_RESP);
+  heaterStateCharacteristic.setProperties(CHR_PROPS_READ | CHR_PROPS_WRITE | CHR_PROPS_WRITE_WO_RESP);
   heaterStateCharacteristic.setPermission(SECMODE_NO_ACCESS, SECMODE_OPEN);
   heaterStateCharacteristic.setFixedLen(1);
   heaterStateCharacteristic.setWriteCallback(writeCallback, true);
