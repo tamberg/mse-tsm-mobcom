@@ -14,4 +14,4 @@
 * Click https://classroom.github.com/a/daKqa8-Y to create a private copy of [this](../../../../mse-tsm-mobcom-work-07/blob/master/README.md).
 
 ## Solution
-* [NrfToolboxHygrometer](../../NrfToolboxHygrometer)
+* [NrfToolboxHygrometer](../../Android/NrfToolboxHygrometer)
