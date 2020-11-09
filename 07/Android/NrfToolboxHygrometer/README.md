@@ -14,6 +14,7 @@ Get the https://github.com/NordicSemiconductor/Android-nRF-Toolbox project<sup>*
 Apply the [0001-Added-hygrometer.patch](0001-Added-hygrometer.patch) patch.
 
     $ cd Android-nRF-Toolbox
+    $ curl -O https://raw.githubusercontent.com/tamberg/mse-tsm-mobcom/master/07/Android/NrfToolboxHygrometer/0001-Added-hygrometer.patch
     $ git am --3way 0001-Added-hygrometer.patch
 
 ## Build the project
