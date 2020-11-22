@@ -75,7 +75,7 @@ void setupHumidityService() {
   humidityMeasurementCharacteristic.begin();
 
   heaterStateCharacteristic.setProperties(CHR_PROPS_READ | CHR_PROPS_WRITE | CHR_PROPS_WRITE_WO_RESP);
-  heaterStateCharacteristic.setPermission(SECMODE_NO_ACCESS, SECMODE_OPEN);
+  heaterStateCharacteristic.setPermission(SECMODE_OPEN, SECMODE_OPEN);
   heaterStateCharacteristic.setFixedLen(1);
   heaterStateCharacteristic.setWriteCallback(writeCallback, true);
   heaterStateCharacteristic.begin();
