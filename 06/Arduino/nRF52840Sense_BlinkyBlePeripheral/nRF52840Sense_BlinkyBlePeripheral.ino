@@ -1,4 +1,4 @@
-// Blinky BLE peripheral. Copyright (c) Thomas Amberg, FHNW
+// Blinky BLE peripheral. Copyright (c) Thomas Amberg, FHNW. All rights reserved.
 
 // Works with https://github.com/NordicSemiconductor/Android-nRF-Blinky
 
