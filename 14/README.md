@@ -1,4 +1,4 @@
-# MSE TSM MobCom - Project Kick-off
+# MSE TSM MobCom - Project Presentations
 
 ## Schedule
 
@@ -14,4 +14,3 @@ Presentation|Start|Setup|Talk|Video|Team
 14.12.2020|15:00|2'|15'|3'|Track_your_track
 14.12.2020|15:20|2'|15'|3'|Weather_station
  | |15:40|5'|Wrap-up
-
