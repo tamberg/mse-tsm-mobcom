@@ -1,4 +1,4 @@
-# MSE TSM MobCom - Project Presentations
+# MSE TSM MobCom - Project Presentation Day
 
 ## Schedule
 
