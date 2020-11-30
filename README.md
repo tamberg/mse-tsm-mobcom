@@ -15,6 +15,7 @@
 7. [Sensors and Connectivity 3](07/README.md)
 8. [Sensors and Connectivity 4](08/README.md)
 9. [Project Kick-off](09/README.md)
+14. [Project Presentation Day](14/README.md)
 
 ## Hardware
 This course is based on the following hardware:
