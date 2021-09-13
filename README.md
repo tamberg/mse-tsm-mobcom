@@ -7,7 +7,7 @@
 0. [Overview](00/README.md) (Syllabus)
 
 ### Android App Development
-1. to 4. see [this separate repository](https://github.com/Fiedler01/TSM-MobCom-HS20).
+1. to 4. see [this separate repository](https://github.com/Fiedler01/TSM-MobCom).
 
 ### Sensors and Connectivity
 5. [Sensors and Connectivity 1](05/README.md)
