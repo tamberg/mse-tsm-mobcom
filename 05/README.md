@@ -1,7 +1,7 @@
 # MSE TSM MobCom - Lesson 5 - Sensors and Connectivity 1
 ## Slides
 * [Internet of Things & Connected Products (PDF)](http://www.tamberg.org/mse/2021/hs/TSM_MobCom_IoTAndConnectedProducts.pdf)
-* [Microcontrollers, Sensors & Actuators (PDF)](http://www.tamberg.org/mse/2020/hs/TSM_MobCom_MCUSensorsAndActuators.pdf)
+* [Microcontrollers, Sensors & Actuators (PDF)](http://www.tamberg.org/mse/2021/hs/TSM_MobCom_MCUSensorsAndActuators.pdf)
 
 ## Examples
 * [nRF52840Sense_Blink](Arduino/nRF52840Sense_Blink/nRF52840Sense_Blink.ino)
