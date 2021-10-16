@@ -1,3 +1,5 @@
+#include "Adafruit_TinyUSB.h"; // Fix https://github.com/adafruit/Adafruit_nRF52_Arduino/issues/653
+
 int buttonPin = 7; // onboard button
 int ledPin = 4; // onboard, blue LED
 
