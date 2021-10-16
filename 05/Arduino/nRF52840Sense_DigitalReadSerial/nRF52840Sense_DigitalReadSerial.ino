@@ -6,7 +6,7 @@ int sensorPin = 7; // onboard, user button
 void setup() { // called once
   //pinMode(sensorPin, INPUT); // external
   pinMode(sensorPin, INPUT_PULLUP); // onboard
-  Serial.begin(9600);
+  Serial.begin(115200);
 }
 
 void loop() { // called in a loop
