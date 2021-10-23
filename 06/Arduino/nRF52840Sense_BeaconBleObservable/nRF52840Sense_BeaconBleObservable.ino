@@ -1,3 +1,5 @@
+#include "Adafruit_TinyUSB.h"; // Fix https://github.com/adafruit/Adafruit_nRF52_Arduino/issues/653
+
 // Heart Rate Monitor BLE peripheral. Copyright (c) Thomas Amberg, FHNW
 
 // Based on https://github.com/adafruit/Adafruit_nRF52_Arduino
