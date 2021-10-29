@@ -1,4 +1,4 @@
-// Custom Hygrometer BLE peripheral. Copyright (c) Thomas Amberg, FHNW
+// ESS BLE peripheral. Copyright (c) Thomas Amberg, FHNW
 
 // Based on https://github.com/adafruit/Adafruit_nRF52_Arduino
 // /tree/master/libraries/Bluefruit52Lib/examples/Peripheral
