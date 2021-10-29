@@ -16,25 +16,25 @@
 
 // ESS peripheral, 16-bit UUIDs
 // 0x181A ESS Service // See https://www.bluetooth.com/specifications/specs/environmental-sensing-service-1-0/ => ESS_V1.0.0.pdf
-//   0x2A6E Temperature Measurement Chr. [R, N] // See https://btprodspecificationrefs.blob.core.windows.net/assigned-values/16-bit%20UUID%20Numbers%20Document.pdf
+//   0x2A6E Temperature Chr. [R, N] // See https://btprodspecificationrefs.blob.core.windows.net/assigned-values/16-bit%20UUID%20Numbers%20Document.pdf
 //     0x2901 Characteristic User Description Descr. (optional, not implemented)
 //     0x2906 Valid Range Descr. (optional, not implemented)
 //     0x290B Environmental Sensing Configuration Descr. (optional, not implemented)
 //     0x290C Environmental Sensing Measurement Descr. (optional, implemented, indoor)
 //     0x290D Environmental Sensing Trigger Setting Descr. (optional, not implemented)
-//   0x2A6F Humidity Measurement Chr. [R, N] // See https://btprodspecificationrefs.blob.core.windows.net/assigned-values/16-bit%20UUID%20Numbers%20Document.pdf
+//   0x2A6F Humidity Chr. [R, N] // See https://btprodspecificationrefs.blob.core.windows.net/assigned-values/16-bit%20UUID%20Numbers%20Document.pdf
 //     0x290C Environmental Sensing Measurement Descr. (optional, implemented, indoor)
-//   0x2A6F Humidity Measurement Chr. [R, N] // See https://btprodspecificationrefs.blob.core.windows.net/assigned-values/16-bit%20UUID%20Numbers%20Document.pdf
+//   0x2A6F Humidity Chr. [R, N] // See https://btprodspecificationrefs.blob.core.windows.net/assigned-values/16-bit%20UUID%20Numbers%20Document.pdf
 //     0x290C Environmental Sensing Measurement Descr. (optional, implemented, outdoor)
 
 // The arrays below are ordered "least significant byte first" (lsb):
 uint8_t const essServiceUuid[] = { // 0x181A
   0xFB, 0x34, 0x9B, 0x5F, 0x80, 0x00, 0x00, 0x80, 
   0x00, 0x10, 0x00, 0x00, 0x1A, 0x18, 0x00, 0x00 };
-uint8_t const tempMeasurementCharacteristicUuid[] = { // 0x2A6E
+uint8_t const tempCharacteristicUuid[] = { // 0x2A6E
   0xFB, 0x34, 0x9B, 0x5F, 0x80, 0x00, 0x00, 0x80, 
   0x00, 0x10, 0x00, 0x00, 0x6E, 0x2A, 0x00, 0x00 };
-uint8_t const humiMeasurementCharacteristicUuid[] = { // 0x2A6F
+uint8_t const humiCharacteristicUuid[] = { // 0x2A6F
   0xFB, 0x34, 0x9B, 0x5F, 0x80, 0x00, 0x00, 0x80, 
   0x00, 0x10, 0x00, 0x00, 0x6F, 0x2A, 0x00, 0x00 };
 uint8_t const envSensingMeasurementDescriptorUuid[] = { // 0x290C
@@ -59,9 +59,9 @@ uint8_t const envSensingMeasurementDescriptorOutdoor[] = { // See ESS_V1.0.0.pdf
 
 Adafruit_SHT31 sht31 = Adafruit_SHT31();
 BLEService essService = BLEService(essServiceUuid);
-BLECharacteristic tempMeasurementCharacteristic = BLECharacteristic(tempMeasurementCharacteristicUuid);
-BLECharacteristic humiMeasurementCharacteristic = BLECharacteristic(humiMeasurementCharacteristicUuid);
-BLECharacteristic humiMeasurementCharacteristic2 = BLECharacteristic(humiMeasurementCharacteristicUuid);
+BLECharacteristic tempCharacteristic = BLECharacteristic(tempCharacteristicUuid);
+BLECharacteristic humiCharacteristic = BLECharacteristic(humiCharacteristicUuid);
+BLECharacteristic humiCharacteristic2 = BLECharacteristic(humiCharacteristicUuid);
 
 void connectedCallback(uint16_t connectionHandle) {
   char centralName[32] = { 0 };
@@ -84,31 +84,31 @@ void disconnectedCallback(uint16_t connectionHandle, uint8_t reason) {
 void setupEssService() {
   essService.begin(); // Must be called before calling .begin() on its characteristics
 
-  tempMeasurementCharacteristic.setProperties(CHR_PROPS_READ | CHR_PROPS_NOTIFY);
-  tempMeasurementCharacteristic.setPermission(SECMODE_OPEN, SECMODE_NO_ACCESS);
-  tempMeasurementCharacteristic.setFixedLen(2);
-  tempMeasurementCharacteristic.begin();
-  tempMeasurementCharacteristic.addDescriptor(
+  tempCharacteristic.setProperties(CHR_PROPS_READ | CHR_PROPS_NOTIFY);
+  tempCharacteristic.setPermission(SECMODE_OPEN, SECMODE_NO_ACCESS);
+  tempCharacteristic.setFixedLen(2);
+  tempCharacteristic.begin();
+  tempCharacteristic.addDescriptor(
     envSensingMeasurementDescriptorUuid,
     envSensingMeasurementDescriptorIndoor,
     sizeof(envSensingMeasurementDescriptorIndoor),
     SECMODE_OPEN, SECMODE_NO_ACCESS);
 
-  humiMeasurementCharacteristic.setProperties(CHR_PROPS_READ | CHR_PROPS_NOTIFY);
-  humiMeasurementCharacteristic.setPermission(SECMODE_OPEN, SECMODE_NO_ACCESS);
-  humiMeasurementCharacteristic.setFixedLen(2);
-  humiMeasurementCharacteristic.begin();
-  humiMeasurementCharacteristic.addDescriptor(
+  humiCharacteristic.setProperties(CHR_PROPS_READ | CHR_PROPS_NOTIFY);
+  humiCharacteristic.setPermission(SECMODE_OPEN, SECMODE_NO_ACCESS);
+  humiCharacteristic.setFixedLen(2);
+  humiCharacteristic.begin();
+  humiCharacteristic.addDescriptor(
     envSensingMeasurementDescriptorUuid,
     envSensingMeasurementDescriptorIndoor,
     sizeof(envSensingMeasurementDescriptorIndoor),
     SECMODE_OPEN, SECMODE_NO_ACCESS);
 
-  humiMeasurementCharacteristic2.setProperties(CHR_PROPS_READ | CHR_PROPS_NOTIFY);
-  humiMeasurementCharacteristic2.setPermission(SECMODE_OPEN, SECMODE_NO_ACCESS);
-  humiMeasurementCharacteristic2.setFixedLen(2);
-  humiMeasurementCharacteristic2.begin();
-  humiMeasurementCharacteristic2.addDescriptor(
+  humiCharacteristic2.setProperties(CHR_PROPS_READ | CHR_PROPS_NOTIFY);
+  humiCharacteristic2.setPermission(SECMODE_OPEN, SECMODE_NO_ACCESS);
+  humiCharacteristic2.setFixedLen(2);
+  humiCharacteristic2.begin();
+  humiCharacteristic2.addDescriptor(
     envSensingMeasurementDescriptorUuid,
     envSensingMeasurementDescriptorOutdoor,
     sizeof(envSensingMeasurementDescriptorOutdoor),
@@ -157,7 +157,7 @@ void loop() {
     uint8_t tHi = (uint8_t) (t >> 8);
     uint8_t tLo = (uint8_t) t;
     uint8_t tData[2] = { tLo, tHi };
-    if (tempMeasurementCharacteristic.notify(tData, sizeof(tData))) {
+    if (tempCharacteristic.notify(tData, sizeof(tData))) {
       Serial.print("Notified, indoor temperature = ");
       Serial.println(indoorTemp);
     }
@@ -167,7 +167,7 @@ void loop() {
     uint8_t h1Hi = (uint8_t) (h1 >> 8);
     uint8_t h1Lo = (uint8_t) h1;
     uint8_t h1Data[2] = { h1Lo, h1Hi };
-    if (humiMeasurementCharacteristic.notify(h1Data, sizeof(h1Data))) {
+    if (humiCharacteristic.notify(h1Data, sizeof(h1Data))) {
       Serial.print("Notified, indoor humidity = ");
       Serial.println(indoorHumi);
     }
@@ -177,7 +177,7 @@ void loop() {
     uint8_t h2Hi = (uint8_t) (h2 >> 8);
     uint8_t h2Lo = (uint8_t) h2;
     uint8_t h2Data[2] = { h2Lo, h2Hi };
-    if (humiMeasurementCharacteristic2.notify(h2Data, sizeof(h2Data))) {
+    if (humiCharacteristic2.notify(h2Data, sizeof(h2Data))) {
       Serial.print("Notified, outdoor humidity = ");
       Serial.println(h2 / 100.0);
     }
