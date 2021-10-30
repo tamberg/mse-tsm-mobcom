@@ -16,3 +16,4 @@
 
 ## Solution
 * [nRF52840Sense_HygrometerBlePeripheral.ino](Arduino/nRF52840Sense_HygrometerBlePeripheral/nRF52840Sense_HygrometerBlePeripheral.ino)
+* [nRF52840Sense_EssBlePeripheral.ino](Arduino/nRF52840Sense_EssBlePeripheral/nRF52840Sense_EssBlePeripheral.ino)
