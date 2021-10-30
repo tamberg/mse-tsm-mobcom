@@ -37,18 +37,22 @@ void loop() {
     threshold = h + 10.0; // %
     digitalWrite(redLedPin, HIGH);
     state = 1;
-  } else if (state == 1 && !isnan(h) && h > threshold) {
+  } else if (state == 1 && !pressed(b)) {
+    state = 2;
+  } else if (state == 2 && !isnan(h) && h > threshold) {
     digitalWrite(redLedPin, LOW);
     digitalWrite(blueLedPin, HIGH);
-    state = 2;
-  } else if (state == 2 && pressed(b)) {
+    state = 3;
+  } else if (state == 3 && pressed(b)) {
     digitalWrite(redLedPin, HIGH);
     digitalWrite(blueLedPin, LOW);
     t0 = millis();
-    state = 3;
-  } else if (state == 3 && (millis() - t0) > 1000) {
+    state = 4;
+  } else if (state == 4 && !pressed(b)) {
+    state = 5;
+  } else if (state == 5 && (millis() - t0) > 1000) {
     digitalWrite(redLedPin, LOW);
     state = 0;
   }
-  delay(100);
+  delay(1);
 }
