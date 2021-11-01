@@ -123,7 +123,7 @@ void loop() {
     int h2 = h * 100.0; // fixed precision
     uint8_t h2HiByte = (uint8_t) (h2 >> 8);
     uint8_t h2LoByte = (uint8_t) h2;
-    uint8_t humidityData[2] = { h2HiByte, h2LoByte };
+    uint8_t humidityData[2] = { h2LoByte, h2HiByte }; // lsb
     if (humidityMeasurementCharacteristic.notify(humidityData, sizeof(humidityData))) {
       Serial.print("Notified, humidity = ");
       Serial.println(h);
