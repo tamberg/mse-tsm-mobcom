@@ -120,11 +120,11 @@ void setup() {
 void loop() {
   if (Bluefruit.connected()) {
     float h = sht31.readHumidity();
-    int h2 = h * 100.0; // fixed precision
-    uint8_t h2HiByte = (uint8_t) (h2 >> 8);
-    uint8_t h2LoByte = (uint8_t) h2;
-    uint8_t humidityData[2] = { h2LoByte, h2HiByte }; // lsb
-    if (humidityMeasurementCharacteristic.notify(humidityData, sizeof(humidityData))) {
+    int h2 = (int) (h * 100.0f); // fixed precision
+    uint8_t h2Hi = (uint8_t) (h2 >> 8);
+    uint8_t h2Lo = (uint8_t) (h2 >> 0);
+    uint8_t h2Data[2] = { h2Lo, h2Hi }; // lsb
+    if (humidityMeasurementCharacteristic.notify(h2Data, sizeof(h2Data))) {
       Serial.print("Notified, humidity = ");
       Serial.println(h);
     } else {

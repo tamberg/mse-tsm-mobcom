@@ -153,33 +153,34 @@ void setup() {
 void loop() {
   if (Bluefruit.connected()) {
     float indoorTemp = sht31.readTemperature();
-    int t = indoorTemp * 100.0; // fixed precision
+    int t = (int) (indoorTemp * 100.0f); // fixed precision
     uint8_t tHi = (uint8_t) (t >> 8);
-    uint8_t tLo = (uint8_t) t;
-    uint8_t tData[2] = { tLo, tHi };
+    uint8_t tLo = (uint8_t) (t >> 0);
+    uint8_t tData[2] = { tLo, tHi }; // lsb
     if (tempCharacteristic.notify(tData, sizeof(tData))) {
       Serial.print("Notified, indoor temperature = ");
       Serial.println(indoorTemp);
     }
     
     float indoorHumi = sht31.readHumidity();
-    int h1 = indoorHumi * 100.0; // fixed precision
+    int h1 = (int) (indoorHumi * 100.0f); // fixed precision
     uint8_t h1Hi = (uint8_t) (h1 >> 8);
-    uint8_t h1Lo = (uint8_t) h1;
-    uint8_t h1Data[2] = { h1Lo, h1Hi };
+    uint8_t h1Lo = (uint8_t) (h1 >> 0);
+    uint8_t h1Data[2] = { h1Lo, h1Hi }; // lsb
     if (humiCharacteristic.notify(h1Data, sizeof(h1Data))) {
       Serial.print("Notified, indoor humidity = ");
       Serial.println(indoorHumi);
     }
-    
+
     int a = analogRead(A0); // quasi random, 0-1024
-    int h2 = map(a, 0, 1024, 0, 100 * 100); // simulate outdoor humidity
+    float outdoorHumi = map(a, 0, 1024, 0, 10000) / 100.0f;
+    int h2 = (int) (outdoorHumi * 100.0f); // fixed precision
     uint8_t h2Hi = (uint8_t) (h2 >> 8);
-    uint8_t h2Lo = (uint8_t) h2;
-    uint8_t h2Data[2] = { h2Lo, h2Hi };
+    uint8_t h2Lo = (uint8_t) (h2 >> 0);
+    uint8_t h2Data[2] = { h2Lo, h2Hi }; // lsb
     if (humiCharacteristic2.notify(h2Data, sizeof(h2Data))) {
       Serial.print("Notified, outdoor humidity = ");
-      Serial.println(h2 / 100.0);
+      Serial.println(outdoorHumi);
     }
   }
   delay(1000); // ms
