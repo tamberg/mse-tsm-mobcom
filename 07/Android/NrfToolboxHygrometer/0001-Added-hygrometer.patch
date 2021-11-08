@@ -1596,3 +1596,58 @@ index 0e49899..2ed5db8 100644
 -- 
 2.24.3 (Apple Git-128)
 
+From 518a19ba9e508fb4574daf49cd244acc44d99750 Mon Sep 17 00:00:00 2001
+From: spameier <spameier@users.noreply.github.com>
+Date: Mon, 8 Nov 2021 22:14:50 +0100
+Subject: [PATCH] Added heater state callback
+
+---
+ .../hygrometer/HygrometerManager.java         | 19 +++++++++++--------
+ 1 file changed, 11 insertions(+), 8 deletions(-)
+
+diff --git a/app/src/main/java/no/nordicsemi/android/nrftoolbox/hygrometer/HygrometerManager.java b/app/src/main/java/no/nordicsemi/android/nrftoolbox/hygrometer/HygrometerManager.java
+index f4c28e6..d778a6f 100644
+--- a/app/src/main/java/no/nordicsemi/android/nrftoolbox/hygrometer/HygrometerManager.java
++++ b/app/src/main/java/no/nordicsemi/android/nrftoolbox/hygrometer/HygrometerManager.java
+@@ -61,6 +61,13 @@ public class HygrometerManager extends BatteryManager<HygrometerManagerCallbacks
+ 		return new HygrometerManagerGattCallback();
+ 	}
+ 
++	private HeaterStateDataCallback heaterStateDataCallback = new HeaterStateDataCallback() {
++		@Override
++		public void onHeaterStateValueReceived(@NonNull BluetoothDevice device, boolean value) {
++			mCallbacks.onHeaterStateValueReceived(device, value);
++		}
++	};
++
+ 	private class HygrometerManagerGattCallback extends BatteryManagerGattCallback {
+ 
+ 		@Override
+@@ -128,14 +135,7 @@ public class HygrometerManager extends BatteryManager<HygrometerManagerCallbacks
+ 		protected void onDeviceReady() {
+ 			super.onDeviceReady();
+ 			HygrometerManager.this.readCharacteristic(mHeaterStateCharacteristic)
+-				.with((device, data) -> {
+-					if (data.size() > 0) {
+-						final Integer value = data.getIntValue(Data.FORMAT_UINT8, 0);
+-						log(LogContract.Log.Level.APPLICATION, "Heater state value '" + value + "' has been read!");
+-					} else {
+-						log(Log.WARN, "Value is empty!");
+-					}
+-				})
++				.with(heaterStateDataCallback)
+ 				.enqueue();
+ 		}
+ 	}
+@@ -156,5 +156,8 @@ public class HygrometerManager extends BatteryManager<HygrometerManagerCallbacks
+ 			.done(device -> log(LogContract.Log.Level.APPLICATION, "Heater state set to \"" + value + "\""))
+ 			.fail((device, status) -> log(Log.WARN, "Failed to set heater state"))
+ 			.enqueue();
++		this.readCharacteristic(mHeaterStateCharacteristic)
++			.with(heaterStateDataCallback)
++			.enqueue();
+ 	}
+ }
+-- 
+2.33.1
+
