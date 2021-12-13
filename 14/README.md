@@ -1,6 +1,9 @@
 # MSE TSM MobCom - Project Presentation Day
+## Deadline
+Presentation day, 0:00
 
 ## Schedule
+The presentations will be online via MS Teams.
 
 Presentation|Start|Setup|Talk|Video|Team
 :---|:---|:---|:---|:---|:---
