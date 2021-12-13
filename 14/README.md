@@ -1,6 +1,6 @@
 # MSE TSM MobCom - Project Presentation Day
 ## Deadline
-Presentation day, 0:00
+The deadline for submitting projects is presentation day, 0:00.
 
 ## Schedule
 The presentations will be online via MS Teams.
