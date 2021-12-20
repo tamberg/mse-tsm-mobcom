@@ -19,4 +19,4 @@ Presentation|Start|Setup|Talk|Video|Team
 20.12.2021|14:54|2'|8'|2'|WindowHelper
 20.12.2021|15:06|2'|8'|2'|Game_Controller
 20.12.2021|15:18|2'|8'|2'|Luggage Handling Recorder
- | |15:40|5'|_Wrap-up_
+ | |15:30|15'|_Wrap-up_
