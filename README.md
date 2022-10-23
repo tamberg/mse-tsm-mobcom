@@ -29,6 +29,7 @@ Additional hardware is available on request:
 * [Grove Sensors](./../../wiki/Grove-Sensors)
 * [Grove Actuators](./../../wiki/Grove-Actuators)
 * [Grove Adapters](./../../wiki/Grove-Adapters)
+* [Various](./../../wiki/Various)
 
 ## Wiki
 For resources, check the [MSE TSM MobCom Wiki](https://github.com/tamberg/mse-tsm-mobcom/wiki):
