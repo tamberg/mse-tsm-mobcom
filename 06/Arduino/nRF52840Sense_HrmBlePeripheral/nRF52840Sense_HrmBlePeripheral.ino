@@ -54,15 +54,15 @@ void setupHeartRateMonitorService() {
 
   heartRateMeasurementCharacteristic.setProperties(CHR_PROPS_NOTIFY);
   heartRateMeasurementCharacteristic.setPermission(SECMODE_OPEN, SECMODE_NO_ACCESS);
-  heartRateMeasurementCharacteristic.setFixedLen(2);
+  heartRateMeasurementCharacteristic.setFixedLen(2); // bytes
   heartRateMeasurementCharacteristic.setCccdWriteCallback(cccdCallback);  // Optionally capture CCCD updates
-  heartRateMeasurementCharacteristic.begin();
+  heartRateMeasurementCharacteristic.begin(); // adds this chr. to the service above
   uint8_t hrmData[2] = { 0b00000110, 0x40 }; // Use 8-bit values, sensor connected and detected
   heartRateMeasurementCharacteristic.notify(hrmData, 2); // Use .notify instead of .write
 
   bodySensorLocationCharacteristic.setProperties(CHR_PROPS_READ);
   bodySensorLocationCharacteristic.setPermission(SECMODE_OPEN, SECMODE_NO_ACCESS);
-  bodySensorLocationCharacteristic.setFixedLen(1);
+  bodySensorLocationCharacteristic.setFixedLen(1); // byte
   bodySensorLocationCharacteristic.begin();
   bodySensorLocationCharacteristic.write8(0); // Sensor location 'Other'
 }
