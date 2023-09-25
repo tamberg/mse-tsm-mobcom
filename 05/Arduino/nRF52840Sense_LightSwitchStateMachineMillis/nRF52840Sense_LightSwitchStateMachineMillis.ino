@@ -22,16 +22,16 @@ void loop() {
   int b = digitalRead(buttonPin);
   Serial.println(b);
   if (s == 0 && pressed(b)) {
-    s = 1;
     digitalWrite(ledPin, HIGH); // on
+    s = 1;
   } else if (s == 1 && !pressed(b)) {
     s = 2;
   } else if (s == 2 && pressed(b)) {
-    s = 3;
     t0 = millis();
+    s = 3;
   } else if (s == 3 && pressed(b) && (millis() - t0) >= 1000) {
-    s = 4;
     digitalWrite(ledPin, LOW); // off
+    s = 4;
   } else if (s == 3 && !pressed(b)) {
     s = 2;
   } else if (s == 4 && !pressed(b)) {
