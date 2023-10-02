@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.tamberg.myblecentralapp">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.BLUETOOTH"/>
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
     <!--<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>--><!-- 23+ -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/><!-- 29+, works for all -->
     <uses-feature android:name="android.hardware.bluetooth_le" android:required="true"/><!-- or false -->
+
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
 
     <application
         android:allowBackup="true"
