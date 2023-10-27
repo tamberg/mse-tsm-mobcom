@@ -32,6 +32,8 @@ void loop() {
   float h = sht31.readHumidity();
   Serial.print(b);
   Serial.print(", ");
+  Serial.print(state);
+  Serial.print(", ");
   Serial.println(h);
   if (state == 0 && pressed(b)) {
     threshold = h + 10.0; // %
