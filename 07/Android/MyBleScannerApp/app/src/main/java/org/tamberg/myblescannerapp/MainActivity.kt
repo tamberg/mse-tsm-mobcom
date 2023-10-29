@@ -18,17 +18,135 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.core.app.ActivityOptionsCompat
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import org.tamberg.myblescannerapp.ui.theme.MyBleScannerAppTheme
 
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            MyBleScannerAppTheme {
+                // A surface container using the 'background' color from the theme
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    MyBleScannerView()
+                }
+            }
+        }
+    }
+}
 
+@Preview(showBackground = true)
+@Composable
+fun DefaultPreview() {
+    MyBleScannerAppTheme {
+        MyBleScannerView()
+    }
+}
+
+@Composable
+fun MyBleScannerView(model: MyBleScannerViewModel = viewModel()) {
+    Column (
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center)
+    {
+        Row {
+            Text(model.info.value)
+        }
+        Row {
+            Button(enabled = model.enabled.value, onClick = { model.scan() }) {
+                Text(model.command.value)
+            }
+        }
+    }
+}
+
+class MyBleScannerViewModel() : ViewModel() {
+    var info = mutableStateOf<String>("Scan for peripherals.")
+    var command = mutableStateOf<String>("Scan")
+    var enabled = mutableStateOf<Boolean>(true)
+
+    private fun hasBle(): Boolean {
+        //val hasBle = packageManager.hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)
+        return false
+    }
+
+    private fun isBleEnabled(): Boolean {
+        // TODO
+        return false
+    }
+
+    private fun askToEnableBle() {
+        // TODO
+    }
+    private fun isLocationEnabled(): Boolean {
+        // TODO
+        return false
+    }
+
+    private fun askToEnableLocation() {
+        // TODO
+    }
+
+    private fun hasPermission(): Boolean {
+        // TODO
+        return false
+    }
+
+    private fun askForPermission() {
+        // TODO
+    }
+
+    private fun doScan() {
+        // TODO
+    }
+
+    fun scan() {
+        if (!hasBle()) {
+            info.value = "Bluetooth not available."
+            command.value = "Scan"
+            enabled.value = false
+        } else if (!isBleEnabled()) {
+            info.value = "Bluetooth not enabled."
+            command.value = "Enable Bluetooth"
+            enabled.value = true
+            askToEnableBle()
+        } else if (!hasPermission()) {
+            info.value = "Permission not given."
+            command.value = "Request permission"
+            enabled.value = true
+            askForPermission()
+        } else if (!isLocationEnabled()) {
+            info.value = "Location not enabled."
+            command.value = "Enable location"
+            enabled.value = true
+            askToEnableLocation()
+        } else {
+            info.value = "Scan for peripherals."
+            command.value = "Scan"
+            enabled.value = true
+            doScan()
+        }
+    }
+}
+
+/*
 class MainActivity : ComponentActivity() {
     private val TAG = MainActivity::class.java.simpleName
     private val REQUEST_ENABLE_BT = 1
@@ -75,7 +193,7 @@ class MainActivity : ComponentActivity() {
     ) { isGranted ->
         Log.d(TAG, "isGranted = ${isGranted}")
         if (isGranted) {
-            scan() // TODO
+            //scan() // TODO
         }
     }
 
@@ -85,7 +203,7 @@ class MainActivity : ComponentActivity() {
         permissions.entries.forEach {
             Log.d(TAG, "${it.key} = ${it.value}") // TODO
         }
-        scan() // TODO
+        //scan() // TODO
     }
 
     private val startActivityForResultLauncher = registerForActivityResult(
@@ -104,7 +222,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                    ScanButton()
                 }
             }
         }
@@ -153,19 +271,4 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    MyBleScannerAppTheme {
-        Greeting("Android")
-    }
-}
+*/
