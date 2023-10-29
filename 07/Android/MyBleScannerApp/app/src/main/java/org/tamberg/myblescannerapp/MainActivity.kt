@@ -1,9 +1,11 @@
 package org.tamberg.myblescannerapp
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Application
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothManager
+import android.bluetooth.le.BluetoothLeScanner
 import android.bluetooth.le.ScanCallback
 import android.bluetooth.le.ScanResult
 import android.content.Context.BLUETOOTH_SERVICE
@@ -11,6 +13,8 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.provider.Settings
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -85,11 +89,12 @@ fun MyBleScannerView(model: MyBleScannerViewModel = viewModel()) {
 }
 
 class MyBlePermissionHelper(private val activity: ComponentActivity) {
+    val TAG = this.javaClass.name
 
     private val startActivityForResultLauncher = activity.registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
-        //Log.d(TAG, "result.resultCode = ${result.resultCode}"); // TODO
+        Log.d(TAG, "result.resultCode = ${result.resultCode}"); // TODO
     }
 
     fun askToEnableBle() {
@@ -124,7 +129,7 @@ class MyBlePermissionHelper(private val activity: ComponentActivity) {
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
         permissions.entries.forEach {
-            //Log.d(TAG, "${it.key} = ${it.value}") // TODO
+            Log.d(TAG, "${it.key} = ${it.value}") // TODO
         }
     }
 
@@ -142,6 +147,8 @@ class MyBlePermissionHelper(private val activity: ComponentActivity) {
 }
 
 class MyBleScannerViewModel(application: Application) : AndroidViewModel(application) {
+    val TAG = this.javaClass.name
+
     val helper = LocalBlePermissionHelper.current // TODO: geht nur in Composable
     val info = mutableStateOf<String>("Scan for peripherals.")
     val command = mutableStateOf<String>("Scan")
@@ -180,36 +187,36 @@ class MyBleScannerViewModel(application: Application) : AndroidViewModel(applica
         return result
     }
 
-    //private val REQUEST_ENABLE_BT = 1
-    //private val SCAN_PERIOD_MS: Long = 10000
-    //private var scanner: BluetoothLeScanner? = null
-    //private val handler: Handler? = Handler(Looper.getMainLooper())
+    private val SCAN_PERIOD_MS: Long = 10000
+    private val handler = Handler(Looper.getMainLooper())
 
     private val scanCallback: ScanCallback = object : ScanCallback() {
         override fun onScanResult(callbackType: Int, result: ScanResult) {
             super.onScanResult(callbackType, result)
-            //Log.d(TAG, "onScanResult, result = " + result.device.address) // TODO
+            Log.d(TAG, "onScanResult, result = " + result.device.address) // TODO
         }
 
         override fun onScanFailed(errorCode: Int) {
-            //Log.d(TAG, "onScanFailed, errorCode = $errorCode") // TODO
+            Log.d(TAG, "onScanFailed, errorCode = $errorCode") // TODO
         }
     }
 
+    @SuppressLint("MissingPermission")
     private fun doScan() {
         val app = super.getApplication<Application>()
         val bluetoothManager = app.getSystemService(BLUETOOTH_SERVICE) as BluetoothManager
         val bluetoothAdapter = bluetoothManager.adapter
         val scanner = bluetoothAdapter.bluetoothLeScanner
         // TODO
-        //assert(handler != null)
+        assert(handler != null)
         assert(scanner != null)
-        //handler!!.postDelayed({
-        //    Log.d(TAG, "stop scan")
-        //    scanner!!.stopScan(scanCallback)
-        //}, SCAN_PERIOD_MS)
-        //Log.d(TAG, "start scan")
-        //scanner!!.startScan(scanCallback)
+        handler!!.postDelayed({
+            Log.d(TAG, "stop scan")
+            assert(scanner != null)
+            scanner!!.stopScan(scanCallback)
+        }, SCAN_PERIOD_MS)
+        Log.d(TAG, "start scan")
+        scanner!!.startScan(scanCallback)
     }
 
     fun scan() {
