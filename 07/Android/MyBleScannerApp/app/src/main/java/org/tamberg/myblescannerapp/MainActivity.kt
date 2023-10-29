@@ -127,6 +127,9 @@ class MyBlePermissionHelper(private val activity: ComponentActivity) {
         update()
     }
 
+    // See https://developer.android.com/develop/connectivity/bluetooth/bt-permissions,
+    // https://developer.android.com/reference/android/bluetooth/le/BluetoothLeScanner
+    // #startScan(android.bluetooth.le.ScanCallback)
     fun askForPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
            requestMultiplePermissionsLauncher.launch(arrayOf(
@@ -164,6 +167,7 @@ class MyBleScannerViewModel(app: Application) : AndroidViewModel(app) {
         return true // TODO how to check?
     }
 
+    // See https://developer.android.com/reference/android/bluetooth/le/BluetoothLeScanner#startScan(android.bluetooth.le.ScanCallback)
     private fun hasPermission(): Boolean { // TODO move to helper?
         val result: Boolean
         val app = super.getApplication<Application>()
