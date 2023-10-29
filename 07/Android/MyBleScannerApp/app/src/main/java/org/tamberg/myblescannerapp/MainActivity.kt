@@ -46,7 +46,7 @@ val LocalBlePermissionHelper = staticCompositionLocalOf<MyBlePermissionHelper> {
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val helper = MyBlePermissionHelper(this) // TODO
+        val helper = MyBlePermissionHelper(this) // hack
         setContent {
             MyBleScannerAppTheme {
                 Surface(
@@ -72,6 +72,7 @@ fun DefaultPreview() {
 
 @Composable
 fun MyBleScannerView(model: MyBleScannerViewModel = viewModel()) {
+    val helper = LocalBlePermissionHelper.current // hack
     Column (
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center)
@@ -80,14 +81,16 @@ fun MyBleScannerView(model: MyBleScannerViewModel = viewModel()) {
             Text(model.info.value)
         }
         Row {
-            Button(enabled = model.enabled.value, onClick = { model.scan() }) {
+
+            Button(enabled = model.enabled.value,
+                onClick = { model.scan(helper) }) {
                 Text(model.command.value)
             }
         }
     }
 }
 
-class MyBlePermissionHelper(private val activity: ComponentActivity) {
+class MyBlePermissionHelper(private val activity: ComponentActivity) { // TODO move to view?
     val TAG = this.javaClass.name
 
     private val startActivityForResultLauncher = activity.registerForActivityResult(
@@ -145,10 +148,9 @@ class MyBlePermissionHelper(private val activity: ComponentActivity) {
     }
 }
 
-class MyBleScannerViewModel(application: Application) : AndroidViewModel(application) {
+class MyBleScannerViewModel(app: Application) : AndroidViewModel(app) {
     val TAG = this.javaClass.name
 
-    val helper = LocalBlePermissionHelper.current // TODO: geht nur in Composable
     val info = mutableStateOf<String>("Scan for peripherals.")
     val command = mutableStateOf<String>("Scan")
     val enabled = mutableStateOf<Boolean>(true)
@@ -166,11 +168,10 @@ class MyBleScannerViewModel(application: Application) : AndroidViewModel(applica
     }
 
     private fun isLocationEnabled(): Boolean {
-        // TODO
-        return false
+        return false // TODO how to check?
     }
 
-    private fun hasPermission(): Boolean {
+    private fun hasPermission(): Boolean { // TODO move to helper?
         val result: Boolean
         val app = super.getApplication<Application>()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -181,13 +182,12 @@ class MyBleScannerViewModel(application: Application) : AndroidViewModel(applica
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             result = app.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
         } else {
-            result = false // TODO
+            result = false // TODO true?
         }
         return result
     }
 
     private val SCAN_PERIOD_MS: Long = 10000
-    private val handler = Handler(Looper.getMainLooper())
 
     private val scanCallback: ScanCallback = object : ScanCallback() {
         override fun onScanResult(callbackType: Int, result: ScanResult) {
@@ -206,19 +206,16 @@ class MyBleScannerViewModel(application: Application) : AndroidViewModel(applica
         val bluetoothManager = app.getSystemService(BLUETOOTH_SERVICE) as BluetoothManager
         val bluetoothAdapter = bluetoothManager.adapter
         val scanner = bluetoothAdapter.bluetoothLeScanner
-        // TODO
-        assert(handler != null)
-        assert(scanner != null)
-        handler!!.postDelayed({
+        val handler = Handler(Looper.getMainLooper())
+        handler.postDelayed({ // TODO other approach?
             Log.d(TAG, "stop scan")
-            assert(scanner != null)
-            scanner!!.stopScan(scanCallback)
+            scanner!!.stopScan(scanCallback) // TODO safe?
         }, SCAN_PERIOD_MS)
         Log.d(TAG, "start scan")
-        scanner!!.startScan(scanCallback)
+        scanner.startScan(scanCallback)
     }
 
-    fun scan() {
+    fun scan(helper: MyBlePermissionHelper) {
         if (!hasBle()) {
             info.value = "Bluetooth not available."
             command.value = "Scan"
