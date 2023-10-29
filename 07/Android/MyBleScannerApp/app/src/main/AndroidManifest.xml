@@ -17,7 +17,6 @@
         android:usesPermissionFlags="neverForLocation" tools:targetApi="31" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
 
-    <!-- General BLE Permissions -->
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
     <application
