@@ -49,7 +49,6 @@ class MainActivity : ComponentActivity() {
         val helper = MyBlePermissionHelper(this) // TODO
         setContent {
             MyBleScannerAppTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
@@ -228,17 +227,17 @@ class MyBleScannerViewModel(application: Application) : AndroidViewModel(applica
             info.value = "Bluetooth not enabled."
             command.value = "Enable Bluetooth"
             enabled.value = true
-            helper.askToEnableBle() // TODO
+            helper.askToEnableBle()
         } else if (!hasPermission()) {
             info.value = "Permission not given."
             command.value = "Give permission"
             enabled.value = true
-            helper.askForPermission() // TODO
+            helper.askForPermission()
         } else if (!isLocationEnabled()) {
             info.value = "Location not enabled."
             command.value = "Enable location"
             enabled.value = true
-            helper.askToEnableLocation() // TODO
+            helper.askToEnableLocation()
         } else {
             info.value = "Scan for peripherals."
             command.value = "Scan"
