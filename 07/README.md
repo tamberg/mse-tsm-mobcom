@@ -5,7 +5,7 @@
 ## Examples
 * [MyBleScannerApp](../../master/07/Android/MyBleScannerApp)
     * [AndroidManifest.xml](../../master/07/Android/MyBleScannerApp/app/src/main/AndroidManifest.xml)
-    * [MainActivity.java](../../master/07/Android/MyBleScannerApp/app/src/main/java/org/tamberg/myblescannerapp/MainActivity.java)
+    * [MainActivity.java](../../master/07/Android/MyBleScannerApp/app/src/main/java/org/tamberg/myblescannerapp/MainActivity.kt)
 * [MyBleCentralApp](../../master/07/Android/MyBleCentralApp)
     * [AndroidManifest.xml](../../master/07/Android/MyBleCentralApp/app/src/main/AndroidManifest.xml)
     * [MainActivity.java](../../master/07/Android/MyBleCentralApp/app/src/main/java/org/tamberg/myblecentralapp/MainActivity.java)
