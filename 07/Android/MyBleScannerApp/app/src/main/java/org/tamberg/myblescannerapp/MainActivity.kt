@@ -168,7 +168,7 @@ class MyBleScannerViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     private fun isLocationEnabled(): Boolean {
-        return false // TODO how to check?
+        return true // TODO how to check?
     }
 
     private fun hasPermission(): Boolean { // TODO move to helper?
