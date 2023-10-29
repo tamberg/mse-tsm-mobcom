@@ -91,7 +91,7 @@ fun MyBleScannerView(model: MyBleScannerViewModel = viewModel()) {
 }
 
 class MyBlePermissionHelper(private val activity: ComponentActivity) {
-    val TAG = this.javaClass.name
+    private val TAG = this.javaClass.name
 
     lateinit var update: () -> Unit
 
@@ -114,16 +114,6 @@ class MyBlePermissionHelper(private val activity: ComponentActivity) {
         val enableLocationIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
         startActivityForResultLauncher.launch(enableLocationIntent)
     }
-
-    // TODO
-    // https://stackoverflow.com/questions/66551781/android-onrequestpermissionsresult-is-deprecated-are-there-any-alternatives
-    //fun onRequestPermissionsResult(
-    //    requestCode: Int,
-    //    permissions: Array<String?>?,
-    //    grantResults: IntArray?
-    //) {
-    //     ...
-    //}
 
     private val requestPermissionLauncher = activity.registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -151,7 +141,8 @@ class MyBlePermissionHelper(private val activity: ComponentActivity) {
 }
 
 class MyBleScannerViewModel(app: Application) : AndroidViewModel(app) {
-    val TAG = this.javaClass.name
+    private val TAG = this.javaClass.name
+    private val SCAN_PERIOD_MS: Long = 10000
 
     val info = mutableStateOf<String>("Scan for peripherals.")
     val command = mutableStateOf<String>("Scan")
@@ -189,8 +180,6 @@ class MyBleScannerViewModel(app: Application) : AndroidViewModel(app) {
         return result
     }
 
-    private val SCAN_PERIOD_MS: Long = 10000
-
     private val scanCallback: ScanCallback = object : ScanCallback() {
         override fun onScanResult(callbackType: Int, result: ScanResult) {
             super.onScanResult(callbackType, result)
@@ -199,7 +188,6 @@ class MyBleScannerViewModel(app: Application) : AndroidViewModel(app) {
 
         override fun onScanFailed(errorCode: Int) {
             Log.d(TAG, "onScanFailed, errorCode = $errorCode") // TODO
-            update()
         }
     }
 
@@ -210,9 +198,9 @@ class MyBleScannerViewModel(app: Application) : AndroidViewModel(app) {
         val bluetoothAdapter = bluetoothManager.adapter
         val scanner = bluetoothAdapter.bluetoothLeScanner
         val handler = Handler(Looper.getMainLooper())
-        handler.postDelayed({ // TODO other approach?
+        handler.postDelayed({
             Log.d(TAG, "stop scan")
-            scanner!!.stopScan(scanCallback) // TODO safe?
+            scanner!!.stopScan(scanCallback)
             enabled.value = true
         }, SCAN_PERIOD_MS)
         Log.d(TAG, "start scan")
@@ -224,13 +212,13 @@ class MyBleScannerViewModel(app: Application) : AndroidViewModel(app) {
             info.value = "Bluetooth not available."
             command.value = "Scan"
             enabled.value = false
-        } else if (!isBleEnabled()) {
-            info.value = "Bluetooth not enabled."
-            command.value = "Enable Bluetooth"
-            enabled.value = true
         } else if (!hasPermission()) {
             info.value = "Permission not given."
             command.value = "Give permission"
+            enabled.value = true
+        } else if (!isBleEnabled()) {
+            info.value = "Bluetooth not enabled."
+            command.value = "Enable Bluetooth"
             enabled.value = true
         } else if (!isLocationEnabled()) {
             info.value = "Location not enabled."
@@ -248,10 +236,10 @@ class MyBleScannerViewModel(app: Application) : AndroidViewModel(app) {
         enabled.value = false
         if (!hasBle()) {
             update()
-        } else if (!isBleEnabled()) {
-            helper.askToEnableBle()
         } else if (!hasPermission()) {
             helper.askForPermission()
+        } else if (!isBleEnabled()) {
+            helper.askToEnableBle()
         } else if (!isLocationEnabled()) {
             helper.askToEnableLocation()
         } else {
