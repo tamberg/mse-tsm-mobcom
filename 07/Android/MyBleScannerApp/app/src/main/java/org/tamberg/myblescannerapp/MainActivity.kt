@@ -90,13 +90,19 @@ fun MyBleScannerView(model: MyBleScannerViewModel = viewModel()) {
     }
 }
 
-class MyBlePermissionHelper(private val activity: ComponentActivity) { // TODO move to view?
+class MyBlePermissionHelper(private val activity: ComponentActivity) {
     val TAG = this.javaClass.name
+
+    lateinit var update: () -> Unit
+
+    fun setUpdateCallback(updateCallback: () -> Unit) {
+        update = updateCallback
+    }
 
     private val startActivityForResultLauncher = activity.registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
-        Log.d(TAG, "result.resultCode = ${result.resultCode}"); // TODO
+        update()
     }
 
     fun askToEnableBle() {
@@ -105,8 +111,8 @@ class MyBlePermissionHelper(private val activity: ComponentActivity) { // TODO m
     }
 
     fun askToEnableLocation() {
-        val enableIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-        startActivityForResultLauncher.launch(enableIntent)
+        val enableLocationIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+        startActivityForResultLauncher.launch(enableLocationIntent)
     }
 
     // TODO
@@ -119,20 +125,16 @@ class MyBlePermissionHelper(private val activity: ComponentActivity) { // TODO m
     //     ...
     //}
 
-     private val requestPermissionLauncher = activity.registerForActivityResult(
+    private val requestPermissionLauncher = activity.registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
-        if (isGranted) {
-            // TODO
-        }
+        update()
     }
 
     private val requestMultiplePermissionsLauncher = activity.registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
-        permissions.entries.forEach {
-            Log.d(TAG, "${it.key} = ${it.value}") // TODO
-        }
+        update()
     }
 
     fun askForPermission() {
@@ -197,6 +199,7 @@ class MyBleScannerViewModel(app: Application) : AndroidViewModel(app) {
 
         override fun onScanFailed(errorCode: Int) {
             Log.d(TAG, "onScanFailed, errorCode = $errorCode") // TODO
+            update()
         }
     }
 
@@ -216,7 +219,7 @@ class MyBleScannerViewModel(app: Application) : AndroidViewModel(app) {
         scanner.startScan(scanCallback)
     }
 
-    fun scan(helper: MyBlePermissionHelper) {
+    private fun update() {
         if (!hasBle()) {
             info.value = "Bluetooth not available."
             command.value = "Scan"
@@ -225,21 +228,33 @@ class MyBleScannerViewModel(app: Application) : AndroidViewModel(app) {
             info.value = "Bluetooth not enabled."
             command.value = "Enable Bluetooth"
             enabled.value = true
-            helper.askToEnableBle()
         } else if (!hasPermission()) {
             info.value = "Permission not given."
             command.value = "Give permission"
             enabled.value = true
-            helper.askForPermission()
         } else if (!isLocationEnabled()) {
             info.value = "Location not enabled."
             command.value = "Enable location"
             enabled.value = true
-            helper.askToEnableLocation()
         } else {
             info.value = "Scan for peripherals."
             command.value = "Scan"
-            enabled.value = false
+            enabled.value = true
+        }
+    }
+
+    fun scan(helper: MyBlePermissionHelper) {
+        helper.setUpdateCallback { update() }
+        enabled.value = false
+        if (!hasBle()) {
+            update()
+        } else if (!isBleEnabled()) {
+            helper.askToEnableBle()
+        } else if (!hasPermission()) {
+            helper.askForPermission()
+        } else if (!isLocationEnabled()) {
+            helper.askToEnableLocation()
+        } else {
             doScan()
         }
     }
