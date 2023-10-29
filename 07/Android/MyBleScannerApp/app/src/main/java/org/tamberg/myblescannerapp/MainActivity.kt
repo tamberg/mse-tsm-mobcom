@@ -7,7 +7,6 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothManager
-import android.bluetooth.le.BluetoothLeScanner
 import android.bluetooth.le.ScanCallback
 import android.bluetooth.le.ScanResult
 import android.content.Context.BLUETOOTH_SERVICE
@@ -22,7 +21,6 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -39,7 +37,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.tamberg.myblescannerapp.ui.theme.MyBleScannerAppTheme
 
@@ -83,9 +80,10 @@ fun MyBleScannerView(model: MyBleScannerViewModel = viewModel()) {
             Text(model.info.value)
         }
         Row {
-
-            Button(enabled = model.enabled.value,
-                onClick = { model.scan(helper) }) {
+            Button(
+                enabled = model.enabled.value,
+                onClick = { model.scan(helper) })
+            {
                 Text(model.command.value)
             }
         }
@@ -212,6 +210,7 @@ class MyBleScannerViewModel(app: Application) : AndroidViewModel(app) {
         handler.postDelayed({ // TODO other approach?
             Log.d(TAG, "stop scan")
             scanner!!.stopScan(scanCallback) // TODO safe?
+            enabled.value = true
         }, SCAN_PERIOD_MS)
         Log.d(TAG, "start scan")
         scanner.startScan(scanCallback)
@@ -240,7 +239,7 @@ class MyBleScannerViewModel(app: Application) : AndroidViewModel(app) {
         } else {
             info.value = "Scan for peripherals."
             command.value = "Scan"
-            enabled.value = true
+            enabled.value = false
             doScan()
         }
     }
