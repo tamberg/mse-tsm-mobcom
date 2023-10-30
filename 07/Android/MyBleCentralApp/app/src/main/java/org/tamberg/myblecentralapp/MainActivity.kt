@@ -169,6 +169,8 @@ class MyBleCentralViewModel(app: Application) : AndroidViewModel(app) {
     val command = mutableStateOf<String>("Scan")
     val enabled = mutableStateOf<Boolean>(true)
 
+    // Note: This code has been converted from Java.
+
     private fun hasBle(): Boolean {
         val app = super.getApplication<Application>()
         return app.packageManager.hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)
