@@ -53,7 +53,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import org.tamberg.myblecentralapp.ui.theme.MyBleCentralAppTheme
 import java.util.*
 
-
 val LocalBlePermissionHelper = staticCompositionLocalOf<MyBlePermissionHelper> { null!! }
 
 class MainActivity : ComponentActivity() {
