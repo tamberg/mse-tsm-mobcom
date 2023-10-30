@@ -92,13 +92,11 @@ fun MyBleScannerView(model: MyBleScannerViewModel = viewModel()) {
     }
 }
 
-class MyBlePermissionHelper(private val activity: ComponentActivity) {
+class MyBlePermissionHelper(activity: ComponentActivity) {
 
     // helper class for functions that need a reference to the activity
     // there's probably a better way to do this right in Compose, e.g.
     // https://stackoverflow.com/questions/69075984
-
-    private val TAG = this.javaClass.name
 
     lateinit var update: () -> Unit
 
@@ -154,9 +152,9 @@ class MyBleScannerViewModel(app: Application) : AndroidViewModel(app) {
     private val TAG = this.javaClass.name
     private val SCAN_PERIOD_MS: Long = 10000
 
-    val info = mutableStateOf<String>("Scan for peripherals.")
-    val command = mutableStateOf<String>("Scan")
-    val enabled = mutableStateOf<Boolean>(true)
+    val info = mutableStateOf("Scan for peripherals.")
+    val command = mutableStateOf("Scan")
+    val enabled = mutableStateOf(true)
 
     // Note: This code has been converted from Java.
 
