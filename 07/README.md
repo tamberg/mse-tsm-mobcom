@@ -9,7 +9,7 @@
     * [MainActivity.kt](../../master/07/Android/MyBleScannerApp/app/src/main/java/org/tamberg/myblescannerapp/MainActivity.kt)
 * [MyBleCentralApp](../../master/07/Android/MyBleCentralApp)
     * [AndroidManifest.xml](../../master/07/Android/MyBleCentralApp/app/src/main/AndroidManifest.xml)
-    * [build.gradle](../../master/07/Android/MyBleCentralApp/app/build.gradle)
+    * [build.gradle](../../master/07/Android/MyBleCentralApp/app/build.gradle) (soon .kts)
     * [MainActivity.java](../../master/07/Android/MyBleCentralApp/app/src/main/java/org/tamberg/myblecentralapp/MainActivity.java) (soon .kt)
 
 ## Hands-on
