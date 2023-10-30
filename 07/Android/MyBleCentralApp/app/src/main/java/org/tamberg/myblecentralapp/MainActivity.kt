@@ -407,7 +407,6 @@ class MyBleCentralViewModel(app: Application) : AndroidViewModel(app) {
         override fun onScanResult(callbackType: Int, result: ScanResult) {
             super.onScanResult(callbackType, result)
             Log.d(TAG, "onScanResult, result = " + result.device.address)
-            // TODO check service UUID
             mBluetoothDevice = result.device // pick first
             connect()
         }
@@ -426,11 +425,7 @@ class MyBleCentralViewModel(app: Application) : AndroidViewModel(app) {
         val handler = Handler(Looper.getMainLooper())
         val filters: MutableList<ScanFilter> = ArrayList()
         //filters.add(new ScanFilter.Builder().setDeviceAddress("C9:1E:3F:18:61:9D").build());
-        filters.add(
-            ScanFilter.Builder().setServiceUuid(
-                ParcelUuid(HRM_SERVICE_UUID)
-            ).build()
-        ) // 21+
+        filters.add(ScanFilter.Builder().setServiceUuid(ParcelUuid(HRM_SERVICE_UUID)).build()) // 21+
         val settings = ScanSettings.Builder().setScanMode(
             ScanSettings.SCAN_MODE_LOW_LATENCY
         ).build()
