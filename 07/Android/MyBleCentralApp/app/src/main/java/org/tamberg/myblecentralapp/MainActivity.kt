@@ -103,13 +103,11 @@ fun MyBleCentralView(model: MyBleCentralViewModel = viewModel()) {
     }
 }
 
-class MyBlePermissionHelper(private val activity: ComponentActivity) {
+class MyBlePermissionHelper(activity: ComponentActivity) {
 
     // helper class for functions that need a reference to the activity
     // there's probably a better way to do this right in Compose, e.g.
     // https://stackoverflow.com/questions/69075984
-
-    private val TAG = this.javaClass.name
 
     lateinit var update: () -> Unit
 
@@ -165,9 +163,9 @@ class MyBleCentralViewModel(app: Application) : AndroidViewModel(app) {
     private val TAG = this.javaClass.name
     private val SCAN_PERIOD_MS: Long = 10000
 
-    val info = mutableStateOf<String>("Scan for peripherals.")
-    val command = mutableStateOf<String>("Scan")
-    val enabled = mutableStateOf<Boolean>(true)
+    val info = mutableStateOf("Scan for peripherals.")
+    val command = mutableStateOf("Scan")
+    val enabled = mutableStateOf(true)
 
     // Note: This code has been converted from Java.
 
@@ -231,7 +229,7 @@ class MyBleCentralViewModel(app: Application) : AndroidViewModel(app) {
         gatt: BluetoothGatt, serviceUuid: UUID, characteristicUuid: UUID, delayMs: Long
     ) {
         val handler = Handler(Looper.getMainLooper())
-        handler.postDelayed(Runnable {
+        handler.postDelayed({
             val gattService = gatt.getService(serviceUuid)
             if (gattService != null) {
                 val characteristic = gattService.getCharacteristic(characteristicUuid)
@@ -248,7 +246,7 @@ class MyBleCentralViewModel(app: Application) : AndroidViewModel(app) {
         value: Int, formatType: Int, delayMs: Long
     ) {
         val handler = Handler(Looper.getMainLooper())
-        handler.postDelayed(Runnable {
+        handler.postDelayed({
             val gattService = gatt.getService(serviceUuid)
             if (gattService != null) {
                 val characteristic = gattService.getCharacteristic(characteristicUuid)
@@ -265,7 +263,7 @@ class MyBleCentralViewModel(app: Application) : AndroidViewModel(app) {
         gatt: BluetoothGatt, characteristic: BluetoothGattCharacteristic, delayMs: Long
     ) {
         val handler = Handler(Looper.getMainLooper())
-        handler.postDelayed(Runnable {
+        handler.postDelayed({
             gatt.setCharacteristicNotification(characteristic, true)
             // 0x2902 org.bluetooth.descriptor.gatt.client_characteristic_configuration.xml
             val configUuid = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb")
@@ -296,6 +294,7 @@ class MyBleCentralViewModel(app: Application) : AndroidViewModel(app) {
             }
         }
 
+        @Deprecated("Deprecated in Java")
         override fun onCharacteristicChanged(
             gatt: BluetoothGatt, characteristic: BluetoothGattCharacteristic
         ) {
@@ -309,6 +308,7 @@ class MyBleCentralViewModel(app: Application) : AndroidViewModel(app) {
             }
         }
 
+        @Deprecated("Deprecated in Java")
         override fun onCharacteristicRead(
             gatt: BluetoothGatt, characteristic: BluetoothGattCharacteristic, status: Int
         ) {
@@ -368,7 +368,7 @@ class MyBleCentralViewModel(app: Application) : AndroidViewModel(app) {
         assert(mIsConnected == false)
         // call from main thread required to make connectGatt work
         val handler = Handler(Looper.getMainLooper())
-        handler.postDelayed(Runnable {
+        handler.postDelayed({
             // work-around to prevent multiple calls to mGattCallback
             // based on http://stackoverflow.com/questions/33274009
             if (mBluetoothGatt == null) {
@@ -434,7 +434,7 @@ class MyBleCentralViewModel(app: Application) : AndroidViewModel(app) {
         val settings = ScanSettings.Builder().setScanMode(
             ScanSettings.SCAN_MODE_LOW_LATENCY
         ).build()
-        handler.postDelayed(Runnable {
+        handler.postDelayed({
             Log.d(TAG, "stop scan")
             scanner.stopScan(scanCallback)
             enabled.value = true
