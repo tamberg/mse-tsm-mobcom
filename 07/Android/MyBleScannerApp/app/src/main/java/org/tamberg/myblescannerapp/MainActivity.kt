@@ -10,8 +10,10 @@ import android.bluetooth.BluetoothManager
 import android.bluetooth.le.ScanCallback
 import android.bluetooth.le.ScanResult
 import android.content.Context.BLUETOOTH_SERVICE
+import android.content.Context.LOCATION_SERVICE
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -91,6 +93,11 @@ fun MyBleScannerView(model: MyBleScannerViewModel = viewModel()) {
 }
 
 class MyBlePermissionHelper(private val activity: ComponentActivity) {
+
+    // helper class for functions that need a reference to the activity
+    // there's probably a better way to do this right in Compose, e.g.
+    // https://stackoverflow.com/questions/69075984
+
     private val TAG = this.javaClass.name
 
     lateinit var update: () -> Unit
@@ -164,11 +171,19 @@ class MyBleScannerViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     private fun isLocationEnabled(): Boolean {
-        return true // TODO how to check?
+        val result: Boolean
+        val app = super.getApplication<Application>()
+        val locationManager = app.getSystemService(LOCATION_SERVICE) as LocationManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            result = locationManager.isLocationEnabled
+        } else {
+            result = true
+        }
+        return result
     }
 
     // See https://developer.android.com/reference/android/bluetooth/le/BluetoothLeScanner#startScan(android.bluetooth.le.ScanCallback)
-    private fun hasPermission(): Boolean { // TODO move to helper?
+    private fun hasPermission(): Boolean {
         val result: Boolean
         val app = super.getApplication<Application>()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -179,7 +194,7 @@ class MyBleScannerViewModel(app: Application) : AndroidViewModel(app) {
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             result = app.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
         } else {
-            result = false // TODO true?
+            result = true // older versions had permission by default
         }
         return result
     }
