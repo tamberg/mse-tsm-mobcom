@@ -6,7 +6,7 @@
 * [MyBleScannerApp](../../master/07/Android/MyBleScannerApp)
     * [AndroidManifest.xml](../../master/07/Android/MyBleScannerApp/app/src/main/AndroidManifest.xml)
     * [build.gradle.kts](../../master/07/Android/MyBleScannerApp/app/build.gradle.kts)
-    * [MainActivity.kt](../../../master/07/Android/MyBleScannerApp/app/src/main/java/org/tamberg/myblescannerapp/MainActivity.kt) ([.java](../../../blob/v3.0/07/Android/MyBleScannerApp/app/src/main/java/org/tamberg/myblescannerapp/MainActivity.java))
+    * [MainActivity.kt](../../master/07/Android/MyBleScannerApp/app/src/main/java/org/tamberg/myblescannerapp/MainActivity.kt) ([.java](../../../blob/v3.0/07/Android/MyBleScannerApp/app/src/main/java/org/tamberg/myblescannerapp/MainActivity.java))
 * [MyBleCentralApp](../../master/07/Android/MyBleCentralApp)
     * [AndroidManifest.xml](../../master/07/Android/MyBleCentralApp/app/src/main/AndroidManifest.xml)
     * [build.gradle.kts](../../master/07/Android/MyBleCentralApp/app/build.gradle.kts)
