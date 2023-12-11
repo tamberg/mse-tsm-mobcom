@@ -3,7 +3,7 @@
 The deadline for submitting projects is presentation day, 0:00.
 
 ## Schedule
-The presentations will be online, via Teams.
+The presentations will be _online_, via Teams.
 
 Presentation|Start|Setup|Talk|Video|Team
 :---|:---|:---|:---|:---|:---
