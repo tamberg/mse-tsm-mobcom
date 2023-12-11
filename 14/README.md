@@ -3,7 +3,7 @@
 The deadline for submitting projects is presentation day, 0:00.
 
 ## Schedule
-The presentations will be online via MS Teams.
+The presentations will be _in class_, in Zürich.
 
 Presentation|Start|Setup|Talk|Video|Team
 :---|:---|:---|:---|:---|:---
