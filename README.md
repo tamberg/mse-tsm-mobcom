@@ -1,5 +1,5 @@
 # MSE TSM MobCom
-* <s>[MSE TSM MobCom on Moodle](https://moodle.msengineering.ch/course/view.php?id=TODO)</s> (TODO)
+* [MSE TSM MobCom on Moodle](https://moodle.msengineering.ch/course/view.php?id=TODO) (TODO)
 * [Module description (PDF)](https://moodle.msengineering.ch/report/dbextend/?key=TSM_MobCom&edition=2024)
 
 ## Slides and Examples
