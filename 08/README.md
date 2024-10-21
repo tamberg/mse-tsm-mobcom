@@ -7,4 +7,4 @@
 * [pi.scad](OpenSCAD/pi.scad)
 
 ## Hands-on
-* Click https://classroom.github.com/a/CaN6TPIe to create a private copy of [this](../../../../mse-tsm-mobcom-work-08/blob/master/README.md).
+* Click https://classroom.github.com/a/8m8aMxp2 to create a private copy of [this](../../../../mse-tsm-mobcom-work-08/blob/master/README.md).
