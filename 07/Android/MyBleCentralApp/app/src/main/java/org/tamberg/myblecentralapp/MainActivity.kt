@@ -330,9 +330,9 @@ class MyBleCentralViewModel(app: Application) : AndroidViewModel(app) {
         ) {
             Log.d(
                 TAG, """
-     onCharacteristicWrite, UUID = ${characteristic.uuid},
-     status = $status
-     """.trimIndent()
+                onCharacteristicWrite, UUID = ${characteristic.uuid},
+                status = $status
+                """.trimIndent()
             )
         }
 
