@@ -1,4 +1,4 @@
-#include "Adafruit_TinyUSB.h"; // Fix https://github.com/adafruit/Adafruit_nRF52_Arduino/issues/653
+#include "Adafruit_TinyUSB.h" // Fix https://github.com/adafruit/Adafruit_nRF52_Arduino/issues/653
 
 //int sensorPin = 9; // external, Grove D4
 int sensorPin = 7; // onboard, user button
