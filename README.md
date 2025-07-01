@@ -31,10 +31,7 @@ This course is based on the following hardware:
 
 Additional hardware is available on request:
 
-* [Grove Sensors](./../../wiki/Grove-Sensors)
-* [Grove Actuators](./../../wiki/Grove-Actuators)
-* [Grove Adapters](./../../wiki/Grove-Adapters)
-* [Various](./../../wiki/Various)
+* [FHNW IoT Hardware Library](https://github.com/fhnw-imvs/fhnw-iot-library)
 
 ## Wiki
 For resources, check the [MSE TSM MobCom Wiki](https://github.com/tamberg/mse-tsm-mobcom/wiki):
