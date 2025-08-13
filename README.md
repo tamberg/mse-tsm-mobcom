@@ -1,6 +1,6 @@
 # MSE TSM MobCom
 * [MSE TSM MobCom on Moodle](https://moodle.msengineering.ch/course/view.php?id=2778)
-* [Module description (PDF)](https://moodle.msengineering.ch/report/dbextend/?key=TSM_MobCom&edition=2024)
+* [Module description (PDF)](https://moodle.msengineering.ch/report/dbextend/?key=TSM_MobCom&edition=2025)
 
 ## Slides and Examples
 ### Overview
