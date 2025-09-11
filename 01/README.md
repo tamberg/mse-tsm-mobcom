@@ -7,6 +7,7 @@
 * [Kotlin/variables/src/main/kotlin/Main.kt](Kotlin/variables/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/v-L5BJVeu))
 * [Kotlin/basic_types/src/main/kotlin/Main.kt](Kotlin/basic_types/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/rKf_sSVpD))
 * [Kotlin/string_templates/src/main/kotlin/Main.kt](Kotlin/string_templates/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/YmL40usm1))
+* [Kotlin/arrays/src/main/kotlin/Main.kt](Kotlin/arrays/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/UFpb4mGTo))
 
 
 ## Hands-on
