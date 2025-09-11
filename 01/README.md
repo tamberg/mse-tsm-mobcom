@@ -4,7 +4,7 @@
 
 ## Examples
 * [Kotlin/hello/src/main/kotlin/Main.kt](Kotlin/hello/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/y9NR4ix6k))
-* [Kotlin/variables/src/main/kotlin/Main.kt](Kotlin/variables/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/TODO))
+* [Kotlin/variables/src/main/kotlin/Main.kt](Kotlin/variables/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/v-L5BJVeu))
 * [Kotlin/basic_types/src/main/kotlin/Main.kt](Kotlin/basic_types/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/rKf_sSVpD))
 
 ## Hands-on
