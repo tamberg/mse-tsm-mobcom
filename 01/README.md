@@ -15,6 +15,19 @@
 * [conditionals/src/main/kotlin/Main.kt](Kotlin/conditionals/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/v3p8ClHsh))
 * [when_statement/src/main/kotlin/Main.kt](Kotlin/when_statement/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/-ZZMizDRz))
 * [ranges/src/main/kotlin/Main.kt](Kotlin/ranges/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/oc8OH-52m))
+* loops https://pl.kotl.in/KBiKuZ_RC
+* functions https://pl.kotl.in/1Et9xlajx
+* classes https://pl.kotl.in/WbKoP5Mbk
+* instances https://pl.kotl.in/ELfDp3us4
+* constructors https://pl.kotl.in/-TCG3Aj_a
+* visibility https://pl.kotl.in/RXbI9n-Yr
+* null_safety https://pl.kotl.in/5HX1Yp4It
+* lambda_expressions https://pl.kotl.in/JCNbo2zNV
+* filters https://pl.kotl.in/STuH5qr3w
+* extension_functions https://pl.kotl.in/sudd7COye
+* class_inheritance https://pl.kotl.in/mMQIlARDl
+* abstract_classes https://pl.kotl.in/lIkHDbMGj
+* interfaces https://pl.kotl.in/FUKuwfZg3
 
 ## Hands-on
 * TODO
