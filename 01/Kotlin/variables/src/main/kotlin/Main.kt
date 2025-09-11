@@ -1,3 +1,5 @@
+// https://pl.kotl.in/v-L5BJVeu
+
 fun main() {
     val i = 3 // read-only
     //i = 2 // 'val' cannot be reassigned.
