@@ -1,5 +1,3 @@
-// https://pl.kotl.in/rKf_sSVpD
-
 fun main() {
     val i = 3 // inferred type, initialized
     println(i)
