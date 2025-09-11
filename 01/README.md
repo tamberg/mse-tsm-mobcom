@@ -15,19 +15,19 @@
 * [conditionals/src/main/kotlin/Main.kt](Kotlin/conditionals/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/v3p8ClHsh))
 * [when_statement/src/main/kotlin/Main.kt](Kotlin/when_statement/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/-ZZMizDRz))
 * [ranges/src/main/kotlin/Main.kt](Kotlin/ranges/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/oc8OH-52m))
-* loops https://pl.kotl.in/KBiKuZ_RC
-* functions https://pl.kotl.in/1Et9xlajx
-* classes https://pl.kotl.in/WbKoP5Mbk
-* instances https://pl.kotl.in/ELfDp3us4
-* constructors https://pl.kotl.in/-TCG3Aj_a
-* visibility https://pl.kotl.in/RXbI9n-Yr
-* null_safety https://pl.kotl.in/5HX1Yp4It
-* lambda_expressions https://pl.kotl.in/JCNbo2zNV
-* filters https://pl.kotl.in/STuH5qr3w
-* extension_functions https://pl.kotl.in/sudd7COye
-* class_inheritance https://pl.kotl.in/mMQIlARDl
-* abstract_classes https://pl.kotl.in/lIkHDbMGj
-* interfaces https://pl.kotl.in/FUKuwfZg3
+* [loops/src/main/kotlin/Main.kt](Kotlin/loops/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/KBiKuZ_RC))
+* [functions/src/main/kotlin/Main.kt](Kotlin/functions/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/1Et9xlajx))
+* [classes/src/main/kotlin/Main.kt](Kotlin/classes/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/WbKoP5Mbk))
+* [instances/src/main/kotlin/Main.kt](Kotlin/instances/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/ELfDp3us4))
+* [constructors/src/main/kotlin/Main.kt](Kotlin/constructors/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/-TCG3Aj_a))
+* [visibility/src/main/kotlin/Main.kt](Kotlin/visibility/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/RXbI9n-Yr))
+* [null_safety/src/main/kotlin/Main.kt](Kotlin/null_safety/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/5HX1Yp4It))
+* [lambda_expressions/src/main/kotlin/Main.kt](Kotlin/lambda_expressions/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/JCNbo2zNV))
+* [filters/src/main/kotlin/Main.kt](Kotlin/filters/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/STuH5qr3w))
+* [extension_functions/src/main/kotlin/Main.kt](Kotlin/extension_functions/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/sudd7COye))
+* [class_inheritance/src/main/kotlin/Main.kt](Kotlin/class_inheritance/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/mMQIlARDl))
+* [abstract_classes/src/main/kotlin/Main.kt](Kotlin/abstract_classes/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/lIkHDbMGj))
+* [interfaces/src/main/kotlin/Main.kt](Kotlin/interfaces/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/FUKuwfZg3))
 
 ## Hands-on
 * TODO
