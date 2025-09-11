@@ -4,7 +4,7 @@
 
 ## Examples
 ### Kotlin
-[Get started with Kotlin on the JVM](https://kotlinlang.org/docs/jvm-get-started.html)
+Try to [get started with Kotlin on the JVM](https://kotlinlang.org/docs/jvm-get-started.html) or run code _online_.
 
 * [hello/src/main/kotlin/Main.kt](Kotlin/hello/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/y9NR4ix6k))
 * [variables/src/main/kotlin/Main.kt](Kotlin/variables/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/v-L5BJVeu))
