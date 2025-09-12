@@ -31,6 +31,7 @@ Run [Kotlin/JVM with IntelliJ](https://kotlinlang.org/docs/jvm-get-started.html)
 * [abstract_classes/src/main/kotlin/Main.kt](Kotlin/abstract_classes/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/lIkHDbMGj))
 * [interfaces/src/main/kotlin/Main.kt](Kotlin/interfaces/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/FUKuwfZg3))
 * [objects/src/main/kotlin/Main.kt](Kotlin/objects/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/vw3GKjarz))
+* [companion_objects/src/main/kotlin/Main.kt](Kotlin/companion_objects/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/q65vjvIp7))
 
 ## Hands-on
 * TODO
