@@ -30,7 +30,7 @@ Run [Kotlin/JVM with IntelliJ](https://kotlinlang.org/docs/jvm-get-started.html)
 * [class_inheritance/src/main/kotlin/Main.kt](Kotlin/class_inheritance/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/mMQIlARDl))
 * [abstract_classes/src/main/kotlin/Main.kt](Kotlin/abstract_classes/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/lIkHDbMGj))
 * [interfaces/src/main/kotlin/Main.kt](Kotlin/interfaces/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/FUKuwfZg3))
-* [objects/src/main/kotlin/Main.kt](Kotlin/objects/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/vw3GKjarz))
+* [objects/src/main/kotlin/Main.kt](Kotlin/objects/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/ltwBsgVHQ))
 * [companion_objects/src/main/kotlin/Main.kt](Kotlin/companion_objects/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/2reoIYdtQ))
 
 ### Android
