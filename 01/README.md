@@ -1,6 +1,6 @@
 # MSE TSM MobCom - Lesson 1 - Android App Development 1
 ## Slides
-* [TODO (PDF)](http://www.tamberg.org/mse/2025/hs/TSM_MobCom_TODO.pdf)
+* [Writing Kotlin for Android](http://www.tamberg.org/mse/2025/hs/TSM_MobCom_ProgrammingInKotlin.pdf) (PDF)
 
 ## Examples
 Run [Kotlin/JVM with IntelliJ](https://kotlinlang.org/docs/jvm-get-started.html), on the [command-line](https://kotlinlang.org/docs/command-line.html) or [online](https://play.kotlinlang.org/).
