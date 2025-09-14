@@ -1,20 +1,55 @@
-.DS_Store
+# Android, based on https://github.com/github/gitignore/blob/main/Android.gitignore
 
-# based on https://github.com/github/gitignore/blob/main/Kotlin.gitignore
+## Gradle files
+.gradle/
+build/
+
+## Local configuration file (sdk path, etc)
+local.properties
+
+## Log/OS Files
+*.log
+
+## Android Studio generated files and folders
+captures/
+.externalNativeBuild/
+.cxx/
+*.aab
+*.apk
+output-metadata.json
+
+## IntelliJ
+*.iml
+.idea/
+misc.xml
+deploymentTargetDropDown.xml
+render.experimental.xml
+
+## Keystore files
+*.jks
+*.keystore
+
+## Google Services (e.g. APIs or Firebase)
+google-services.json
+
+## Android Profiling
+*.hprof
+
+# Kotlin, based on https://github.com/github/gitignore/blob/main/Kotlin.gitignore
 
 # Compiled class file
 *.class
 
-# Log file
+## Log file
 *.log
 
-# BlueJ files
+## BlueJ files
 *.ctxt
 
-# Mobile Tools for Java (J2ME)
+## Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
-# Package Files #
+## Package Files #
 *.jar
 *.war
 *.nar
@@ -23,46 +58,12 @@
 *.tar.gz
 *.rar
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+## virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
 
-# Kotlin Gradle plugin data, see https://kotlinlang.org/docs/whatsnew20.html#new-directory-for-kotlin-data-in-gradle-projects
+## Kotlin Gradle plugin data, see https://kotlinlang.org/docs/whatsnew20.html#new-directory-for-kotlin-data-in-gradle-projects
 .kotlin/
 
-# based on https://github.com/github/gitignore/blob/main/Android.gitignore
-
-# Gradle files
-.gradle/
-build/
-
-# Local configuration file (sdk path, etc)
-local.properties
-
-# Log/OS Files
-*.log
-
-# Android Studio generated files and folders
-captures/
-.externalNativeBuild/
-.cxx/
-*.aab
-*.apk
-output-metadata.json
-
-# IntelliJ
-*.iml
-.idea/
-misc.xml
-deploymentTargetDropDown.xml
-render.experimental.xml
-
-# Keystore files
-*.jks
-*.keystore
-
-# Google Services (e.g. APIs or Firebase)
-google-services.json
-
-# Android Profiling
-*.hprof
+# MacOS
+.DS_Store
