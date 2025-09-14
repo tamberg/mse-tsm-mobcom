@@ -4,9 +4,9 @@
 * [Getting Started With Android (PDF)](http://www.tamberg.org/mse/2025/hs/TSM_MobCom_GettingStartedWithAndroid.pdf)
 
 ## Examples
+### Kotlin
 Run [Kotlin/JVM with IntelliJ](https://kotlinlang.org/docs/jvm-get-started.html), on the [command-line](https://kotlinlang.org/docs/command-line.html) or [online](https://play.kotlinlang.org/).
 
-### Kotlin
 * [hello/src/main/kotlin/Main.kt](Kotlin/hello/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/y9NR4ix6k))
 * [variables/src/main/kotlin/Main.kt](Kotlin/variables/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/v-L5BJVeu))
 * [basic_types/src/main/kotlin/Main.kt](Kotlin/basic_types/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/rKf_sSVpD))
