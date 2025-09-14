@@ -39,10 +39,10 @@ Run [Kotlin/JVM with IntelliJ](https://kotlinlang.org/docs/jvm-get-started.html)
 * [libraries/src/main/kotlin/Main.kt](Kotlin/libraries/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/AoFyNjJPw))
 
 ### Android
-#### MyHelloApp
-* [AndroidManifest.xml](Android/MyHelloApp/app/src/main/AndroidManifest.xml)
-* [MainActivity.kt](Android/MyHelloApp/app/src/main/java/com/example/myhelloapp/MainActivity.kt)
-* [Build.gradle.kts](https://github.com/tamberg/mse-tsm-mobcom/blob/main/01/Android/MyHelloApp/app/build.gradle.kts)
+* [MyHelloApp](Android/MyHelloApp)
+    * [AndroidManifest.xml](Android/MyHelloApp/app/src/main/AndroidManifest.xml)
+    * [MainActivity.kt](Android/MyHelloApp/app/src/main/java/com/example/myhelloapp/MainActivity.kt)
+    * [Build.gradle.kts](https://github.com/tamberg/mse-tsm-mobcom/blob/main/01/Android/MyHelloApp/app/build.gradle.kts)
 
 ## Hands-on
 * TODO
