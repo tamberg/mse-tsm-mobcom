@@ -39,7 +39,7 @@ Run with [IntelliJ](https://kotlinlang.org/docs/jvm-get-started.html), on the [c
 * [libraries/src/main/kotlin/Main.kt](Kotlin/libraries/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/AoFyNjJPw))
 
 ### Android
-Run with [AndroidStudio](https://developer.android.com/studio) on [emulator](https://developer.android.com/codelabs/basic-android-kotlin-compose-emulator) or [device](https://developer.android.com/codelabs/basic-android-kotlin-compose-connect-device).
+Run with [AndroidStudio](https://developer.android.com/studio) on the [emulator](https://developer.android.com/codelabs/basic-android-kotlin-compose-emulator) or your [device](https://developer.android.com/codelabs/basic-android-kotlin-compose-connect-device).
 
 * [MyHelloApp](Android/MyHelloApp)
     * [AndroidManifest.xml](Android/MyHelloApp/app/src/main/AndroidManifest.xml)
