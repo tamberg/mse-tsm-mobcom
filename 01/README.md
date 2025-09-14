@@ -39,6 +39,8 @@ Run [Kotlin/JVM with IntelliJ](https://kotlinlang.org/docs/jvm-get-started.html)
 * [libraries/src/main/kotlin/Main.kt](Kotlin/libraries/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/AoFyNjJPw))
 
 ### Android
+Run with [AndroidStudio](https://developer.android.com/studio)
+
 * [MyHelloApp](Android/MyHelloApp)
     * [AndroidManifest.xml](Android/MyHelloApp/app/src/main/AndroidManifest.xml)
     * [MainActivity.kt](Android/MyHelloApp/app/src/main/java/com/example/myhelloapp/MainActivity.kt)
