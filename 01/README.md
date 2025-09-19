@@ -1,11 +1,12 @@
 # MSE TSM MobCom - Lesson 1 - Android App Development 1
 ## Slides
-* [Writing Kotlin for Android](http://www.tamberg.org/mse/2025/hs/TSM_MobCom_WritingKotlinForAndroid.pdf) (PDF)
+* [Writing Kotlin for Android (PDF)](http://www.tamberg.org/mse/2025/hs/TSM_MobCom_WritingKotlinForAndroid.pdf)
+* [Getting Started With Android (PDF)](http://www.tamberg.org/mse/2025/hs/TSM_MobCom_GettingStartedWithAndroid.pdf)
 
 ## Examples
-Run [Kotlin/JVM with IntelliJ](https://kotlinlang.org/docs/jvm-get-started.html), on the [command-line](https://kotlinlang.org/docs/command-line.html) or [online](https://play.kotlinlang.org/).
-
 ### Kotlin
+Run with [IntelliJ](https://kotlinlang.org/docs/jvm-get-started.html), on the [command-line](https://kotlinlang.org/docs/command-line.html) or [online](https://play.kotlinlang.org/).
+
 * [hello/src/main/kotlin/Main.kt](Kotlin/hello/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/y9NR4ix6k))
 * [variables/src/main/kotlin/Main.kt](Kotlin/variables/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/v-L5BJVeu))
 * [basic_types/src/main/kotlin/Main.kt](Kotlin/basic_types/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/rKf_sSVpD))
@@ -38,7 +39,12 @@ Run [Kotlin/JVM with IntelliJ](https://kotlinlang.org/docs/jvm-get-started.html)
 * [libraries/src/main/kotlin/Main.kt](Kotlin/libraries/src/main/kotlin/Main.kt) ([online](https://pl.kotl.in/AoFyNjJPw))
 
 ### Android
-* TODO
+Run with [AndroidStudio](https://developer.android.com/studio) on the [emulator](https://developer.android.com/codelabs/basic-android-kotlin-compose-emulator) or your [device](https://developer.android.com/codelabs/basic-android-kotlin-compose-connect-device).
+
+* [MyHelloApp](Android/MyHelloApp)
+    * [AndroidManifest.xml](Android/MyHelloApp/app/src/main/AndroidManifest.xml)
+    * [MainActivity.kt](Android/MyHelloApp/app/src/main/java/com/example/myhelloapp/MainActivity.kt)
+    * [Build.gradle.kts](https://github.com/tamberg/mse-tsm-mobcom/blob/main/01/Android/MyHelloApp/app/build.gradle.kts)
 
 ## Hands-on
 * TODO
