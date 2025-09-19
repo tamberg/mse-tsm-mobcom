@@ -8,7 +8,6 @@ Run with [AndroidStudio](https://developer.android.com/studio) on the [emulator]
 
 * [MyLayoutApp](Android/MyLayoutApp)
     * [MainActivity.kt](Android/MyLayoutApp/app/src/main/java/com/example/mylayoutapp/MainActivity.kt)
-    * [ui.theme.Theme.kt](Android/MyLayoutApp/app/src/main/java/com/example/mylayoutapp/ui/theme/Theme.kt)
 
 ## Hands-on
 * TODO
