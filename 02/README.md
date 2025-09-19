@@ -1,6 +1,6 @@
 # MSE TSM MobCom - Lesson 2 - Android App Development 2
 ## Slides
-* [TSM_MobCom_ComposingUIsForAndroid (PDF)](http://www.tamberg.org/mse/2025/hs/TSM_MobCom_ComposingUIsForAndroid.pdf)
+* [Composing UIs for Android (PDF)](http://www.tamberg.org/mse/2025/hs/TSM_MobCom_ComposingUIsForAndroid.pdf)
 
 ## Examples
 ### Android
