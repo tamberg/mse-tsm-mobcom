@@ -63,6 +63,6 @@ fun Greetings(
 @Composable
 fun GreetingPreview() {
     MaterialTheme {
-        Greeting(name = "Android")
+        Greeting(name = "MSE")
     }
 }
