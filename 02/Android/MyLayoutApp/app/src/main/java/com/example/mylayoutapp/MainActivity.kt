@@ -39,7 +39,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
     Surface(color = MaterialTheme.colorScheme.primary) {
         Text(
             text = "Hello $name!",
-            // TODO Try these, one at a time
+            // TODO: try these, one at a time
             //modifier = modifier
             //modifier = modifier.padding(24.dp)
             //modifier = modifier.padding(24.dp).background(Color.Red)
@@ -52,7 +52,7 @@ fun Greetings(
     names: List<String> = listOf("Ada", "Grace", "Niklaus"),
     modifier: Modifier = Modifier
 ) {
-    Column(modifier) { // TODO: Try Row or Box instead
+    Column(modifier) { // TODO: try Row or Box instead
         for (name in names) { // this is fine
             Greeting(name, modifier)
         }
