@@ -42,7 +42,7 @@ class MainActivity : ComponentActivity() {
 fun MultiPage(modifier: Modifier = Modifier) {
     TODO("Fix state and logic, add lambdas for next/back")
     var page = 0
-    when (page) {//.value) {
+    when (page) {
         0 -> Screen(
             label = "A",
             modifier = modifier
