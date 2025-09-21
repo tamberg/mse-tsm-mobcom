@@ -99,7 +99,7 @@ fun ScreenPreview() {
         Screen(
             label = "Preview",
             onBack = null,
-            onNext = { TODO("implement logic") }
+            onNext = { TODO("Implement logic") }
         )
     }
 }
