@@ -40,7 +40,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MultiPage(modifier: Modifier = Modifier) {
-    TODO("Fix state and logic, add lambdas for next/back")
+    TODO("fix state and logic, add lambdas for next/back")
     var page = 0
     when (page) {
         0 -> Screen(
@@ -99,7 +99,7 @@ fun ScreenPreview() {
         Screen(
             label = "Preview",
             onBack = null,
-            onNext = { TODO("Implement logic") }
+            onNext = { TODO("implement logic") }
         )
     }
 }
