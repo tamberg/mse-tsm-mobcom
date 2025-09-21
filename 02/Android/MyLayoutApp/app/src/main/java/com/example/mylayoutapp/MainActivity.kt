@@ -97,7 +97,7 @@ fun RowGreetings(
     Row(
         // TODO: try arrangement and alignment variants
         horizontalArrangement = Arrangement.spacedBy(8.dp), // or Start, Center, End, etc.
-        verticalAlignment = Alignment.Top,
+        verticalAlignment = Alignment.Top, // or CenterVertically, Bottom
         modifier = modifier.background(Color.Yellow).padding(8.dp).fillMaxWidth()
     ) {
         for (name in names) {
