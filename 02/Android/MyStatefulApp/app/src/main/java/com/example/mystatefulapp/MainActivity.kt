@@ -22,13 +22,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.mystatefulapp.ui.theme.MyStatefulAppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            MaterialTheme {
+            MyStatefulAppTheme {
                 Scaffold(
                     modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) { innerPadding ->
                     MultiPage(Modifier.padding(innerPadding))
@@ -95,7 +96,7 @@ fun Screen(
 @Preview(showBackground = true)
 @Composable
 fun ScreenPreview() {
-    MaterialTheme {
+    MyStatefulAppTheme {
         Screen(
             label = "Preview",
             onBack = null,
