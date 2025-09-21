@@ -48,7 +48,7 @@ fun MultiPage(modifier: Modifier = Modifier) {
             label = "A",
             modifier = modifier
         )
-        1 -> Screen (
+        1 -> Screen(
             label = "B",
             modifier = modifier
         )
