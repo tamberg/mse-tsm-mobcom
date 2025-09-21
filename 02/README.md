@@ -15,5 +15,8 @@ Run with [AndroidStudio](https://developer.android.com/studio) on the [emulator]
 - [ ] Layout in Compose
 - [ ] State in Compose
 
+## Challenge
+- [ ] Implement a "real" design
+
 ## Solution
 * TODO
