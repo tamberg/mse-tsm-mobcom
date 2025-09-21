@@ -12,7 +12,8 @@ Run with [AndroidStudio](https://developer.android.com/studio) on the [emulator]
     * [MainActivity.kt](Android/MyStatefulApp/app/src/main/java/com/example/mystatefulapp/MainActivity.kt)
 
 ## Hands-on
-* TODO
+- [ ] Layout in Compose
+- [ ] State in Compose
 
 ## Solution
 * TODO
