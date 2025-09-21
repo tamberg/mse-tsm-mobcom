@@ -47,7 +47,14 @@ Run with [AndroidStudio](https://developer.android.com/studio) on the [emulator]
     * [Build.gradle.kts](https://github.com/tamberg/mse-tsm-mobcom/blob/main/01/Android/MyHelloApp/app/build.gradle.kts)
 
 ## Hands-on
-* TODO
+- [ ] Kotlin basics
+- [ ] Intermediate topics
+- [ ] Run your first app
+- [ ] Set up your repository
+- [ ] Push a change
+
+## Challenge
+- [ ] Build a "real" 3rd-party app
 
 ## Solution
 * TODO
