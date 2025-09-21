@@ -25,13 +25,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.mylayoutapp.ui.theme.MyLayoutAppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            MaterialTheme {
+            MyLayoutAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Greetings(modifier = Modifier.padding(innerPadding))
                 }
@@ -59,7 +60,7 @@ fun Greetings(
 @Preview(showBackground = true)
 @Composable
 fun GreetingsPreview() {
-    MaterialTheme {
+    MyLayoutAppTheme {
         Greetings()
     }
 }
@@ -84,7 +85,7 @@ fun ColumnGreetings(
 @Preview(showBackground = true)
 @Composable
 fun ColumnGreetingsPreview() {
-    MaterialTheme {
+    MyLayoutAppTheme {
         ColumnGreetings()
     }
 }
@@ -109,7 +110,7 @@ fun RowGreetings(
 @Preview(showBackground = true)
 @Composable
 fun RowGreetingsPreview() {
-    MaterialTheme {
+    MyLayoutAppTheme {
         RowGreetings()
     }
 }
@@ -135,7 +136,7 @@ fun BoxGreetings(
 @Preview(showBackground = true)
 @Composable
 fun BoxGreetingsPreview() {
-    MaterialTheme {
+    MyLayoutAppTheme {
         BoxGreetings()
     }
 }
@@ -163,7 +164,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    MaterialTheme {
+    MyLayoutAppTheme {
         Greeting(name = "MSE")
     }
 }
