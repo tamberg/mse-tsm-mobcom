@@ -55,9 +55,9 @@ fun Screen(
     Box() {
         Image(
             alpha = 0.8f,
-            painter = painterResource(id = R.drawable.path),
+            painter = painterResource(id = R.drawable.image),
             contentScale = ContentScale.Crop,
-            contentDescription = stringResource(R.string.path),
+            contentDescription = stringResource(R.string.image_descr),
             modifier = modifier.zIndex(-1f).fillMaxSize())
         Column(
             modifier = modifier.fillMaxSize(),
