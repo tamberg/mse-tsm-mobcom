@@ -1,7 +1,4 @@
 <resources>
     <string name="app_name">MyResourcefulApp</string>
-    <string name="back">Back</string>
-    <string name="next">Next</string>
     <string name="path">Path</string>
-    <string name="saying">Step by step</string>
 </resources>
