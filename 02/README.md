@@ -11,6 +11,9 @@ Run with [AndroidStudio](https://developer.android.com/studio) on the [emulator]
 * [MyStatefulApp](Android/MyStatefulApp)
     * [MainActivity.kt](Android/MyStatefulApp/app/src/main/java/com/example/mystatefulapp/MainActivity.kt)
     * [Theme.kt](Android/MyStatefulApp/app/src/main/java/com/example/mystatefulapp/ui/theme/Theme.kt)
+* [MyResourcefulApp](Android/MyResourcefulApp)
+    * [MainActivity.kt](Android/MyResourcefulApp/app/src/main/java/com/example/myresourcefulapp/MainActivity.kt)
+    * [strings.xml](Android/MyResourcefulApp/app/src/main/java/com/example/myresourcefulapp/res/values/strings.xml)
 
 ## Hands-on
 - [ ] Layout in Compose
