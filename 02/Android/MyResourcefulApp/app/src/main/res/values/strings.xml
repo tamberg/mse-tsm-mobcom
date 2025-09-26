@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">MyResourcefulApp</string>
-    <string name="path">Path</string>
+    <string name="image_descr">Path</string>
 </resources>
