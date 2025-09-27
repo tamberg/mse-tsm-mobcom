@@ -15,6 +15,8 @@ Run with [AndroidStudio](https://developer.android.com/studio) on the [emulator]
     * [MainActivity.kt](Android/MyResourcefulApp/app/src/main/java/com/example/myresourcefulapp/MainActivity.kt)
     * [strings.xml](Android/MyResourcefulApp/app/src/main/res/values/strings.xml)
     * [image.png](Android/MyResourcefulApp/app/src/main/res/drawable/image.png)
+* [MyViewModelApp](Android/MyViewModelApp)
+    * [MainActivity.kt](Android/MyViewModelApp/app/src/main/java/com/example/myviewmodelapp/MainActivity.kt)
 
 ## Hands-on
 - [ ] Layout in Compose
