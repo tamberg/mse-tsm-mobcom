@@ -58,7 +58,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-data class Person( // TODO: val
+data class Person( // TODO
     var id: String,
     var name: String,
     var surname: String,
@@ -90,12 +90,12 @@ fun MyNavigation(modifier: Modifier = Modifier, viewModel: MyViewModel = viewMod
         1 -> DetailScreen(
             viewModel.findItemById(id.value!!)!!, // TODO?
             onBack = { state.value = 0 },
-            onEdit = { state.value = 2 },
+            onEdit = { it -> id.value = it; state.value = 2 },
             modifier)
         2 -> EditScreen(
             viewModel.findItemById(id.value!!)!!, // TODO?
             onBack = { state.value = 1 },
-            onSave = { state.value = 1 }, // TODO
+            onSave = { it -> id.value = it; state.value = 1 }, // TODO
             modifier)
     }
 }
@@ -104,7 +104,7 @@ fun MyNavigation(modifier: Modifier = Modifier, viewModel: MyViewModel = viewMod
 fun ListScreen(
     list: List<Person>,
     //onBack: () -> Unit,
-    onOpen: (id: String) -> Unit,
+    onOpen: (personId: String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column {
@@ -138,7 +138,7 @@ fun ListScreenPreview(viewModel: MyViewModel = viewModel()) {
 fun DetailScreen(
     person: Person,
     onBack: () -> Unit,
-    onEdit: (person: Person) -> Unit,
+    onEdit: (personId: String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column {
@@ -148,10 +148,10 @@ fun DetailScreen(
             modifier = Modifier.weight(1.0f).padding(8.dp).fillMaxWidth()
                 //.background(color = Color.Red)
         ) {
-            Text(text = person.name)
-            Text(text = person.surname)
-            Text(text = person.language)
-            Button(onClick = { onEdit(person) }) {
+            OutlinedTextField(value = person.name, onValueChange = {}, readOnly = true)
+            OutlinedTextField(value = person.surname, onValueChange = {}, readOnly = true)
+            OutlinedTextField(value = person.language, onValueChange = {}, readOnly = true)
+            Button(onClick = { onEdit(person.id) }) {
                 Text(text = "Edit")
             }
         }
@@ -170,7 +170,7 @@ fun DetailScreenPreview(viewModel: MyViewModel = viewModel()) {
 fun EditScreen(
     person: Person,
     onBack: () -> Unit,
-    onSave: (person: Person) -> Unit,
+    onSave: (personId: String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column {
@@ -198,7 +198,7 @@ fun EditScreen(
                 singleLine = true,
                 label = { Text("Language") }
             )
-            Button(onClick = { onSave(person) }) {
+            Button(onClick = { onSave(person.id) }) {
                 Text(text = "Save")
             }
         }
