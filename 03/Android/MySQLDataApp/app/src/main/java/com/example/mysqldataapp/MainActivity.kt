@@ -75,7 +75,7 @@ class MyViewModel: ViewModel() {
 
 @Composable
 fun MyNavigation(modifier: Modifier = Modifier, viewModel: MyViewModel = viewModel()) {
-    // or use https://developer.android.com/develop/ui/compose/layouts/adaptive/list-detail
+    // or https://developer.android.com/develop/ui/compose/layouts/adaptive/list-detail
     val activity = LocalActivity.current;
     var id: MutableState<String?> = rememberSaveable { mutableStateOf(null) }
     if (id.value == null) {
