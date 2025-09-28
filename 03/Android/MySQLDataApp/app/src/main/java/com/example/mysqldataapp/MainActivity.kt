@@ -196,8 +196,9 @@ fun PersonItemPreview(viewModel: MyViewModel = viewModel()) {
 
 @Composable
 fun TopBar(onBack: () -> Unit, modifier: Modifier = Modifier) {
+    // or https://developer.android.com/develop/ui/compose/quick-guides/content/create-scaffold
     Surface(
-        color = MaterialTheme.colorScheme.secondary,
+        color = MaterialTheme.colorScheme.primaryContainer,
         modifier = modifier.fillMaxWidth()
     ) {
         Row() {
