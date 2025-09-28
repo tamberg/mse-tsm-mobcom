@@ -21,7 +21,9 @@ Run with [AndroidStudio](https://developer.android.com/studio) on the [emulator]
 
 ## Hands-on
 - [ ] Layout in Compose
+- [ ] Resources in Compose
 - [ ] State in Compose
+- [ ] ViewModel
 
 ## Challenge
 - [ ] Implement a "real" design
