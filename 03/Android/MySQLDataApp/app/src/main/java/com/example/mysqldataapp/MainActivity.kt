@@ -21,6 +21,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -79,16 +80,22 @@ fun MyNavigation(modifier: Modifier = Modifier, viewModel: MyViewModel = viewMod
     // or https://developer.android.com/develop/ui/compose/layouts/adaptive/list-detail
     //val activity = LocalActivity.current;
     var id: MutableState<String?> = rememberSaveable { mutableStateOf(null) }
-    if (id.value == null) {
-        ListScreen(
+    val state = rememberSaveable { mutableStateOf(0) }
+    when (state.value) {
+        0 -> ListScreen(
             viewModel.list,
             //onBack = { activity?.finish() },
-            onOpen = { it -> id.value = it },
+            onOpen = { it -> id.value = it; state.value = 1 },
             modifier)
-    } else {
-        DetailScreen(
+        1 -> DetailScreen(
             viewModel.findItemById(id.value!!)!!, // TODO?
-            onBack = { id.value = null },
+            onBack = { state.value = 0 },
+            onEdit = { state.value = 2 },
+            modifier)
+        2 -> EditScreen(
+            viewModel.findItemById(id.value!!)!!, // TODO?
+            onBack = { state.value = 1 },
+            onSave = { state.value = 1 }, // TODO
             modifier)
     }
 }
@@ -131,6 +138,7 @@ fun ListScreenPreview(viewModel: MyViewModel = viewModel()) {
 fun DetailScreen(
     person: Person,
     onBack: () -> Unit,
+    onEdit: (person: Person) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column {
@@ -139,6 +147,38 @@ fun DetailScreen(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.weight(1.0f).padding(8.dp).fillMaxWidth()
                 //.background(color = Color.Red)
+        ) {
+            Text(text = person.name)
+            Text(text = person.surname)
+            Text(text = person.language)
+            Button(onClick = { onEdit(person) }) {
+                Text(text = "Edit")
+            }
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun DetailScreenPreview(viewModel: MyViewModel = viewModel()) {
+    MySQLDataAppTheme {
+        DetailScreen(viewModel.findItemById("ag")!!, onBack = {}, onEdit = {})
+    }
+}
+
+@Composable
+fun EditScreen(
+    person: Person,
+    onBack: () -> Unit,
+    onSave: (person: Person) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column {
+        TopBar(onBack = onBack, modifier)
+        Column(
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier.weight(1.0f).padding(8.dp).fillMaxWidth()
+            //.background(color = Color.Red)
         ) {
             OutlinedTextField(
                 value = person.name,
@@ -158,15 +198,18 @@ fun DetailScreen(
                 singleLine = true,
                 label = { Text("Language") }
             )
+            Button(onClick = { onSave(person) }) {
+                Text(text = "Save")
+            }
         }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun DetailScreenPreview(viewModel: MyViewModel = viewModel()) {
+fun EditScreenPreview(viewModel: MyViewModel = viewModel()) {
     MySQLDataAppTheme {
-        DetailScreen(viewModel.findItemById("ag")!!, onBack = {})
+        EditScreen(viewModel.findItemById("ag")!!, onBack = {}, onSave = {})
     }
 }
 
