@@ -20,6 +20,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -76,12 +77,12 @@ class MyViewModel: ViewModel() {
 @Composable
 fun MyNavigation(modifier: Modifier = Modifier, viewModel: MyViewModel = viewModel()) {
     // or https://developer.android.com/develop/ui/compose/layouts/adaptive/list-detail
-    val activity = LocalActivity.current;
+    //val activity = LocalActivity.current;
     var id: MutableState<String?> = rememberSaveable { mutableStateOf(null) }
     if (id.value == null) {
         ListScreen(
             viewModel.list,
-            onBack = { activity?.finish() },
+            //onBack = { activity?.finish() },
             onOpen = { it -> id.value = it },
             modifier)
     } else {
@@ -95,12 +96,12 @@ fun MyNavigation(modifier: Modifier = Modifier, viewModel: MyViewModel = viewMod
 @Composable
 fun ListScreen(
     list: List<Person>,
-    onBack: () -> Unit,
+    //onBack: () -> Unit,
     onOpen: (id: String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column {
-        TopBar(onBack = onBack, modifier = modifier)
+        TopBar(modifier = modifier)
         LazyColumn(
             modifier = Modifier.padding(vertical = 4.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -121,7 +122,8 @@ fun ListScreen(
 @Composable
 fun ListScreenPreview(viewModel: MyViewModel = viewModel()) {
     MySQLDataAppTheme {
-        ListScreen(viewModel.list, onBack = {}, onOpen = {})
+        //ListScreen(viewModel.list, onBack = {}, onOpen = {})
+        ListScreen(viewModel.list, onOpen = {})
     }
 }
 
@@ -195,15 +197,21 @@ fun PersonItemPreview(viewModel: MyViewModel = viewModel()) {
 }
 
 @Composable
-fun TopBar(onBack: () -> Unit, modifier: Modifier = Modifier) {
+fun TopBar(onBack: (() -> Unit)? = null, modifier: Modifier = Modifier) {
     // or https://developer.android.com/develop/ui/compose/quick-guides/content/create-scaffold
     Surface(
         color = MaterialTheme.colorScheme.primaryContainer,
         modifier = modifier.fillMaxWidth()
     ) {
         Row() {
-            IconButton(onClick = onBack) {
-                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+            if (onBack != null) {
+                IconButton(onClick = onBack) {
+                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                }
+            } else {
+                IconButton(onClick = {}) {
+                    Icon(Icons.Filled.Home, contentDescription = "Home")
+                }
             }
             Spacer(modifier = Modifier.weight(1.0f))
         }
