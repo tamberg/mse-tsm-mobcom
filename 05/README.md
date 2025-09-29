@@ -8,7 +8,7 @@
 * [nRF52840Sense_DigitalReadSerial](Arduino/nRF52840Sense_DigitalReadSerial/nRF52840Sense_DigitalReadSerial.ino)
 
 ## Hands-on
-* Click https://classroom.github.com/a/SdSNmWgy to create a private copy of [this](../../../../mse-tsm-mobcom-work-05/blob/master/README.md).
+* TODO
 
 ## Solution
 * [nRF52840Sense_LightSwitch](Arduino/nRF52840Sense_LightSwitch/nRF52840Sense_LightSwitch.ino)
