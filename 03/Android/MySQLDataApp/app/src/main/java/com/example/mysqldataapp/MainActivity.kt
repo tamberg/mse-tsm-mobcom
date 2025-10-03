@@ -100,7 +100,6 @@ fun MyNavigation(modifier: Modifier = Modifier, viewModel: MyViewModel = viewMod
 @Composable
 fun ListScreen(
     list: List<Person>,
-    //onBack: () -> Unit,
     onOpen: (personId: String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -126,7 +125,6 @@ fun ListScreen(
 @Composable
 fun ListScreenPreview(viewModel: MyViewModel = viewModel()) {
     MySQLDataAppTheme {
-        //ListScreen(viewModel.list, onBack = {}, onOpen = {})
         ListScreen(viewModel.list, onOpen = {})
     }
 }
@@ -143,7 +141,6 @@ fun DetailScreen(
         Column(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.weight(1.0f).padding(8.dp).fillMaxWidth()
-                //.background(color = Color.Red)
         ) {
             OutlinedTextField(value = person.name, onValueChange = {}, readOnly = true)
             OutlinedTextField(value = person.surname, onValueChange = {}, readOnly = true)
@@ -175,7 +172,6 @@ fun EditScreen(
         Column(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.weight(1.0f).padding(8.dp).fillMaxWidth()
-            //.background(color = Color.Red)
         ) {
             OutlinedTextField(
                 value = person.name,
@@ -219,7 +215,6 @@ fun PersonItem(person: Person, onClick: () -> Unit, modifier: Modifier = Modifie
             modifier = Modifier
                 .padding(8.dp).fillMaxWidth()
                 .height(IntrinsicSize.Min)
-                //.background(color = Color.Red)
         ) {
             Text(text = "${person.name} ${person.surname}",
                 modifier.padding(horizontal = 8.dp))//.background(color = Color.Yellow))
