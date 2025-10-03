@@ -75,9 +75,7 @@ class MyViewModel: ViewModel() {
         list.find { person -> person.id == id }
 }
 
-enum class Screen {
-    HOME, DETAIL, EDIT
-}
+enum class Screen { HOME, DETAIL, EDIT }
 
 @Composable
 fun MyNavigation(modifier: Modifier = Modifier, viewModel: MyViewModel = viewModel()) {
