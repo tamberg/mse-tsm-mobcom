@@ -2,10 +2,8 @@ package com.example.mysqldataapp
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -37,7 +35,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
@@ -80,24 +77,22 @@ enum class Screen { HOME, DETAIL, EDIT }
 @Composable
 fun MyNavigation(modifier: Modifier = Modifier, viewModel: MyViewModel = viewModel()) {
     // or https://developer.android.com/develop/ui/compose/layouts/adaptive/list-detail
-    //val activity = LocalActivity.current;
     var id: MutableState<String?> = rememberSaveable { mutableStateOf(null) }
-    val state = rememberSaveable { mutableStateOf(Screen.HOME) }
-    when (state.value) {
+    val screen = rememberSaveable { mutableStateOf(Screen.HOME) }
+    when (screen.value) {
         Screen.HOME -> ListScreen(
             viewModel.list,
-            //onBack = { activity?.finish() },
-            onOpen = { it -> id.value = it; state.value = Screen.DETAIL },
+            onOpen = { it -> id.value = it; screen.value = Screen.DETAIL },
             modifier)
         Screen.DETAIL -> DetailScreen(
             viewModel.findItemById(id.value!!)!!, // TODO?
-            onBack = { state.value = Screen.HOME },
-            onEdit = { it -> id.value = it; state.value = Screen.EDIT },
+            onBack = { screen.value = Screen.HOME },
+            onEdit = { it -> id.value = it; screen.value = Screen.EDIT },
             modifier)
         Screen.EDIT -> EditScreen(
             viewModel.findItemById(id.value!!)!!, // TODO?
-            onBack = { state.value = Screen.DETAIL },
-            onSave = { it -> id.value = it; state.value = Screen.HOME }, // TODO
+            onBack = { screen.value = Screen.DETAIL },
+            onSave = { it -> id.value = it; screen.value = Screen.HOME }, // TODO
             modifier)
     }
 }
