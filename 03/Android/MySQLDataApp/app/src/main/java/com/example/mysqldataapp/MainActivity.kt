@@ -75,27 +75,31 @@ class MyViewModel: ViewModel() {
         list.find { person -> person.id == id }
 }
 
+enum class Screen {
+    HOME, DETAIL, EDIT
+}
+
 @Composable
 fun MyNavigation(modifier: Modifier = Modifier, viewModel: MyViewModel = viewModel()) {
     // or https://developer.android.com/develop/ui/compose/layouts/adaptive/list-detail
     //val activity = LocalActivity.current;
     var id: MutableState<String?> = rememberSaveable { mutableStateOf(null) }
-    val state = rememberSaveable { mutableStateOf(0) }
+    val state = rememberSaveable { mutableStateOf(Screen.HOME) }
     when (state.value) {
-        0 -> ListScreen(
+        Screen.HOME -> ListScreen(
             viewModel.list,
             //onBack = { activity?.finish() },
-            onOpen = { it -> id.value = it; state.value = 1 },
+            onOpen = { it -> id.value = it; state.value = Screen.DETAIL },
             modifier)
-        1 -> DetailScreen(
+        Screen.DETAIL -> DetailScreen(
             viewModel.findItemById(id.value!!)!!, // TODO?
-            onBack = { state.value = 0 },
-            onEdit = { it -> id.value = it; state.value = 2 },
+            onBack = { state.value = Screen.HOME },
+            onEdit = { it -> id.value = it; state.value = Screen.EDIT },
             modifier)
-        2 -> EditScreen(
+        Screen.EDIT -> EditScreen(
             viewModel.findItemById(id.value!!)!!, // TODO?
-            onBack = { state.value = 1 },
-            onSave = { it -> id.value = it; state.value = 1 }, // TODO
+            onBack = { state.value = Screen.DETAIL },
+            onSave = { it -> id.value = it; state.value = Screen.HOME }, // TODO
             modifier)
     }
 }
