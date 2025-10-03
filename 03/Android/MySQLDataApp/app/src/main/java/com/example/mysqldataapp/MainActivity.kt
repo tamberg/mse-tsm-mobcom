@@ -107,10 +107,10 @@ fun ListScreen(
     onOpen: (personId: String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Column {
-        TopBar(modifier = modifier)
+    Column(modifier = modifier) {
+        TopBar()
         LazyColumn(
-            modifier = Modifier.padding(vertical = 4.dp),
+            modifier = Modifier.padding(vertical = 8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(
@@ -141,8 +141,8 @@ fun DetailScreen(
     onEdit: (personId: String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column {
-        TopBar(onBack = onBack, modifier)
+    Column(modifier = modifier) {
+        TopBar(onBack = onBack)
         Column(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.weight(1.0f).padding(8.dp).fillMaxWidth()
@@ -173,8 +173,8 @@ fun EditScreen(
     onSave: (personId: String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column {
-        TopBar(onBack = onBack, modifier)
+    Column(modifier = modifier) {
+        TopBar(onBack = onBack)
         Column(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.weight(1.0f).padding(8.dp).fillMaxWidth()
@@ -244,7 +244,7 @@ fun TopBar(onBack: (() -> Unit)? = null, modifier: Modifier = Modifier) {
     // or https://developer.android.com/develop/ui/compose/quick-guides/content/create-scaffold
     Surface(
         color = MaterialTheme.colorScheme.primaryContainer,
-        modifier = modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth()
     ) {
         Row() {
             if (onBack != null) {
