@@ -180,7 +180,7 @@ class OfflinePersonRepository(private val personDao: PersonDao) : PersonReposito
 
 object AppViewModelProvider {
     val Factory = viewModelFactory {
-        //initializer { NavigationViewModel(this.createSavedStateHandle()) }
+        initializer { NavigationViewModel(this.createSavedStateHandle()) }
         initializer { PersonListViewModel(mySQLDataApp().container.personRepository) }
         initializer { PersonEntryViewModel(mySQLDataApp().container.personRepository) }
         initializer { PersonDetailViewModel(this.createSavedStateHandle(),
@@ -230,7 +230,6 @@ fun PersonEntity.toPerson() = Person(
 
 // ## Navigation ViewModel
 
-/*
 class NavigationViewModel(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
@@ -238,7 +237,6 @@ class NavigationViewModel(
         savedStateHandle["personId"] = personId
     }
 }
-*/
 
 // ## List ViewModel
 
@@ -287,11 +285,10 @@ data class PersonEntryState(val person: Person = Person(), val isValid: Boolean 
 // ## Detail ViewModel
 
 class PersonDetailViewModel(
-//    savedStateHandle: SavedStateHandle,
+    savedStateHandle: SavedStateHandle,
     private val personRepository: PersonRepository,
 ) : ViewModel() {
-//    private val personId: Int = checkNotNull(savedStateHandle["personId"])
-    var personId: Int
+    private val personId: Int = checkNotNull(savedStateHandle["personId"])
     val state: StateFlow<PersonDetailState> =
         personRepository.getPersonFlow(personId)
             .filterNotNull()
@@ -320,14 +317,13 @@ fun PersonEntity.toDetailState(): PersonDetailState = PersonDetailState(person =
 // ## Edit ViewModel
 
 class PersonEditViewModel(
-    //savedStateHandle: SavedStateHandle,
+    savedStateHandle: SavedStateHandle,
     private val personRepository: PersonRepository
 ) : ViewModel() {
     var state by mutableStateOf(PersonEditState())
         private set
 
-    //private val personId: Int = checkNotNull(savedStateHandle["personId"])
-    var personId?: Int = null
+    private val personId: Int = checkNotNull(savedStateHandle["personId"])
 
     init {
         viewModelScope.launch {
@@ -367,28 +363,26 @@ enum class Screen { LIST, ENTRY, DETAIL, EDIT }
 
 @Composable
 fun MyNavigation(
-//    viewModel: NavigationViewModel = viewModel(factory = AppViewModelProvider.Factory),
+    viewModel: NavigationViewModel = viewModel(factory = AppViewModelProvider.Factory),
     modifier: Modifier = Modifier
 ) {
     // or https://developer.android.com/develop/ui/compose/layouts/adaptive/list-detail
-    var personId by rememberSaveable { mutableStateOf(null) }
+    //var personId by rememberSaveable { mutableStateOf(null) }
     var screen by rememberSaveable { mutableStateOf(Screen.LIST) }
     when (screen) {
         Screen.LIST -> ListScreen(
             onAdd = { screen = Screen.ENTRY },
-            onOpen = { it -> personId = it; screen = Screen.DETAIL },
+            onOpen = { it -> viewModel.setPersonId(it); screen = Screen.DETAIL },
             modifier)
         Screen.ENTRY -> EntryScreen(
             onBack = { screen = Screen.LIST },
             //onCreated = { personId = it; screen = ... }
             modifier)
         Screen.DETAIL -> DetailScreen(
-            personId,
             onBack = { screen = Screen.LIST },
             onEdit = { screen = Screen.EDIT },
             modifier)
         Screen.EDIT -> EditScreen(
-            personId,
             onBack = { screen = Screen.DETAIL },
             onSave = { screen = Screen.LIST },
             modifier)
@@ -463,7 +457,7 @@ fun PersonListItemPreview(
 
 @Composable
 fun EntryScreen( // TODO: reuse EditScreen?
-    personId: Int,
+    //personId: Int,
     onBack: () -> Unit,
     //onCreate: (personId: Int) -> Unit,
     modifier: Modifier = Modifier,
@@ -520,7 +514,7 @@ fun EntryScreenPreview() {
 
 @Composable
 fun DetailScreen(
-    personId: Int,
+    //personId: Int,
     onBack: () -> Unit,
     onEdit: (personId: Int) -> Unit,
     modifier: Modifier = Modifier,
@@ -556,7 +550,7 @@ fun DetailScreenPreview() {
 
 @Composable
 fun EditScreen(
-    personId: Int,
+    //personId: Int,
     onBack: () -> Unit,
     onSave: (personId: Int) -> Unit,
     modifier: Modifier = Modifier,
