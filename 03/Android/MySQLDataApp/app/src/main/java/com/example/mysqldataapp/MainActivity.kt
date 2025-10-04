@@ -35,7 +35,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -67,7 +66,6 @@ import androidx.room.Query
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.Update
-import androidx.savedstate.savedState
 import com.example.mysqldataapp.ui.theme.MySQLDataAppTheme
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
@@ -77,6 +75,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlin.assert
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -181,16 +180,16 @@ class OfflinePersonRepository(private val personDao: PersonDao) : PersonReposito
 object AppViewModelProvider {
     val Factory = viewModelFactory {
         initializer { NavigationViewModel(this.createSavedStateHandle()) }
-        initializer { PersonListViewModel(mySQLDataApp().container.personRepository) }
-        initializer { PersonEntryViewModel(mySQLDataApp().container.personRepository) }
+        initializer { PersonListViewModel(mySqlDataApp().container.personRepository) }
+        initializer { PersonEntryViewModel(mySqlDataApp().container.personRepository) }
         initializer { PersonDetailViewModel(this.createSavedStateHandle(),
-            mySQLDataApp().container.personRepository) }
+            mySqlDataApp().container.personRepository) }
         initializer { PersonEditViewModel(this.createSavedStateHandle(),
-            mySQLDataApp().container.personRepository) }
+            mySqlDataApp().container.personRepository) }
     }
 }
 
-fun CreationExtras.mySQLDataApp(): MySQLDataApp =
+fun CreationExtras.mySqlDataApp(): MySQLDataApp =
     (this[AndroidViewModelFactory.APPLICATION_KEY] as MySQLDataApp)
 
 /*
