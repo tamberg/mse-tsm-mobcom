@@ -287,7 +287,7 @@ class PersonDetailViewModel(
     savedStateHandle: SavedStateHandle,
     private val personRepository: PersonRepository,
 ) : ViewModel() {
-    private val personId: Int = checkNotNull(savedStateHandle["personId"])
+    private val personId: Int = 0 //checkNotNull(savedStateHandle["personId"])
     val state: StateFlow<PersonDetailState> =
         personRepository.getPersonFlow(personId)
             .filterNotNull()
@@ -322,7 +322,7 @@ class PersonEditViewModel(
     var state by mutableStateOf(PersonEditState())
         private set
 
-    private val personId: Int = checkNotNull(savedStateHandle["personId"])
+    private val personId: Int = 0 //checkNotNull(savedStateHandle["personId"])
 
     init {
         viewModelScope.launch {
