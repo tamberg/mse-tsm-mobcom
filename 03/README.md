@@ -8,6 +8,10 @@ Run with [AndroidStudio](https://developer.android.com/studio) on the [emulator]
 
 * [MySQLDataApp](Android/MySQLDataApp)
     * [MainActivity.kt](Android/MySQLDataApp/app/src/main/java/com/example/mysqldataapp/MainActivity.kt)
+    * [data/repos/Repos.kt](Android/MySQLDataApp/app/src/main/java/com/example/mysqldataapp/data/repos/Repos.kt)
+    * [data/source/Source.kt](Android/MySQLDataApp/app/src/main/java/com/example/mysqldataapp/data/source/Source.kt)
+    * [ui/parts/Parts.kt](Android/MySQLDataApp/app/src/main/java/com/example/mysqldataapp/ui/parts/Parts.kt)
+    * [ui/state/State.kt](Android/MySQLDataApp/app/src/main/java/com/example/mysqldataapp/ui/state/State.kt)
 
 ## Hands-on
 * TODO
