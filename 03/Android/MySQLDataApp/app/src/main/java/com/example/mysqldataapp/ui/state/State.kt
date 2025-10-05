@@ -20,22 +20,7 @@ import kotlinx.coroutines.launch
 import com.example.mysqldataapp.data.source.PersonEntity // TODO: refactor?
 import com.example.mysqldataapp.data.repos.PersonRepo
 
-// # UI State Layer
-
-/*
-class MyViewModel: ViewModel() {
-    val list = listOf(
-        PersonState("ag", "Adele", "Goldberg", "Smalltalk"),
-        PersonState("nw", "Niklaus", "Wirth", "Pascal"),
-        PersonState("dr", "Dennis", "Ritchie", "C")
-    ).toMutableStateList()
-
-    fun findPersonById(id: String): PersonState? =
-        list.find { person -> person.id == id }
-}
-*/
-
-// ## State
+// State
 
 data class Person(
     val id: Int = 0,
@@ -45,29 +30,16 @@ data class Person(
 )
 
 fun Person.toEntity() = PersonEntity(
-    // if needed, convert from UI to DB types
     id = id,
     name = name,
-    surname = surname,
-    language = language)
+    surname = surname)
 
 fun PersonEntity.toPerson() = Person(
     id = id,
     name = name!!, // TODO null safety
-    surname = surname!!,
-    language = language!!)
+    surname = surname!!)
 
-// ## Navigation ViewModel
-/*
-class NavigationViewModel(
-    private val savedStateHandle: SavedStateHandle
-) : ViewModel() {
-    fun setPersonId(personId: Int) {
-        savedStateHandle["personId"] = personId
-    }
-}
-*/
-// ## List ViewModel
+// List ViewModel
 
 class PersonListViewModel(personRepository: PersonRepo) : ViewModel() {
     val state: StateFlow<PersonListState> =
@@ -84,9 +56,9 @@ class PersonListViewModel(personRepository: PersonRepo) : ViewModel() {
     }
 }
 
-data class PersonListState(val personList: List<PersonEntity> = listOf()) // TODO: List<PersonState>?
+data class PersonListState(val personList: List<PersonEntity> = listOf()) // TODO: List<Person>?
 
-// ## Entry ViewModel
+// Entry ViewModel
 
 class PersonEntryViewModel(private val personRepository: PersonRepo) : ViewModel() {
     var state by mutableStateOf(PersonEntryState())
@@ -112,14 +84,14 @@ class PersonEntryViewModel(private val personRepository: PersonRepo) : ViewModel
 
 data class PersonEntryState(val person: Person = Person(), val isValid: Boolean = false)
 
-// ## Detail ViewModel
+// Detail ViewModel
 
 class PersonDetailViewModel(
     personId: Int,
     //savedStateHandle: SavedStateHandle,
     private val personRepository: PersonRepo,
 ) : ViewModel() {
-    //private val personId: Int = 0 //checkNotNull(savedStateHandle["personId"]) // TODO
+    //private val personId: Int = checkNotNull(savedStateHandle["personId"])
     val state: StateFlow<PersonDetailState> =
         personRepository.getPersonFlow(personId)
             .filterNotNull()
@@ -131,11 +103,6 @@ class PersonDetailViewModel(
                 initialValue = PersonDetailState()
             )
 
-//    suspend fun deletePerson() {
-//        personRepository.deletePerson(
-//            state.person.toEntity())
-//    }
-
     companion object {
         private const val TIMEOUT_MILLIS = 5_000L
     }
@@ -145,7 +112,7 @@ data class PersonDetailState(val person: Person = Person())
 
 fun PersonEntity.toDetailState(): PersonDetailState = PersonDetailState(person = this.toPerson())
 
-// ## Edit ViewModel
+// Edit ViewModel
 
 class PersonEditViewModel(
     personId: Int,
@@ -155,7 +122,7 @@ class PersonEditViewModel(
     var state by mutableStateOf(PersonEditState())
         private set
 
-    private val personId: Int = 0 //checkNotNull(savedStateHandle["personId"]) // TODO
+    //private val personId: Int = checkNotNull(savedStateHandle["personId"])
 
     init {
         viewModelScope.launch {
