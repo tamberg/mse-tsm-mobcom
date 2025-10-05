@@ -8,10 +8,12 @@ Run with [AndroidStudio](https://developer.android.com/studio) on the [emulator]
 
 * [MySQLDataApp](Android/MySQLDataApp)
     * [MainActivity.kt](Android/MySQLDataApp/app/src/main/java/com/example/mysqldataapp/MainActivity.kt)
-    * [data/source/Source.kt](Android/MySQLDataApp/app/src/main/java/com/example/mysqldataapp/data/source/Source.kt)
-    * [data/repos/Repos.kt](Android/MySQLDataApp/app/src/main/java/com/example/mysqldataapp/data/repos/Repos.kt)
-    * [ui/state/State.kt](Android/MySQLDataApp/app/src/main/java/com/example/mysqldataapp/ui/state/State.kt)
-    * [ui/parts/Parts.kt](Android/MySQLDataApp/app/src/main/java/com/example/mysqldataapp/ui/parts/Parts.kt)
+    * [data](Android/MySQLDataApp/app/src/main/java/com/example/mysqldataapp/data)
+        * [source/Source.kt](Android/MySQLDataApp/app/src/main/java/com/example/mysqldataapp/data/source/Source.kt)
+        * [repos/Repos.kt](Android/MySQLDataApp/app/src/main/java/com/example/mysqldataapp/data/repos/Repos.kt)
+    * [ui](Android/MySQLDataApp/app/src/main/java/com/example/mysqldataapp/ui)
+        * [state/State.kt](Android/MySQLDataApp/app/src/main/java/com/example/mysqldataapp/ui/state/State.kt)
+        * [parts/Parts.kt](Android/MySQLDataApp/app/src/main/java/com/example/mysqldataapp/ui/parts/Parts.kt)
     
 ## Hands-on
 * TODO
