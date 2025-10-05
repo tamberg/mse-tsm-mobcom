@@ -43,6 +43,24 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+// App ViewModel provider
+
+object AppViewModelProvider {
+    var personId: Int = 0 // TODO
+    val Factory = viewModelFactory {
+        //initializer { NavigationViewModel(this.createSavedStateHandle()) }
+        initializer { PersonListViewModel(mySqlDataApp().container.personRepository) }
+        initializer { PersonEntryViewModel(mySqlDataApp().container.personRepository) }
+        initializer { PersonDetailViewModel(//this.createSavedStateHandle(),
+            personId, mySqlDataApp().container.personRepository) }
+        initializer { PersonEditViewModel(//this.createSavedStateHandle(),
+            personId, mySqlDataApp().container.personRepository) }
+    }
+}
+
+fun CreationExtras.mySqlDataApp(): MySQLDataApp =
+    (this[AndroidViewModelFactory.APPLICATION_KEY] as MySQLDataApp)
+
 // App container
 
 interface AppContainer {
@@ -65,21 +83,3 @@ class MySQLDataApp : Application() { // see manifest.xml
         container = DbAppContainer(this)
     }
 }
-
-// App ViewModel provider
-
-object AppViewModelProvider {
-    var personId: Int = 0 // TODO
-    val Factory = viewModelFactory {
-        //initializer { NavigationViewModel(this.createSavedStateHandle()) }
-        initializer { PersonListViewModel(mySqlDataApp().container.personRepository) }
-        initializer { PersonEntryViewModel(mySqlDataApp().container.personRepository) }
-        initializer { PersonDetailViewModel(//this.createSavedStateHandle(),
-            personId, mySqlDataApp().container.personRepository) }
-        initializer { PersonEditViewModel(//this.createSavedStateHandle(),
-            personId, mySqlDataApp().container.personRepository) }
-    }
-}
-
-fun CreationExtras.mySqlDataApp(): MySQLDataApp =
-    (this[AndroidViewModelFactory.APPLICATION_KEY] as MySQLDataApp)
