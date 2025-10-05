@@ -19,6 +19,8 @@ import androidx.room.RoomDatabase
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
+// Entities
+
 // https://stackoverflow.com/questions/338156/table-naming-dilemma-singular-vs-plural-names
 @Entity(tableName = "person")
 data class PersonEntity(
@@ -28,6 +30,8 @@ data class PersonEntity(
     @ColumnInfo(name = "language") val language: String?
 )
 
+// Data access object
+
 @Dao
 interface PersonDao { // see PersonDao_Impl.kt (generated)
     @Query("SELECT * from person WHERE id = :id") fun getPerson(id: Int): Flow<PersonEntity>
@@ -36,6 +40,8 @@ interface PersonDao { // see PersonDao_Impl.kt (generated)
     @Update suspend fun update(person: PersonEntity)
     @Delete suspend fun delete(person: PersonEntity)
 }
+
+// Database
 
 @Database(entities = [PersonEntity::class], version = 1, exportSchema = false)
 abstract class PersonDatabase : RoomDatabase() { // see PersonDatabase_Impl.kt (generated)
