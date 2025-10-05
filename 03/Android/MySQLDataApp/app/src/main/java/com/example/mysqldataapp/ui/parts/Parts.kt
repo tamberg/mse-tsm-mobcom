@@ -97,7 +97,7 @@ fun ListScreen(
     Column(modifier = modifier) {
         TopBar()
         LazyColumn(
-            modifier = Modifier.padding(vertical = 8.dp),
+            modifier = Modifier.padding(8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(
@@ -109,7 +109,9 @@ fun ListScreen(
                     onClick = { onOpen(personEntity.id) })
             }
         }
-        Button(onClick = onAdd) { Text("Add") }
+        Button(onClick = onAdd, modifier = Modifier.padding(start = 8.dp)) {
+            Text("Add")
+        }
     }
 }
 
