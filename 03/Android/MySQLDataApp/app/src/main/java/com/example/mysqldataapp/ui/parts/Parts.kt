@@ -159,7 +159,7 @@ fun EntryScreen( // TODO: reuse EditScreen?
     viewModel: PersonEntryViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
     val coroutineScope = rememberCoroutineScope()
-    val state = viewModel.state //.collectAsState()
+    val state = viewModel.state
     val person = state.person
     Column(modifier = modifier) {
         TopBar(onBack = onBack)
