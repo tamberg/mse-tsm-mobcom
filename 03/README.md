@@ -1,6 +1,6 @@
 # MSE TSM MobCom - Lesson 3 - Android App Development 3
 ## Slides
-* [TODO (PDF)](http://www.tamberg.org/mse/2025/hs/TSM_MobCom_TODO.pdf)
+* [Storing Data on Android (PDF)](http://www.tamberg.org/mse/2025/hs/TSM_MobCom_StoringDataOnAndroid.pdf)
 
 ## Examples
 ### Android
