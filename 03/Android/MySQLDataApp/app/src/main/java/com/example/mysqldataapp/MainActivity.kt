@@ -116,7 +116,7 @@ class MySQLDataApp : Application() { // see manifest.xml
 // https://stackoverflow.com/questions/338156/table-naming-dilemma-singular-vs-plural-names
 @Entity(tableName = "person")
 data class PersonEntity(
-    @PrimaryKey val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
     @ColumnInfo(name = "name") val name: String?,
     @ColumnInfo(name = "surname") val surname: String?,
     @ColumnInfo(name = "language") val language: String?
@@ -175,7 +175,7 @@ class LocalPersonRepo(private val personDao: PersonDao) : PersonRepo {
 // ## ViewModelProvider
 
 object AppViewModelProvider {
-    var personId: Int = 0
+    var personId: Int = 0 // TODO
     val Factory = viewModelFactory {
         //initializer { NavigationViewModel(this.createSavedStateHandle()) }
         initializer { PersonListViewModel(mySqlDataApp().container.personRepository) }
@@ -286,7 +286,7 @@ class PersonDetailViewModel(
     //savedStateHandle: SavedStateHandle,
     private val personRepository: PersonRepo,
 ) : ViewModel() {
-    //private val personId: Int = 0 //checkNotNull(savedStateHandle["personId"])
+    //private val personId: Int = 0 //checkNotNull(savedStateHandle["personId"]) // TODO
     val state: StateFlow<PersonDetailState> =
         personRepository.getPersonFlow(personId)
             .filterNotNull()
@@ -322,7 +322,7 @@ class PersonEditViewModel(
     var state by mutableStateOf(PersonEditState())
         private set
 
-    private val personId: Int = 0 //checkNotNull(savedStateHandle["personId"])
+    private val personId: Int = 0 //checkNotNull(savedStateHandle["personId"]) // TODO
 
     init {
         viewModelScope.launch {
