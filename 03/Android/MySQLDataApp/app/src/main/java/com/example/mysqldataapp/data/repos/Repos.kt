@@ -9,6 +9,8 @@ import kotlinx.coroutines.flow.Flow
 import com.example.mysqldataapp.data.source.PersonEntity
 import com.example.mysqldataapp.data.source.PersonDao
 
+// Repository
+
 interface PersonRepo {
     fun getPersonListFlow(): Flow<List<PersonEntity>>
     fun getPersonFlow(id: Int): Flow<PersonEntity?>
@@ -16,6 +18,8 @@ interface PersonRepo {
     suspend fun updatePerson(person: PersonEntity)
     suspend fun deletePerson(person: PersonEntity)
 }
+
+// Repository implementation
 
 class LocalPersonRepo(private val personDao: PersonDao) : PersonRepo {
     override fun getPersonListFlow(): Flow<List<PersonEntity>> = personDao.getPersonList()
