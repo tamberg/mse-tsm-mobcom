@@ -45,10 +45,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory
-import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -75,7 +73,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import kotlin.assert
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -94,21 +91,21 @@ class MainActivity : ComponentActivity() {
 // # App Container
 
 interface AppContainer {
-    val personRepository: PersonRepository
+    val personRepository: PersonRepo
 }
 
-class AppDataContainer(private val context: Context) : AppContainer {
-    override val personRepository: PersonRepository by lazy {
-        OfflinePersonRepository(PersonDatabase.getDatabase(context).personDao())
+class DbAppContainer(private val context: Context) : AppContainer {
+    override val personRepository: PersonRepo by lazy {
+        LocalPersonRepo(PersonDatabase.getInstance(context).personDao())
     }
 }
 
-class MySQLDataApp : Application() {
+class MySQLDataApp : Application() { // see manifest.xml
     lateinit var container: AppContainer
 
     override fun onCreate() {
         super.onCreate()
-        container = AppDataContainer(this)
+        container = DbAppContainer(this)
     }
 }
 
@@ -145,7 +142,7 @@ abstract class PersonDatabase : RoomDatabase() { // see PersonDatabase_Impl.kt (
         @Volatile
         private var Instance: PersonDatabase? = null
 
-        fun getDatabase(context: Context): PersonDatabase {
+        fun getInstance(context: Context): PersonDatabase { // TODO: rename to getInstance?
             return Instance ?: synchronized(this) { // singleton pattern
                 Room.databaseBuilder(context, PersonDatabase::class.java, "person_database")
                     .build()
@@ -158,7 +155,7 @@ abstract class PersonDatabase : RoomDatabase() { // see PersonDatabase_Impl.kt (
 // # Domain Layer
 // ## Repository
 
-interface PersonRepository {
+interface PersonRepo {
     fun getPersonListFlow(): Flow<List<PersonEntity>>
     fun getPersonFlow(id: Int): Flow<PersonEntity?>
     suspend fun insertPerson(person: PersonEntity)
@@ -166,7 +163,7 @@ interface PersonRepository {
     suspend fun deletePerson(person: PersonEntity)
 }
 
-class OfflinePersonRepository(private val personDao: PersonDao) : PersonRepository {
+class LocalPersonRepo(private val personDao: PersonDao) : PersonRepo {
     override fun getPersonListFlow(): Flow<List<PersonEntity>> = personDao.getPersonList()
     override fun getPersonFlow(id: Int): Flow<PersonEntity?> = personDao.getPerson(id)
     override suspend fun insertPerson(person: PersonEntity) = personDao.insert(person)
@@ -178,14 +175,15 @@ class OfflinePersonRepository(private val personDao: PersonDao) : PersonReposito
 // ## ViewModelProvider
 
 object AppViewModelProvider {
+    var personId: Int = 0
     val Factory = viewModelFactory {
-        initializer { NavigationViewModel(this.createSavedStateHandle()) }
+        //initializer { NavigationViewModel(this.createSavedStateHandle()) }
         initializer { PersonListViewModel(mySqlDataApp().container.personRepository) }
         initializer { PersonEntryViewModel(mySqlDataApp().container.personRepository) }
-        initializer { PersonDetailViewModel(this.createSavedStateHandle(),
-            mySqlDataApp().container.personRepository) }
-        initializer { PersonEditViewModel(this.createSavedStateHandle(),
-            mySqlDataApp().container.personRepository) }
+        initializer { PersonDetailViewModel(//this.createSavedStateHandle(),
+            personId, mySqlDataApp().container.personRepository) }
+        initializer { PersonEditViewModel(//this.createSavedStateHandle(),
+            personId, mySqlDataApp().container.personRepository) }
     }
 }
 
@@ -228,7 +226,7 @@ fun PersonEntity.toPerson() = Person(
     language = language!!)
 
 // ## Navigation ViewModel
-
+/*
 class NavigationViewModel(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
@@ -236,10 +234,10 @@ class NavigationViewModel(
         savedStateHandle["personId"] = personId
     }
 }
-
+*/
 // ## List ViewModel
 
-class PersonListViewModel(personRepository: PersonRepository) : ViewModel() {
+class PersonListViewModel(personRepository: PersonRepo) : ViewModel() {
     val state: StateFlow<PersonListState> =
         personRepository.getPersonListFlow() // single, ongoing call to the DB
             .map { PersonListState(it) } // it = personList updates on change
@@ -258,7 +256,7 @@ data class PersonListState(val personList: List<PersonEntity> = listOf()) // TOD
 
 // ## Entry ViewModel
 
-class PersonEntryViewModel(private val personRepository: PersonRepository) : ViewModel() {
+class PersonEntryViewModel(private val personRepository: PersonRepo) : ViewModel() {
     var state by mutableStateOf(PersonEntryState())
         private set
 
@@ -284,10 +282,11 @@ data class PersonEntryState(val person: Person = Person(), val isValid: Boolean 
 // ## Detail ViewModel
 
 class PersonDetailViewModel(
-    savedStateHandle: SavedStateHandle,
-    private val personRepository: PersonRepository,
+    personId: Int,
+    //savedStateHandle: SavedStateHandle,
+    private val personRepository: PersonRepo,
 ) : ViewModel() {
-    private val personId: Int = 0 //checkNotNull(savedStateHandle["personId"])
+    //private val personId: Int = 0 //checkNotNull(savedStateHandle["personId"])
     val state: StateFlow<PersonDetailState> =
         personRepository.getPersonFlow(personId)
             .filterNotNull()
@@ -316,8 +315,9 @@ fun PersonEntity.toDetailState(): PersonDetailState = PersonDetailState(person =
 // ## Edit ViewModel
 
 class PersonEditViewModel(
-    savedStateHandle: SavedStateHandle,
-    private val personRepository: PersonRepository
+    personId: Int,
+    //savedStateHandle: SavedStateHandle,
+    private val personRepository: PersonRepo
 ) : ViewModel() {
     var state by mutableStateOf(PersonEditState())
         private set
@@ -362,7 +362,7 @@ enum class Screen { LIST, ENTRY, DETAIL, EDIT }
 
 @Composable
 fun MyNavigation(
-    viewModel: NavigationViewModel = viewModel(factory = AppViewModelProvider.Factory),
+    //viewModel: NavigationViewModel = viewModel(factory = AppViewModelProvider.Factory),
     modifier: Modifier = Modifier
 ) {
     // or https://developer.android.com/develop/ui/compose/layouts/adaptive/list-detail
@@ -371,17 +371,19 @@ fun MyNavigation(
     when (screen) {
         Screen.LIST -> ListScreen(
             onAdd = { screen = Screen.ENTRY },
-            onOpen = { it -> viewModel.setPersonId(it); screen = Screen.DETAIL },
+            onOpen = { it -> AppViewModelProvider.personId = it; screen = Screen.DETAIL }, // TODO
             modifier)
         Screen.ENTRY -> EntryScreen(
             onBack = { screen = Screen.LIST },
             //onCreated = { personId = it; screen = ... }
             modifier)
         Screen.DETAIL -> DetailScreen(
+            //personId,
             onBack = { screen = Screen.LIST },
             onEdit = { screen = Screen.EDIT },
             modifier)
         Screen.EDIT -> EditScreen(
+            //personId,
             onBack = { screen = Screen.DETAIL },
             onSave = { screen = Screen.LIST },
             modifier)
