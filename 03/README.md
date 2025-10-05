@@ -14,6 +14,9 @@ Run with [AndroidStudio](https://developer.android.com/studio) on the [emulator]
     * [ui](Android/MySQLDataApp/app/src/main/java/com/example/mysqldataapp/ui)
         * [state/State.kt](Android/MySQLDataApp/app/src/main/java/com/example/mysqldataapp/ui/state/State.kt)
         * [parts/Parts.kt](Android/MySQLDataApp/app/src/main/java/com/example/mysqldataapp/ui/parts/Parts.kt)
+    * [gradle/libs.versions.toml](Android/MySQLDataApp/gradle/libs.versions.toml)
+    * [app/build.gradle.kts](Android/MySQLDataApp/app/build.gradle.kts) 
+    * [build.gradle.kts](Android/MySQLDataApp/build.gradle.kts) 
     
 ## Hands-on
 * TODO
