@@ -50,9 +50,7 @@ import com.example.mysqldataapp.ui.state.PersonEntryViewModel
 import com.example.mysqldataapp.ui.state.PersonListViewModel
 import com.example.mysqldataapp.ui.state.toPerson
 
-// # UI Components Layer
-
-// ## Navigation
+// Navigation
 
 enum class Screen { LIST, ENTRY, DETAIL, EDIT }
 
@@ -86,7 +84,7 @@ fun MyNavigation(
     }
 }
 
-// ## List
+// List
 
 @Composable
 fun ListScreen(
@@ -150,7 +148,7 @@ fun PersonListItemPreview(
     }
 }
 
-// ## Enter
+// Entry
 
 @Composable
 fun EntryScreen( // TODO: reuse EditScreen?
@@ -207,7 +205,7 @@ fun EntryScreenPreview() {
     }
 }
 
-// ## Detail
+// Detail
 
 @Composable
 fun DetailScreen(
@@ -243,7 +241,7 @@ fun DetailScreenPreview() {
     }
 }
 
-// ## Edit
+// Edit
 
 @Composable
 fun EditScreen(
@@ -294,7 +292,7 @@ fun EditScreenPreview() {
     }
 }
 
-// ## Components
+// Components
 
 @Composable
 fun TopBar(onBack: (() -> Unit)? = null, modifier: Modifier = Modifier) {
