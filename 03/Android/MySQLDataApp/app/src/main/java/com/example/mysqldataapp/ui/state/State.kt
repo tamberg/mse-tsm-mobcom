@@ -99,6 +99,7 @@ class PersonEntryViewModel(private val personRepository: PersonRepo) : ViewModel
     suspend fun createPerson() {
         if (validateInput(state.person)) {
             personRepository.insertPerson(state.person.toEntity())
+            updateState(Person()) // TODO: move to UI?
         }
     }
 
