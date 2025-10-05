@@ -27,7 +27,6 @@ data class PersonEntity(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     @ColumnInfo(name = "name") val name: String?,
     @ColumnInfo(name = "surname") val surname: String?,
-    @ColumnInfo(name = "language") val language: String?
 )
 
 // Data access object
