@@ -41,7 +41,7 @@ interface PersonDao { // see PersonDao_Impl.kt (generated)
     @Delete suspend fun delete(person: PersonEntity)
 }
 
-// Database
+// Database base class
 
 @Database(entities = [PersonEntity::class], version = 1, exportSchema = false)
 abstract class PersonDatabase : RoomDatabase() { // see PersonDatabase_Impl.kt (generated)
