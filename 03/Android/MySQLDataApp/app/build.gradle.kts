@@ -42,7 +42,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:{latest_version}")
@@ -60,16 +59,11 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
-
     // https://developer.android.com/training/data-storage/room/#kts
     // https://developer.android.com/jetpack/androidx/releases/room
     val room_version = "2.8.1"
     implementation("androidx.room:room-runtime:$room_version")
+    implementation("androidx.room:room-ktx:${room_version}")
     // https://developer.android.com/build/migrate-to-ksp#add-ksp
     ksp("androidx.room:room-compiler:$room_version")
-    implementation("androidx.room:room-ktx:${room_version}")
-
-    //implementation("androidx.room:room-runtime:${rootProject.extra["room_version"]}")
-    //ksp("androidx.room:room-compiler:${rootProject.extra["room_version"]}")
-    //implementation("androidx.room:room-ktx:${rootProject.extra["room_version"]}")
 }
