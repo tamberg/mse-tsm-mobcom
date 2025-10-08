@@ -8,7 +8,8 @@
 * [nRF52840Sense_DigitalReadSerial](Arduino/nRF52840Sense_DigitalReadSerial/nRF52840Sense_DigitalReadSerial.ino)
 
 ## Hands-on
-* TODO
+* [ ] Button-triggered LED
+* [ ] State machine
 
 ## Solution
 * [nRF52840Sense_LightSwitch](Arduino/nRF52840Sense_LightSwitch/nRF52840Sense_LightSwitch.ino)
