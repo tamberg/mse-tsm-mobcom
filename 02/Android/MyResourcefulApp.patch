@@ -1,0 +1,68 @@
+diff --git a/02/Android/MyResourcefulApp/app/src/main/java/com/example/myresourcefulapp/MainActivity.kt b/02/Android/MyResourcefulApp/app/src/main/java/com/example/myresourcefulapp/MainActivity.kt
+index e8231f4..18ff550 100644
+--- a/02/Android/MyResourcefulApp/app/src/main/java/com/example/myresourcefulapp/MainActivity.kt
++++ b/02/Android/MyResourcefulApp/app/src/main/java/com/example/myresourcefulapp/MainActivity.kt
+@@ -38,7 +38,7 @@ class MainActivity : ComponentActivity() {
+             MyResourcefulAppTheme {
+                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                     Screen(
+-                        label = "Step by step", // or another saying
++                        label = stringResource(R.string.saying), // or another saying
+                         modifier = Modifier.padding(innerPadding)
+                     )
+                 }
+@@ -76,11 +76,11 @@ fun Screen(
+                 horizontalArrangement = Arrangement.SpaceBetween
+             ) {
+                 Button(onClick = {}) {
+-                    Text("Back")
++                    Text(stringResource(R.string.back))
+                 }
+                 Spacer(Modifier.size(0.dp))
+                 Button(onClick = {}) {
+-                    Text("Next")
++                    Text(stringResource(R.string.next))
+                 }
+             }
+         }
+diff --git a/02/Android/MyResourcefulApp/app/src/main/res/values-de/strings.xml b/02/Android/MyResourcefulApp/app/src/main/res/values-de/strings.xml
+new file mode 100644
+index 0000000..a149c54
+--- /dev/null
++++ b/02/Android/MyResourcefulApp/app/src/main/res/values-de/strings.xml
+@@ -0,0 +1,7 @@
++<resources>
++    <string name="app_name">MyResourcefulApp</string>
++    <string name="back">Zurück</string>
++    <string name="image_descr">Pfad</string>
++    <string name="next">Weiter</string>
++    <string name="saying">Schritt für Schritt</string>
++</resources>
+\ No newline at end of file
+diff --git a/02/Android/MyResourcefulApp/app/src/main/res/values-fr/strings.xml b/02/Android/MyResourcefulApp/app/src/main/res/values-fr/strings.xml
+new file mode 100644
+index 0000000..a0ee196
+--- /dev/null
++++ b/02/Android/MyResourcefulApp/app/src/main/res/values-fr/strings.xml
+@@ -0,0 +1,7 @@
++<resources>
++    <string name="app_name">MyResourcefulApp</string>
++    <string name="back">Précédent</string>
++    <string name="image_descr">Chemin</string>
++    <string name="next">Suivant</string>
++    <string name="saying">Petit à petit</string>
++</resources>
+\ No newline at end of file
+diff --git a/02/Android/MyResourcefulApp/app/src/main/res/values/strings.xml b/02/Android/MyResourcefulApp/app/src/main/res/values/strings.xml
+index 580b5bf..9e236fb 100644
+--- a/02/Android/MyResourcefulApp/app/src/main/res/values/strings.xml
++++ b/02/Android/MyResourcefulApp/app/src/main/res/values/strings.xml
+@@ -1,4 +1,7 @@
+ <resources>
+     <string name="app_name">MyResourcefulApp</string>
++    <string name="back">Back</string>
+     <string name="image_descr">Path</string>
++    <string name="next">Next</string>
++    <string name="saying">Step by step</string>
+ </resources>
+\ No newline at end of file
