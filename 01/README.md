@@ -57,4 +57,5 @@ Run with [AndroidStudio](https://developer.android.com/studio) on the [emulator]
 * [ ] Build a "real" 3rd-party app
 
 ## Solution
+* [instances.patch](Kotlin/instances.patch)
 * [MyHelloApp.patch](Android/MyHelloApp.patch)
