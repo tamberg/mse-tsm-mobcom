@@ -1,0 +1,62 @@
+diff --git a/02/Android/MyLayoutApp/app/src/main/java/com/example/mylayoutapp/MainActivity.kt b/02/Android/MyLayoutApp/app/src/main/java/com/example/mylayoutapp/MainActivity.kt
+index ef69b4c..7ee1955 100644
+--- a/02/Android/MyLayoutApp/app/src/main/java/com/example/mylayoutapp/MainActivity.kt
++++ b/02/Android/MyLayoutApp/app/src/main/java/com/example/mylayoutapp/MainActivity.kt
+@@ -34,7 +34,7 @@ class MainActivity : ComponentActivity() {
+         setContent {
+             MyLayoutAppTheme {
+                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+-                    Greetings(modifier = Modifier.padding(innerPadding))
++                    GridGreetings(modifier = Modifier.padding(innerPadding))
+                 }
+             }
+         }
+@@ -167,4 +167,46 @@ fun GreetingPreview() {
+     MyLayoutAppTheme {
+         Greeting(name = "MSE")
+     }
+-}
+\ No newline at end of file
++}
++
++@Composable
++fun GridGreetings(
++    // https://en.wikipedia.org/wiki/History_of_programming_languages
++    names: List<String> = listOf("Ada", "Grace", "Niklaus", "Alan" ),
++    modifier: Modifier = Modifier
++) {
++    Column(
++        verticalArrangement = Arrangement.spacedBy(8.dp),
++        horizontalAlignment = Alignment.CenterHorizontally,
++        modifier = modifier
++            //.background(Color.Red)
++            .fillMaxSize()
++    ) {
++        for (i in 0..<names.size step 2) {
++            Row(
++                horizontalArrangement = Arrangement.spacedBy(8.dp),
++                verticalAlignment = Alignment.Top,
++                modifier = Modifier
++                    //.background(Color.Yellow)
++                    .padding(horizontal = 8.dp)
++                    .fillMaxWidth().weight(1.0f)
++            ) {
++                for (name in names.subList(i, i + 2)) {
++                    Greeting(
++                        name,
++                        Modifier
++                            .fillMaxHeight()
++                            .weight(1.0f))
++                }
++            }
++        }
++    }
++}
++
++@Preview(showBackground = true)
++@Composable
++fun GridGreetingsPreview() {
++    MyLayoutAppTheme {
++        GridGreetings()
++    }
++}

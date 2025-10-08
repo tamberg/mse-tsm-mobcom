@@ -1,0 +1,54 @@
+diff --git a/02/Android/MyViewModelApp/app/src/main/java/com/example/myviewmodelapp/MainActivity.kt b/02/Android/MyViewModelApp/app/src/main/java/com/example/myviewmodelapp/MainActivity.kt
+index e9e5f91..ae9435d 100644
+--- a/02/Android/MyViewModelApp/app/src/main/java/com/example/myviewmodelapp/MainActivity.kt
++++ b/02/Android/MyViewModelApp/app/src/main/java/com/example/myviewmodelapp/MainActivity.kt
+@@ -47,16 +47,17 @@ class MainActivity : ComponentActivity() {
+     }
+ }
+ 
+-data class Person(val name: String) // TODO: add surname
++data class Person(val name: String, val surname: String) // TODO: add surname
+ 
+ class MyViewModel : ViewModel() {
+     //val recipients = (List(1000) {
+-    //    i -> Person("Name $i")
++    //    i -> Person("Name $i", "Surname $i")
+     //}).toMutableStateList()
+     val recipients = listOf(
+-        Person("Ada"),
+-        Person("Grace"),
+-        Person("Niklaus")).toMutableStateList()
++        Person("Ada", "Lovelace"),
++        Person("Grace", "Hopper"),
++        Person("Niklaus", "Wirth")).toMutableStateList()
++    fun remove(person: Person) = recipients.remove(person)
+ }
+ 
+ @Composable
+@@ -71,7 +72,7 @@ fun Greetings(
+         ) { person ->
+             Greeting(
+                 person = person,
+-                onClose = {}, // TODO: remove person
++                onClose = { myViewModel.remove(person) },
+                 modifier = Modifier.height(96.dp))
+         }
+     }
+@@ -87,7 +88,7 @@ fun GreetingsPreview() {
+ 
+ @Composable
+ fun Greeting(
+-    person: Person = Person("Name"),
++    person: Person = Person("Name", "Surname"),
+     onClose: () -> Unit,
+     modifier: Modifier = Modifier) {
+     Surface(
+@@ -101,7 +102,7 @@ fun Greeting(
+         ) {
+             var expanded = rememberSaveable { mutableStateOf(false) }
+             Text(
+-                text = "Hello ${person.name}!", // TODO: surname if expanded
++                text = if (expanded.value) "Hello ${person.name} ${person.surname}!" else "Hello ${person.name}!",
+                 modifier = Modifier.weight(3.0f)
+             )
+             ElevatedButton(

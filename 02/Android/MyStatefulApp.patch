@@ -1,0 +1,50 @@
+diff --git a/02/Android/MyStatefulApp/app/src/main/java/com/example/mystatefulapp/MainActivity.kt b/02/Android/MyStatefulApp/app/src/main/java/com/example/mystatefulapp/MainActivity.kt
+index f5a188c..a706d16 100644
+--- a/02/Android/MyStatefulApp/app/src/main/java/com/example/mystatefulapp/MainActivity.kt
++++ b/02/Android/MyStatefulApp/app/src/main/java/com/example/mystatefulapp/MainActivity.kt
+@@ -18,6 +18,9 @@ import androidx.compose.material3.MaterialTheme
+ import androidx.compose.material3.Scaffold
+ import androidx.compose.material3.Text
+ import androidx.compose.runtime.Composable
++import androidx.compose.runtime.mutableStateOf
++import androidx.compose.runtime.remember
++import androidx.compose.runtime.saveable.rememberSaveable
+ import androidx.compose.ui.Alignment
+ import androidx.compose.ui.Modifier
+ import androidx.compose.ui.tooling.preview.Preview
+@@ -41,19 +44,22 @@ class MainActivity : ComponentActivity() {
+ 
+ @Composable
+ fun MultiPage(modifier: Modifier = Modifier) {
+-    TODO("fix state and logic, add lambdas for next/back")
+-    var page = 0
+-    when (page) {
++    var page = rememberSaveable { mutableStateOf(0) }
++    when (page.value) {
+         0 -> Screen(
+             label = "A",
++            onNext = { page.value++ },
+             modifier = modifier
+         )
+         1 -> Screen(
+             label = "B",
++            onBack = { page.value-- },
++            onNext = { page.value++ },
+             modifier = modifier
+         )
+         else -> Screen(
+             label = "C",
++            onBack = { page.value-- },
+             modifier = modifier
+         )
+     }
+@@ -100,7 +106,7 @@ fun ScreenPreview() {
+         Screen(
+             label = "Preview",
+             onBack = null,
+-            onNext = { TODO("implement logic") }
++            onNext = {}
+         )
+     }
+ }
+\ No newline at end of file

@@ -1,0 +1,22 @@
+diff --git a/01/Android/MyHelloApp/app/src/main/java/com/example/myhelloapp/MainActivity.kt b/01/Android/MyHelloApp/app/src/main/java/com/example/myhelloapp/MainActivity.kt
+index 33c704d..20b3c56 100644
+--- a/01/Android/MyHelloApp/app/src/main/java/com/example/myhelloapp/MainActivity.kt
++++ b/01/Android/MyHelloApp/app/src/main/java/com/example/myhelloapp/MainActivity.kt
+@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
+             MyHelloAppTheme {
+                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                     Greeting(
+-                        name = "Android",
++                        name = "@tamberg",
+                         modifier = Modifier.padding(innerPadding)
+                     )
+                 }
+@@ -42,6 +42,6 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
+ @Composable
+ fun GreetingPreview() {
+     MyHelloAppTheme {
+-        Greeting("Android")
++        Greeting("@tamberg")
+     }
+ }
+\ No newline at end of file
