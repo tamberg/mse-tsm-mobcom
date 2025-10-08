@@ -47,14 +47,14 @@ Run with [AndroidStudio](https://developer.android.com/studio) on the [emulator]
     * [Build.gradle.kts](https://github.com/tamberg/mse-tsm-mobcom/blob/main/01/Android/MyHelloApp/app/build.gradle.kts)
 
 ## Hands-on
-- [ ] Kotlin basics
-- [ ] Intermediate topics
-- [ ] Run your first app
-- [ ] Set up your repository
-- [ ] Push a change
+* [ ] Kotlin basics
+* [ ] Intermediate topics
+* [ ] Run your first app
+* [ ] Set up your repository
+* [ ] Push a change
 
 ## Challenge
-- [ ] Build a "real" 3rd-party app
+* [ ] Build a "real" 3rd-party app
 
 ## Solution
-* [MyHelloWorldApp.patch](Android/MyHelloWorldApp.patch)
+* [MyHelloApp.patch](Android/MyHelloApp.patch)
