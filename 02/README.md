@@ -30,5 +30,6 @@ Run with [AndroidStudio](https://developer.android.com/studio) on the [emulator]
 
 ## Solution
 * [MyLayoutApp.patch](Android/MyLayoutApp.patch)
+* [MyResourcefulApp.patch](Android/MyResourcefulApp.patch)
 * [MyStatefulApp.patch](Android/MyStatefulApp.patch)
 * [MyViewModelApp.patch](Android/MyViewModelApp.patch)
