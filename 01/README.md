@@ -58,4 +58,5 @@ Run with [AndroidStudio](https://developer.android.com/studio) on the [emulator]
 
 ## Solution
 * [instances.patch](Kotlin/instances.patch)
+* [instances2.patch](Kotlin/instances2.patch)
 * [MyHelloApp.patch](Android/MyHelloApp.patch)
