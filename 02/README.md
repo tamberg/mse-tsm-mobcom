@@ -20,13 +20,15 @@ Run with [AndroidStudio](https://developer.android.com/studio) on the [emulator]
     * [MainActivity.kt](Android/MyViewModelApp/app/src/main/java/com/example/myviewmodelapp/MainActivity.kt)
 
 ## Hands-on
-- [ ] Layout in Compose
-- [ ] Resources in Compose
-- [ ] State in Compose
-- [ ] ViewModel
+* [ ] Layout in Compose
+* [ ] Resources in Compose
+* [ ] State in Compose
+* [ ] ViewModel
 
 ## Challenge
-- [ ] Implement a "real" design
+* [ ] Implement a "real" design
 
 ## Solution
-* TODO
+* [MyLayoutApp.patch](Android/MyLayoutApp.patch)
+* [MyStatefulApp.patch](Android/MyStatefulApp.patch)
+* [MyViewModelApp.patch](Android/MyViewModelApp.patch)
