@@ -22,4 +22,4 @@ Run with [AndroidStudio](https://developer.android.com/studio) on the [emulator]
 * [ ] Data layer with Room
 
 ## Solution
-* [MySQLDataApp.patch](Androidn/MySQLDataApp.patch)
+* [MySQLDataApp.patch](Android/MySQLDataApp.patch)
