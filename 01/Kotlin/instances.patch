@@ -1,0 +1,30 @@
+diff --git a/01/Kotlin/instances/src/main/kotlin/Main.kt b/01/Kotlin/instances/src/main/kotlin/Main.kt
+index 122d28b..81885e8 100644
+--- a/01/Kotlin/instances/src/main/kotlin/Main.kt
++++ b/01/Kotlin/instances/src/main/kotlin/Main.kt
+@@ -1,7 +1,8 @@
+-class Contact (val id: Int, var email: String)
++data class Contact (val id: Int, var email: String)
+ 
+ class Project (val lead: Contact) {
+-    val team = mutableListOf(lead)
++    private val team = mutableSetOf(lead)
++    fun addContact(c: Contact) { team += c }
+     fun start() {
+         for (person in team) {
+             println("Go ${person.email}!")
+@@ -17,7 +18,10 @@ fun main() {
+ 
+     val p = Project(c)
+     println(p.lead.email)
+-    println(p.team.size)
+-    p.team += Contact(42, "dev@example.com")
++    //println(p.team.size) // teamSize(): Int
++    val d = Contact(42, "dev@example.com")
++    val e = Contact(42, "dev@example.com")
++    p.addContact(d)
++    p.addContact(e)
+     p.start()
+-}
+\ No newline at end of file
++}
