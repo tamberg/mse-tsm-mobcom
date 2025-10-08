@@ -57,4 +57,4 @@ Run with [AndroidStudio](https://developer.android.com/studio) on the [emulator]
 - [ ] Build a "real" 3rd-party app
 
 ## Solution
-* TODO
+* [MyHelloWorldApp.patch](Android/MyHelloWorldApp.patch)
