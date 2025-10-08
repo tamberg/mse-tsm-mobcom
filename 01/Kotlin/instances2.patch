@@ -1,0 +1,51 @@
+diff --git a/01/Kotlin/instances/src/main/kotlin/Main.kt b/01/Kotlin/instances/src/main/kotlin/Main.kt
+index 122d28b..918770e 100644
+--- a/01/Kotlin/instances/src/main/kotlin/Main.kt
++++ b/01/Kotlin/instances/src/main/kotlin/Main.kt
+@@ -1,7 +1,12 @@
+-class Contact (val id: Int, var email: String)
++abstract class Contact (val id: Int, var email: String, val schedule: String)
++
++class Dev(id: Int, email: String, val language: String): Contact(id, email, "maker")
++class Suit(id: Int, email: String): Contact(id, email, "manager")
+ 
+ class Project (val lead: Contact) {
+     val team = mutableListOf(lead)
++//    val devs = team.filterIsInstance<Dev>()
++//    val suits = team.filter({ c: Contact -> c is Suit })
+     fun start() {
+         for (person in team) {
+             println("Go ${person.email}!")
+@@ -9,8 +14,11 @@ class Project (val lead: Contact) {
+     }
+ }
+ 
++fun Project.devs(): List<Dev> { return this.team.filterIsInstance<Dev>() }
++fun Project.suits(): List<Suit> { return this.team.filterIsInstance<Suit>() }
++
+ fun main() {
+-    val c = Contact(23, "me@example.com")
++    val c = Suit(23, "me@example.com")
+     println(c.id)
+     println(c.email)
+     c.email = "you@example.com"
+@@ -18,6 +26,16 @@ fun main() {
+     val p = Project(c)
+     println(p.lead.email)
+     println(p.team.size)
+-    p.team += Contact(42, "dev@example.com")
++    p.team += Dev(42, "dev@example.com", "Python")
+     p.start()
+-}
+\ No newline at end of file
++
++    for (c in p.team) {
++        println("${c.id} has a ${c.schedule}'s schedule")
++    }
++    for (c in p.devs()) {
++        println("${c.id} has a ${c.schedule}'s schedule")
++    }
++    for (c in p.suits()) {
++        println("${c.id} has a ${c.schedule}'s schedule")
++    }
++}
