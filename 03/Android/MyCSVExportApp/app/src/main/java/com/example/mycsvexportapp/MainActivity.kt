@@ -10,6 +10,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -85,15 +86,6 @@ class ListViewModel(app: Application): AndroidViewModel(app) {
         putExtra(Intent.EXTRA_TITLE, "export.csv")
     }
 
-    var launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val uri = result.data?.data
-            if (uri != null) viewModel.exportToCsv(uri)
-        }
-    }
-
     fun exportToCsv(uri: Uri) {
         val resolver = getApplication<Application>().contentResolver
         try {
@@ -137,14 +129,15 @@ fun ListScreen(
                 ListItem(person = person)
             }
         }
-//        var launcher = rememberLauncherForActivityResult(
-//            contract = ActivityResultContracts.StartActivityForResult()
-//        ) { result ->
-//            if (result.resultCode == Activity.RESULT_OK) {
-//                val uri = result.data?.data
-//                if (uri != null) viewModel.exportToCsv(uri)
-//            }
-//        }
+        // TODO: move to viewModel?
+        var launcher = rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val uri = result.data?.data
+                if (uri != null) viewModel.exportToCsv(uri)
+            }
+        }
         Button(onClick = {
              launcher.launch(viewModel.exportToCsvIntent)
         }) { Text("Export") }
