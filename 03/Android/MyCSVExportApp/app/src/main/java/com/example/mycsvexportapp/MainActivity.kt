@@ -64,15 +64,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-const val CREATE_FILE = 1
-
-// https://developer.android.com/reference/android/arch/lifecycle/AndroidViewModel (deprecated)
-// https://developer.android.com/reference/androidx/lifecycle/AndroidViewModel
-// https://developer.android.com/reference/androidx/lifecycle/AndroidViewModelKt
-// https://developer.android.com/training/basics/intents/result
-// https://stackoverflow.com/questions/69075984/accessing-rememberlauncherforactivityresult-from-util-jetpack-composee ?
-// https://stackoverflow.com/questions/61455381/how-to-replace-startactivityforresult-with-activity-result-apis#61573632
-// https://stackoverflow.com/questions/78595106/start-intent-from-viewmodel
 class ListViewModel(app: Application): AndroidViewModel(app) {
     val list = listOf(
         Person(0, "Adele", "Goldberg", "Smalltalk"),
