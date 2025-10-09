@@ -19,7 +19,7 @@ Run with [AndroidStudio](https://developer.android.com/studio) on the [emulator]
     * [build.gradle.kts](Android/MySQLDataApp/build.gradle.kts) 
     
 ## Hands-on
-* TODO
+* [ ] Data layer with Room
 
 ## Solution
-* TODO
+* [MySQLDataApp.patch](Android/MySQLDataApp.patch)
