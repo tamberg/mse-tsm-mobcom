@@ -19,29 +19,37 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat.startActivityForResult
@@ -77,11 +85,15 @@ data class Person(
 )
 
 class ListViewModel(app: Application): AndroidViewModel(app) {
-    val list = listOf(
+    val personList = listOf(
         Person(0, "Adele", "Goldberg", "Smalltalk"),
         Person(1, "Niklaus", "Wirth", "Pascal"),
         Person(2, "Dennis", "Ritchie", "C")
     ).toMutableList()
+
+    private val separatorMap = mapOf("Comma" to ",", "Tab" to "\t")
+    val separatorList = separatorMap.keys.toList()
+    var separatorIndex by mutableIntStateOf(0)
 
     val exportToCsvIntent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
         addCategory(Intent.CATEGORY_OPENABLE)
@@ -91,17 +103,21 @@ class ListViewModel(app: Application): AndroidViewModel(app) {
 
     var exportToCsvStatus: String? by mutableStateOf(null)
 
-    fun exportToCsv(uri: Uri) {
+    private fun exportToCsv(uri: Uri) {
         val resolver = getApplication<Application>().contentResolver
         try {
             resolver.openOutputStream(uri)?.use { out ->
                 // https://www.rfc-editor.org/rfc/rfc4180
                 out.bufferedWriter(charset = Charsets.US_ASCII).use { writer ->
-                    writer.write("Name, Surname\n")
-                    for (person in list) {
-                        writer.write("${person.name}, ${person.surname}\n")
+                    val separator = separatorMap[
+                        separatorList[separatorIndex]]
+                    writer.write("ID${separator}Name${separator}Surname\n")
+                    for (person in personList) {
+                        writer.write("${person.id}${separator}")
+                        writer.write("${person.name}${separator}")
+                        writer.write("${person.surname}\n")
                     }
-                    exportToCsvStatus = "CSV exported"
+                    exportToCsvStatus = "CSV exported to file"
                 }
             }
         } catch (e: FileNotFoundException) {
@@ -131,24 +147,44 @@ fun ListScreen(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(
-                items = viewModel.list,
+                items = viewModel.personList,
                 key = { person: Person -> person.id }
             ) { person: Person -> ListItem(person = person) }
         }
-        // TODO: move to viewModel?
-        var launcher = rememberLauncherForActivityResult(
-            contract = ActivityResultContracts.StartActivityForResult()
-        ) { result ->
-            viewModel.processExportToCsvIntentActivityResult(result)
-        }
-        Button(onClick = {
-             launcher.launch(viewModel.exportToCsvIntent)
-        }) { Text("Export") }
-        if (viewModel.exportToCsvStatus != null) {
-            val context = LocalContext.current
-            val text = viewModel.exportToCsvStatus
-            val duration = Toast.LENGTH_SHORT
-            Toast.makeText(context, text, duration).show()
+        HorizontalDivider(thickness = 2.dp, modifier = Modifier.padding(bottom = 4.dp))
+        Row(modifier = Modifier.height(IntrinsicSize.Min)) {
+            SingleChoiceSegmentedButtonRow {
+                val options = viewModel.separatorList
+                options.forEachIndexed { index, label ->
+                    SegmentedButton(
+                        shape = SegmentedButtonDefaults.itemShape(
+                            index = index,
+                            count = options.size
+                        ),
+                        onClick = { viewModel.separatorIndex = index },
+                        selected = index == viewModel.separatorIndex,
+                        label = { Text(label) }
+                    )
+                }
+            }
+            Text(text = "separated", modifier =
+                Modifier.padding(8.dp).fillMaxHeight().wrapContentHeight())
+            Spacer(modifier = Modifier.weight(1.0f))
+            // TODO: move to viewModel?
+            var launcher = rememberLauncherForActivityResult(
+                contract = ActivityResultContracts.StartActivityForResult()
+            ) { result ->
+                viewModel.processExportToCsvIntentActivityResult(result)
+            }
+            Button(onClick = {
+                launcher.launch(viewModel.exportToCsvIntent)
+            }) { Text("Export") }
+            if (viewModel.exportToCsvStatus != null) {
+                val context = LocalContext.current
+                val text = viewModel.exportToCsvStatus
+                val duration = Toast.LENGTH_SHORT
+                Toast.makeText(context, text, duration).show()
+            }
         }
     }
 }
