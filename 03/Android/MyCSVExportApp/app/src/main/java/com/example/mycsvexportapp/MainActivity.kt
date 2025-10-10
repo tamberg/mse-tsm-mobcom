@@ -5,6 +5,7 @@ import android.app.Application
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
@@ -35,8 +36,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat.startActivityForResult
@@ -64,6 +69,13 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+data class Person(
+    val id: Int,
+    val name: String,
+    val surname: String,
+    val language: String,
+)
+
 class ListViewModel(app: Application): AndroidViewModel(app) {
     val list = listOf(
         Person(0, "Adele", "Goldberg", "Smalltalk"),
@@ -77,6 +89,8 @@ class ListViewModel(app: Application): AndroidViewModel(app) {
         putExtra(Intent.EXTRA_TITLE, "export.csv")
     }
 
+    var exportToCsvStatus: String? by mutableStateOf(null)
+
     fun exportToCsv(uri: Uri) {
         val resolver = getApplication<Application>().contentResolver
         try {
@@ -87,20 +101,23 @@ class ListViewModel(app: Application): AndroidViewModel(app) {
                     for (person in list) {
                         writer.write("${person.name}, ${person.surname}\n")
                     }
+                    exportToCsvStatus = "CSV exported"
                 }
             }
         } catch (e: FileNotFoundException) {
+            exportToCsvStatus = e.message
         } catch (e: IOException) {
+            exportToCsvStatus = e.message
+        }
+    }
+
+    fun processExportToCsvIntentActivityResult(result: ActivityResult) {
+        if (result.resultCode == Activity.RESULT_OK) {
+            val uri = result.data?.data
+            if (uri != null) exportToCsv(uri)
         }
     }
 }
-
-data class Person(
-    val id: Int,
-    val name: String,
-    val surname: String,
-    val language: String,
-)
 
 @Composable
 fun ListScreen(
@@ -116,22 +133,23 @@ fun ListScreen(
             items(
                 items = viewModel.list,
                 key = { person: Person -> person.id }
-            ) { person: Person ->
-                ListItem(person = person)
-            }
+            ) { person: Person -> ListItem(person = person) }
         }
         // TODO: move to viewModel?
         var launcher = rememberLauncherForActivityResult(
             contract = ActivityResultContracts.StartActivityForResult()
         ) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                val uri = result.data?.data
-                if (uri != null) viewModel.exportToCsv(uri)
-            }
+            viewModel.processExportToCsvIntentActivityResult(result)
         }
         Button(onClick = {
              launcher.launch(viewModel.exportToCsvIntent)
         }) { Text("Export") }
+        if (viewModel.exportToCsvStatus != null) {
+            val context = LocalContext.current
+            val text = viewModel.exportToCsvStatus
+            val duration = Toast.LENGTH_SHORT
+            Toast.makeText(context, text, duration).show()
+        }
     }
 }
 
