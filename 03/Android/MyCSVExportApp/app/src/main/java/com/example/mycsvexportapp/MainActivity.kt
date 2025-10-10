@@ -91,7 +91,7 @@ class ListViewModel(app: Application): AndroidViewModel(app) {
         Person(2, "Dennis", "Ritchie", "C")
     ).toMutableList()
 
-    private val separatorMap = mapOf("Comma" to ",", "Tab" to "\t")
+    private val separatorMap = mapOf("Comma" to ',', "Tab" to '\t')
     val separatorList = separatorMap.keys.toList()
     var separatorIndex by mutableIntStateOf(0)
 
@@ -120,10 +120,8 @@ class ListViewModel(app: Application): AndroidViewModel(app) {
                     exportToCsvStatus = "CSV exported to file"
                 }
             }
-        } catch (e: FileNotFoundException) {
-            exportToCsvStatus = e.message
-        } catch (e: IOException) {
-            exportToCsvStatus = e.message
+        } catch (e: FileNotFoundException) { // TODO
+        } catch (e: IOException) { // TODO
         }
     }
 
