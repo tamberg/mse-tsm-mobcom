@@ -104,6 +104,7 @@ class ListViewModel(app: Application): AndroidViewModel(app) {
     var exportToCsvStatus: String? by mutableStateOf(null)
 
     private fun exportToCsv(uri: Uri) {
+        exportToCsvStatus = null
         val resolver = getApplication<Application>().contentResolver
         try {
             resolver.openOutputStream(uri)?.use { out ->
@@ -117,7 +118,7 @@ class ListViewModel(app: Application): AndroidViewModel(app) {
                         writer.write("${person.name}${separator}")
                         writer.write("${person.surname}\n")
                     }
-                    exportToCsvStatus = "CSV exported to file"
+                    exportToCsvStatus = "File saved"
                 }
             }
         } catch (e: FileNotFoundException) { // TODO
