@@ -11,9 +11,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResult
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -49,16 +47,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mycsvexportapp.ui.theme.MyCSVExportAppTheme
 import java.io.FileNotFoundException
-import java.io.FileOutputStream
 import java.io.IOException
 
 class MainActivity : ComponentActivity() {
@@ -110,8 +104,7 @@ class ListViewModel(app: Application): AndroidViewModel(app) {
             resolver.openOutputStream(uri)?.use { out ->
                 // https://www.rfc-editor.org/rfc/rfc4180
                 out.bufferedWriter(charset = Charsets.US_ASCII).use { writer ->
-                    val separator = separatorMap[
-                        separatorList[separatorIndex]]
+                    val separator = separatorMap[separatorList[separatorIndex]]
                     writer.write("ID${separator}Name${separator}Surname\n")
                     for (person in personList) {
                         writer.write("${person.id}${separator}")
