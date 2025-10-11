@@ -24,5 +24,8 @@ Run with [AndroidStudio](https://developer.android.com/studio) on the [emulator]
 * [ ] CSV export to file
 * [ ] Data layer with Room
 
+## Challenge
+* [ ] Inventory app with Room
+
 ## Solution
 * [MySQLDataApp.patch](Android/MySQLDataApp.patch)
