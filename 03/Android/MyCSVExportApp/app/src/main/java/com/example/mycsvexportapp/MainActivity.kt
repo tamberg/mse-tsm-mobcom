@@ -2,6 +2,7 @@ package com.example.mycsvexportapp
 
 import android.app.Activity
 import android.app.Application
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -50,6 +51,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.application
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mycsvexportapp.ui.theme.MyCSVExportAppTheme
 import java.io.FileNotFoundException
@@ -82,12 +84,23 @@ class ListViewModel(app: Application): AndroidViewModel(app) {
     val personList = listOf(
         Person(0, "Adele", "Goldberg", "Smalltalk"),
         Person(1, "Niklaus", "Wirth", "Pascal"),
-        Person(2, "Dennis", "Ritchie", "C")
+        Person(2, "Dennis", "Ritchie", "C"),
     ).toMutableList()
+
+    private val prefs = application.applicationContext
+        .getSharedPreferences("prefs", Context.MODE_PRIVATE)
 
     private val separatorMap = mapOf("Comma" to ',', "Tab" to '\t')
     val separatorList = separatorMap.keys.toList()
-    var separatorIndex by mutableIntStateOf(0)
+    var separatorIndex by mutableIntStateOf(prefs.getInt("separator_index", 0))
+        private set
+
+    fun saveSeparatorIndex(index: Int) {
+        val editor = prefs.edit()
+        editor.putInt("separator_index", index)
+        editor.apply();
+        separatorIndex = index
+    }
 
     val exportToCsvIntent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
         addCategory(Intent.CATEGORY_OPENABLE)
@@ -99,7 +112,7 @@ class ListViewModel(app: Application): AndroidViewModel(app) {
 
     private fun exportToCsv(uri: Uri) {
         exportToCsvStatus = null
-        val resolver = getApplication<Application>().contentResolver
+        val resolver = application.contentResolver
         try {
             resolver.openOutputStream(uri)?.use { out ->
                 // https://www.rfc-editor.org/rfc/rfc4180
@@ -135,16 +148,19 @@ fun ListScreen(
     Column(modifier = modifier) {
         TopBar()
         LazyColumn(
-            modifier = Modifier.padding(vertical = 8.dp),
+            modifier = Modifier.padding(8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(
                 items = viewModel.personList,
-                key = { person: Person -> person.id }
-            ) { person: Person -> ListItem(person = person) }
+                key = { person -> person.id }
+            ) { person -> ListItem(person = person) }
         }
         HorizontalDivider(thickness = 2.dp, modifier = Modifier.padding(bottom = 4.dp))
-        Row(modifier = Modifier.height(IntrinsicSize.Min)) {
+        Row(modifier = Modifier.height(IntrinsicSize.Min).padding(horizontal = 8.dp)) {
+            Text(text = "Separator", modifier =
+                Modifier.padding(8.dp).fillMaxHeight().wrapContentHeight())
+            Spacer(modifier = Modifier.weight(1.0f))
             SingleChoiceSegmentedButtonRow {
                 val options = viewModel.separatorList
                 options.forEachIndexed { index, label ->
@@ -153,30 +169,29 @@ fun ListScreen(
                             index = index,
                             count = options.size
                         ),
-                        onClick = { viewModel.separatorIndex = index },
+                        onClick = { viewModel.saveSeparatorIndex(index) },
                         selected = index == viewModel.separatorIndex,
                         label = { Text(label) }
                     )
                 }
             }
-            Text(text = "separated", modifier =
-                Modifier.padding(8.dp).fillMaxHeight().wrapContentHeight())
-            Spacer(modifier = Modifier.weight(1.0f))
-            // TODO: move to viewModel?
-            var launcher = rememberLauncherForActivityResult(
-                contract = ActivityResultContracts.StartActivityForResult()
-            ) { result ->
-                viewModel.processExportToCsvIntentActivityResult(result)
-            }
-            Button(onClick = {
-                launcher.launch(viewModel.exportToCsvIntent)
-            }) { Text("Export") }
-            if (viewModel.exportToCsvStatus != null) {
-                val context = LocalContext.current
-                val text = viewModel.exportToCsvStatus
-                val duration = Toast.LENGTH_SHORT
-                Toast.makeText(context, text, duration).show()
-            }
+        }
+        // TODO: move to viewModel?
+        var launcher = rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            viewModel.processExportToCsvIntentActivityResult(result)
+        }
+        Button(onClick = { launcher.launch(viewModel.exportToCsvIntent) },
+            modifier = Modifier.padding(horizontal = 8.dp)
+        ) {
+            Text("Export")
+        }
+        if (viewModel.exportToCsvStatus != null) {
+            val context = LocalContext.current
+            val text = viewModel.exportToCsvStatus
+            val duration = Toast.LENGTH_SHORT
+            Toast.makeText(context, text, duration).show()
         }
     }
 }
