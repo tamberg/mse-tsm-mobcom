@@ -21,6 +21,7 @@ Run with [AndroidStudio](https://developer.android.com/studio) on the [emulator]
     * [build.gradle.kts](Android/MySQLDataApp/build.gradle.kts) 
     
 ## Hands-on
+* [ ] CSV export to file
 * [ ] Data layer with Room
 
 ## Solution
