@@ -1,0 +1,26 @@
+diff --git a/03/Android/MyCSVExportApp/app/src/main/java/com/example/mycsvexportapp/MainActivity.kt b/03/Android/MyCSVExportApp/app/src/main/java/com/example/mycsvexportapp/MainActivity.kt
+index a658f97..412fc91 100644
+--- a/03/Android/MyCSVExportApp/app/src/main/java/com/example/mycsvexportapp/MainActivity.kt
++++ b/03/Android/MyCSVExportApp/app/src/main/java/com/example/mycsvexportapp/MainActivity.kt
+@@ -91,7 +91,7 @@ class ListViewModel(app: Application): AndroidViewModel(app) {
+     private val prefs = application.applicationContext
+         .getSharedPreferences("prefs", Context.MODE_PRIVATE)
+ 
+-    private val separatorMap = mapOf("Comma" to ',', "Tab" to '\t')
++    private val separatorMap = mapOf("Comma" to ',', "Space" to ' ', "Tab" to '\t')
+     val separatorList = separatorMap.keys.toList()
+     var separatorIndex by mutableIntStateOf(prefs.getInt("separator_index", 0))
+         private set
+@@ -128,8 +128,10 @@ class ListViewModel(app: Application): AndroidViewModel(app) {
+                     exportToCsvStatus = "File saved"
+                 }
+             }
+-        } catch (e: FileNotFoundException) { // TODO
+-        } catch (e: IOException) { // TODO
++        } catch (e: FileNotFoundException) {
++            exportToCsvStatus = e.message
++        } catch (e: IOException) {
++            exportToCsvStatus = e.message
+         }
+     }
+ 
