@@ -10,6 +10,7 @@
 ## Hands-on
 * [ ] Button-triggered LED
 * [ ] State machine
+* [ ] Humidity alert
 
 ## Solution
 * [nRF52840Sense_LightSwitch](Arduino/nRF52840Sense_LightSwitch/nRF52840Sense_LightSwitch.ino)
