@@ -12,7 +12,11 @@
 * [nRF52840Sense_UartBlePeripheral.ino](../../master/06/Arduino/nRF52840Sense_UartBlePeripheral/nRF52840Sense_UartBlePeripheral.ino)
 
 ## Hands-on
-* TODO
+* [ ] HRM BLE peripheral
+* [ ] HRM BLE central
+* [ ] UART BLE peripheral
+* [ ] UART BLE central
+* [ ] Scanner BLE central
 
 ## Solution
 * [nRF52840Sense_HygrometerBlePeripheral.ino](Arduino/nRF52840Sense_HygrometerBlePeripheral/nRF52840Sense_HygrometerBlePeripheral.ino)
