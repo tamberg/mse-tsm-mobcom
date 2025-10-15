@@ -3,4 +3,4 @@
 * [Team Project (PDF)](http://www.tamberg.org/mse/2025/hs/TSM_MobCom_TeamProject.pdf)
 
 ## Template
-* Click https://classroom.github.com/a/TODO to create a private team copy of [this](../../../../mse-tsm-mobcom-project/blob/master/README.md).
+* You will be invited to a team-specific, private copy of [this template repository](../../../../mse-tsm-mobcom-project/blob/master/README.md).
