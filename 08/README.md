@@ -7,4 +7,5 @@
 * [pi.scad](OpenSCAD/pi.scad)
 
 ## Hands-on
-* TODO
+* [ ] Parametric design
+* [ ] Second gen products
