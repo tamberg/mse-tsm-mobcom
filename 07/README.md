@@ -13,7 +13,10 @@
     * [MainActivity.kt](../../master/07/Android/MyBleCentralApp/app/src/main/java/org/tamberg/myblecentralapp/MainActivity.kt) ([.java](../../../blob/v3.0/07/Android/MyBleCentralApp/app/src/main/java/org/tamberg/myblecentralapp/MainActivity.java))
 
 ## Hands-on
-* TODO
+* [ ] Android BLE scanner
+* [ ] Android BLE central
+* [ ] Android BLE issues
+* [ ] nRF Blinky app example
 
 ## Solution
 * [NrfToolboxHygrometer](../../master/07/Android/NrfToolboxHygrometer)
