@@ -3,10 +3,10 @@
 * <s>[TODO (PDF)](http://www.tamberg.org/mse/2025/hs/TSM_MobCom_TODO.pdf)</s>
 
 ## Examples
-* TODO
+* <s>TODO</s>
 
 ## Hands-on
-* TODO
+* <s>TODO</s>
 
 ## Solution
-* TODO
+* <s>TODO</s>
