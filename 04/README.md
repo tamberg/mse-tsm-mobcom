@@ -1,12 +1,12 @@
 # MSE TSM MobCom - Lesson 4 - Android App Development 4
 ## Slides
-* [TODO (PDF)](http://www.tamberg.org/mse/2025/hs/TSM_MobCom_TODO.pdf)
+* <s>[TODO (PDF)](http://www.tamberg.org/mse/2025/hs/TSM_MobCom_TODO.pdf)</s>
 
 ## Examples
-* TODO
+* <s>TODO</s>
 
 ## Hands-on
-* TODO
+* <s>TODO</s>
 
 ## Solution
-* TODO
+* <s>TODO</s>

@@ -1,6 +1,6 @@
 # MSE TSM MobCom
-* [MSE TSM MobCom on Moodle](https://moodle.msengineering.ch/course/view.php?id=2934)
-* [Module description (PDF)](https://moodle.msengineering.ch/report/dbextend/?key=TSM_MobCom&edition=2025)
+* [MSE TSM MobCom on Moodle](https://moodle.msengineering.ch/course/view.php?id=3235)
+* [Module description (PDF)](https://moodle.msengineering.ch/report/dbextend/?key=TSM_MobCom&edition=2026)
 
 ## Slides and Examples
 ### Overview
@@ -10,7 +10,7 @@
 1. [Android App Development 1](01/README.md)
 2. [Android App Development 2](02/README.md)
 3. [Android App Development 3](03/README.md)
-4. [Android App Development 4](04/README.md)
+4. <s>[Android App Development 4](04/README.md)</s>
 
 ### Sensors and Connectivity
 5. [Sensors and Connectivity 1](05/README.md)
