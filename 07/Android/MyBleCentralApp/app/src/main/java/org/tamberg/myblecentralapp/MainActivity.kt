@@ -407,8 +407,10 @@ class MyBleCentralViewModel(app: Application) : AndroidViewModel(app) {
         override fun onScanResult(callbackType: Int, result: ScanResult) {
             super.onScanResult(callbackType, result)
             Log.d(TAG, "onScanResult, result = " + result.device.address)
-            mBluetoothDevice = result.device // pick first
-            connect()
+            if (!mIsConnected) {
+                mBluetoothDevice = result.device // pick first
+                connect()
+            }
         }
 
         override fun onScanFailed(errorCode: Int) {
