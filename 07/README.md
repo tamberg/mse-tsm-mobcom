@@ -3,14 +3,14 @@
 * [Bluetooth Low Energy on Android Smartphones (PDF)](http://www.tamberg.org/mse/2025/hs/TSM_MobCom_BLEOnAndroidSmartphones.pdf)
 
 ## Examples
-* [MyBleScannerApp](../../master/07/Android/MyBleScannerApp)
-    * [AndroidManifest.xml](../../master/07/Android/MyBleScannerApp/app/src/main/AndroidManifest.xml)
-    * [build.gradle.kts](../../master/07/Android/MyBleScannerApp/app/build.gradle.kts)
-    * [MainActivity.kt](../../master/07/Android/MyBleScannerApp/app/src/main/java/org/tamberg/myblescannerapp/MainActivity.kt) ([.java](../../../blob/v3.0/07/Android/MyBleScannerApp/app/src/main/java/org/tamberg/myblescannerapp/MainActivity.java))
-* [MyBleCentralApp](../../master/07/Android/MyBleCentralApp)
-    * [AndroidManifest.xml](../../master/07/Android/MyBleCentralApp/app/src/main/AndroidManifest.xml)
-    * [build.gradle.kts](../../master/07/Android/MyBleCentralApp/app/build.gradle.kts)
-    * [MainActivity.kt](../../master/07/Android/MyBleCentralApp/app/src/main/java/org/tamberg/myblecentralapp/MainActivity.kt) ([.java](../../../blob/v3.0/07/Android/MyBleCentralApp/app/src/main/java/org/tamberg/myblecentralapp/MainActivity.java))
+* [MyBleScannerApp](Android/MyBleScannerApp)
+    * [AndroidManifest.xml](Android/MyBleScannerApp/app/src/main/AndroidManifest.xml)
+    * [build.gradle.kts](Android/MyBleScannerApp/app/build.gradle.kts)
+    * [MainActivity.kt](Android/MyBleScannerApp/app/src/main/java/org/tamberg/myblescannerapp/MainActivity.kt) ([.java](../../../blob/v3.0/07/Android/MyBleScannerApp/app/src/main/java/org/tamberg/myblescannerapp/MainActivity.java))
+* [MyBleCentralApp](Android/MyBleCentralApp)
+    * [AndroidManifest.xml](Android/MyBleCentralApp/app/src/main/AndroidManifest.xml)
+    * [build.gradle.kts](Android/MyBleCentralApp/app/build.gradle.kts)
+    * [MainActivity.kt](Android/MyBleCentralApp/app/src/main/java/org/tamberg/myblecentralapp/MainActivity.kt) ([.java](../../../blob/v3.0/07/Android/MyBleCentralApp/app/src/main/java/org/tamberg/myblecentralapp/MainActivity.java))
 
 ## Hands-on
 * [ ] Android BLE scanner
@@ -19,4 +19,4 @@
 * [ ] nRF Blinky app example
 
 ## Solution
-* [NrfToolboxHygrometer](../../master/07/Android/NrfToolboxHygrometer)
+* [NrfToolboxHygrometer](Android/NrfToolboxHygrometer)
